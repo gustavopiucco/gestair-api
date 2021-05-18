@@ -10,7 +10,7 @@ const connection = mysql.createConnection({
 
 connection.connect();
 
-connection.destroy();
+//connection.destroy();
 
 const app = express();
 
