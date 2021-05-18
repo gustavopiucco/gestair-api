@@ -1,35 +1,28 @@
-version: '3.8'
+version: "3.9"
 
 services:
-    mysqldb:
-        image: mysql
-        restart: always
-        env_file: ./.env
-        environment:
-            MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
-            MYSQL_DATABASE: $MYSQL_DATABASE
+    app:
+        build: .
         ports:
-            - $MYSQL_LOCAL_PORT:$MYSQL_DOCKER_PORT
+            - "3000:3000"
         volumes:
-            - db-config:/etc/mysql
-            - db-data:/var/lib/mysql
-            - ./db/backup/files/:/data_backup/data
-    api:
-        build:
-            context: .
-            dockerfile: ./api/Dockerfile
-        image: node-mysql-api
-        env_file: ./.env
-        ports:
-            - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
-        volumes: 
-            - ./api:/api
-            - api/node_modules
+            - .:/app
+        environment:
+            NODE_ENV: development
         depends_on:
-            - mysqldb
-        stdin_open: true
-        tty: true
+            - mysql
+
+    mysql:
+        image: mysql:5.7
+        ports:
+            - "3306:3306"
+        volumes:
+            - mysql_data:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: gestair
+            MYSQL_DATABASE: gestair
+            MYSQL_USER: gestair
+            MYSQL_PASSWORD: gestair
 
 volumes:
-    db-config:
-    db-data:
+    mysql_data: {}
