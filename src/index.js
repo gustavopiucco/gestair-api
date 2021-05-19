@@ -9,7 +9,7 @@ let server;
         server = app.listen(process.env.port, () => console.info(`Listening to port ${process.env.port}`));
     }
     catch (error) {
-        console.error(error);
+        console.error(error);a
     }
 })();
 
