@@ -1,15 +1,14 @@
 const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 const app = require('./app');
 
 let server;
 
 (async () => {
     try {
-        server = app.listen(process.env.port, () => console.info(`Listening to port ${process.env.port}`));
+        server = app.listen(process.env.PORT, () => console.info(`Listening to port ${process.env.PORT}`));
     }
     catch (error) {
-        console.error(error);a
+        console.error(error);
     }
 })();
 

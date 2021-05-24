@@ -13,7 +13,7 @@ const errorConverter = (err, req, res, next) => {
 
 const errorHandler = (err, req, res, next) => {
     let { statusCode, message } = err;
-    if (process.NODE_ENV === 'production' && !err.isOperational) {
+    if (process.env.NODE_ENV === 'production' && !err.isOperational) {
         statusCode = httpStatus.INTERNAL_SERVER_ERROR;
         message = httpStatus[httpStatus.INTERNAL_SERVER_ERROR];
     }
@@ -23,10 +23,10 @@ const errorHandler = (err, req, res, next) => {
     const response = {
         code: statusCode,
         message,
-        ...(process.NODE_ENV === 'development' && { stack: err.stack }),
+        ...(process.env.NODE_ENV === 'development' && { stack: err.stack }),
     };
 
-    if (process.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV === 'development') {
         console.error(err);
     }
 
