@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
 
-module.exports = function (req, res, next) {
+const auth = (role) => (req, res, next) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
 
@@ -18,3 +18,5 @@ module.exports = function (req, res, next) {
         next();
     });
 }
+
+module.exports = auth;
