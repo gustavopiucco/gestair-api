@@ -13,6 +13,10 @@ services:
             NODE_ENV: development
             PORT: 3000
             TOKEN_SECRET: test
+            MYSQL_HOST: mysql
+            MYSQL_USER: gestair
+            MYSQL_PASSWORD: gestair
+            MYSQL_DATABASE: gestair
         depends_on:
             - mysql
 

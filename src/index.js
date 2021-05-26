@@ -1,16 +1,14 @@
-const path = require('path');
 const app = require('./app');
+const mysql = require('./database/mysql');
 
 let server;
 
-(async () => {
-    try {
-        server = app.listen(process.env.PORT, () => console.info(`Listening to port ${process.env.PORT}`));
-    }
-    catch (error) {
-        console.error(error);
-    }
-})();
+async function main() {
+    await mysql.testConnection();
+    server = app.listen(process.env.PORT, () => console.info(`Listening to port ${process.env.PORT}`));
+}
+
+main();
 
 const exitHandler = () => {
     if (server) {
