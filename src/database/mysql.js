@@ -17,6 +17,12 @@ async function testConnection() {
     }
 }
 
+async function query(sql) {
+    const [rows] = await pool.query(sql);
+    return rows;
+}
+
 module.exports = {
-    testConnection
+    testConnection,
+    query
 }

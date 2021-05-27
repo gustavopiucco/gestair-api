@@ -3,12 +3,12 @@ const mysql = require('./database/mysql');
 
 let server;
 
-async function main() {
-    await mysql.testConnection();
-    server = app.listen(process.env.PORT, () => console.info(`Listening to port ${process.env.PORT}`));
-}
-
-main();
+mysql.testConnection().then(() => {
+    console.info('Connected to MySQL');
+    server = app.listen(process.env.PORT, () => {
+        console.info(`Listening to port ${process.env.PORT}`)
+    });
+});
 
 const exitHandler = () => {
     if (server) {
