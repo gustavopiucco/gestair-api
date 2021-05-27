@@ -17,8 +17,8 @@ async function testConnection() {
     }
 }
 
-async function query(sql) {
-    const [rows] = await pool.query(sql);
+async function query(sql, values) {
+    const [rows] = await pool.query(sql, values);
     return rows;
 }
 
