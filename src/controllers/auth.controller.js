@@ -1,9 +1,11 @@
 const httpStatus = require('http-status');
 const catchAsync = require('../utils/catchAsync');
 const authService = require('../services/auth.service');
+const userService = require('../services/user.service');
 
 const register = catchAsync(async (req, res) => {
-    res.status(httpStatus.OK).send();
+    await userService.createUser(req.body.email, req.body.password);
+    res.status(httpStatus.CREATED).send();
 });
 
 const login = catchAsync(async (req, res) => {
