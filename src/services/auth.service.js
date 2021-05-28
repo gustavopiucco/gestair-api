@@ -1,8 +1,8 @@
 const ApiError = require('../utils/ApiError');
 const httpStatus = require('http-status');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const userModel = require('../models/user.model');
-const tokenService = require('../services/token.service');
 
 async function loginWithEmailAndPassword(email, password) {
     const user = await userModel.getUserByEmail(email);
@@ -12,11 +12,13 @@ async function loginWithEmailAndPassword(email, password) {
     return user;
 }
 
-function generateAccessToken(username) {
+function generateAccessToken(email, type, role) {
     const payload = {
-        username: username
+        email,
+        type,
+        role
     }
-    return tokenService.generateAccessToken(payload);
+    return jwt.sign(payload, process.env.TOKEN_SECRET, { expiresIn: "1d" });
 }
 
 module.exports = {

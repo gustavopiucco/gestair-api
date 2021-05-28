@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const userController = require('../../controllers/user.controller');
 const auth = require('../../middlewares/auth');
+const userController = require('../../controllers/user.controller');
 
-router.get('/', auth('test_role'), userController.getUser);
+router.post('/', auth('gestair_admin'), userController.createUser);
+router.get('/', auth('gestair_admin'), userController.getUser);
 
 module.exports = router;

@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
 
-const auth = (role) => (req, res, next) => {
+const auth = (roles) => (req, res, next) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
 
@@ -11,6 +11,9 @@ const auth = (role) => (req, res, next) => {
 
     jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
         if (err)
+            next(new ApiError(httpStatus.FORBIDDEN, 'Forbidden'));
+
+        if (!roles.includes(user.role))
             next(new ApiError(httpStatus.FORBIDDEN, 'Forbidden'));
 
         req.user = user;
