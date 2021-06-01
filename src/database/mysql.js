@@ -17,12 +17,12 @@ async function testConnection() {
     }
 }
 
-async function query(sql, values) {
-    const [rows] = await pool.query(sql, values);
+async function execute(sql, values) {
+    const [rows] = await pool.execute(sql, values);
     return rows;
 }
 
 module.exports = {
     testConnection,
-    query
+    execute
 }
