@@ -1,43 +1,42 @@
-CREATE DATABASE IF NOT EXISTS `gestair` DEFAULT CHARACTER SET latin1;
+CREATE DATABASE IF NOT EXISTS gestair DEFAULT CHARACTER SET latin1;
 
-USE `gestair`;
+USE gestair;
 
-DROP TABLE IF EXISTS `companies`;
-CREATE TABLE `companies` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE companies (
+  id int NOT NULL AUTO_INCREMENT,
+  name varchar(100) NOT NULL,
+  PRIMARY KEY (id)
 ) ENGINE=InnoDB ;
-INSERT INTO `companies` VALUES (1,'Test Company');
+INSERT INTO companies VALUES (1,'Test Company');
 
-DROP TABLE IF EXISTS `customers`;
-CREATE TABLE `customers` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `company_id` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_customers_company_id_companies_id` (`company_id`),
-  CONSTRAINT `fk_customers_company_id_companies_id` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`)
+CREATE TABLE customers (
+  id int NOT NULL AUTO_INCREMENT,
+  name varchar(100) NOT NULL,
+  company_id int NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_customers_company_id_companies_id FOREIGN KEY (company_id) REFERENCES companies (id)
 ) ENGINE=InnoDB;
-INSERT INTO `customers` VALUES (1,'Test Customer',1);
+INSERT INTO customers VALUES (1,'Test Customer',1);
 
-DROP TABLE IF EXISTS `enviroments`;
-CREATE TABLE `enviroments` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `customer_id` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_enviroments_customer_id_customers_id` (`customer_id`),
-  CONSTRAINT `fk_enviroments_customer_id_customers_id` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`)
+CREATE TABLE enviroments (
+  id int NOT NULL AUTO_INCREMENT,
+  name varchar(100) NOT NULL,
+  customer_id int NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_customer_id FOREIGN KEY (customer_id) REFERENCES customers (id)
 ) ENGINE=InnoDB;
 
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE `users` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `email` varchar(100) CHARACTER SET latin1 NOT NULL,
-  `password_hash` char(60) CHARACTER SET latin1 NOT NULL,
-  `role` enum('gestair_admin') DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `email_UNIQUE` (`email`)
+CREATE TABLE users (
+  id int NOT NULL AUTO_INCREMENT,
+  email varchar(100) NOT NULL,
+  password_hash char(60) NOT NULL,
+  type enum('gestair', 'company', 'customer'),
+  role enum('gestair_admin'),
+  company_id int,
+  customer_id int,
+  PRIMARY KEY (id),
+  UNIQUE KEY (email),
+  CONSTRAINT fk_users_company_id_companies_id FOREIGN KEY (company_id) REFERENCES companies (id),
+  CONSTRAINT fk_users_customer_id_customers_id FOREIGN KEY (customer_id) REFERENCES customers (id)
 ) ENGINE=InnoDB;
-INSERT INTO `users` VALUES (1,'admin','$2y$08$h.mktfdf5S2ne.4VW1oUuOywuVKWK.kpcs69oVaUDYeLcOXT1lPru','gestair_admin');
+INSERT INTO users VALUES (1,'admin','$2y$08$h.mktfdf5S2ne.4VW1oUuOywuVKWK.kpcs69oVaUDYeLcOXT1lPru','gestair','gestair_admin', null, null);
