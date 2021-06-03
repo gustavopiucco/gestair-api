@@ -8,9 +8,7 @@ CREATE TABLE `companies` (
   `name` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB ;
-LOCK TABLES `companies` WRITE;
 INSERT INTO `companies` VALUES (1,'Test Company');
-UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `customers`;
 CREATE TABLE `customers` (
@@ -21,9 +19,17 @@ CREATE TABLE `customers` (
   KEY `fk_customers_company_id_companies_id` (`company_id`),
   CONSTRAINT `fk_customers_company_id_companies_id` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`)
 ) ENGINE=InnoDB;
-LOCK TABLES `customers` WRITE;
 INSERT INTO `customers` VALUES (1,'Test Customer',1);
-UNLOCK TABLES;
+
+DROP TABLE IF EXISTS `enviroments`;
+CREATE TABLE `enviroments` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `customer_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_enviroments_customer_id_customers_id` (`customer_id`),
+  CONSTRAINT `fk_enviroments_customer_id_customers_id` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`)
+) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
@@ -34,6 +40,4 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`)
 ) ENGINE=InnoDB;
-LOCK TABLES `users` WRITE;
 INSERT INTO `users` VALUES (1,'admin','$2y$08$h.mktfdf5S2ne.4VW1oUuOywuVKWK.kpcs69oVaUDYeLcOXT1lPru','gestair_admin');
-UNLOCK TABLES;
