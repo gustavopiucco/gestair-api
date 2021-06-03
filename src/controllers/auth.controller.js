@@ -4,7 +4,7 @@ const authService = require('../services/auth.service');
 
 const login = catchAsync(async (req, res) => {
     const user = await authService.loginWithEmailAndPassword(req.body.email, req.body.password);
-    const accessToken = authService.generateAccessToken(user.email, user.type, user.role);
+    const accessToken = authService.generateAccessToken(user.id, user.email, user.type, user.role);
     res.status(httpStatus.OK).send({
         id: user.id,
         email: user.email,

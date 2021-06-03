@@ -12,8 +12,9 @@ async function loginWithEmailAndPassword(email, password) {
     return user;
 }
 
-function generateAccessToken(email, type, role) {
+function generateAccessToken(id, email, type, role) {
     const payload = {
+        id,
         email,
         type,
         role
