@@ -4,31 +4,42 @@ USE gestair;
 
 CREATE TABLE companies (
   id int NOT NULL AUTO_INCREMENT,
-  name varchar(100) NOT NULL,
+  company_name varchar(100) NOT NULL,
+  trading_name varchar(100) NOT NULL,
+  cnpj char(14) NOT NULL,
   PRIMARY KEY (id)
-) ENGINE=InnoDB ;
-INSERT INTO companies VALUES (1,'Test Company');
+) ENGINE=InnoDB;
 
-CREATE TABLE customers (
+CREATE TABLE units (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(100) NOT NULL,
-  company_id int NOT NULL,
-  PRIMARY KEY (id),
-  CONSTRAINT fk_customers_company_id_companies_id FOREIGN KEY (company_id) REFERENCES companies (id)
+  floors smallint NOT NULL,
+  PRIMARY KEY (id)
 ) ENGINE=InnoDB;
-INSERT INTO customers VALUES (1,'Test Customer',1);
 
 CREATE TABLE enviroments (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(100) NOT NULL,
-  customer_id int NOT NULL,
+  floor varchar(20) NOT NULL,
+  area varchar(20) NOT NULL,
+  activity_type varchar(30) NOT NULL,
+  fixed_occupants smallint NOT NULL,
+  floating_occupants smallint NOT NULL,
+  thermal_load smallint NOT NULL,
+  unit_id int NOT NULL,
   PRIMARY KEY (id),
-  CONSTRAINT fk_customer_id FOREIGN KEY (customer_id) REFERENCES customers (id)
+  CONSTRAINT fk_enviroments_unit_id_units_id FOREIGN KEY (unit_id) REFERENCES enviroments (id)
 ) ENGINE=InnoDB;
 
 CREATE TABLE equipments (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(100) NOT NULL,
+  type enum('ac_central', 'ac_split') NOT NULL,
+  serial_numer varchar(200) NOT NULL,
+  capacity smallint NOT NULL,
+  brand enum('samsung') NOT NULL,
+  model enum('ac123') NOT NULL,
+  tag varchar(100) NOT NULL,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
@@ -43,10 +54,7 @@ CREATE TABLE users (
   cpf char(11) NOT NULL,
   phone varchar(20),
   company_id int,
-  customer_id int,
   PRIMARY KEY (id),
   UNIQUE KEY (email),
-  CONSTRAINT fk_users_company_id_companies_id FOREIGN KEY (company_id) REFERENCES companies (id),
-  CONSTRAINT fk_users_customer_id_customers_id FOREIGN KEY (customer_id) REFERENCES customers (id)
+  CONSTRAINT fk_users_company_id_companies_id FOREIGN KEY (company_id) REFERENCES companies (id)
 ) ENGINE=InnoDB;
---INSERT INTO users VALUES (1,'admin','$2y$08$h.mktfdf5S2ne.4VW1oUuOywuVKWK.kpcs69oVaUDYeLcOXT1lPru','gestair','gestair_admin', null, null);
