@@ -7,6 +7,7 @@ CREATE TABLE companies (
   company_name varchar(100) NOT NULL,
   trading_name varchar(100) NOT NULL,
   cnpj char(14) NOT NULL,
+  is_customer boolean NOT NULL,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
