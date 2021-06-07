@@ -6,8 +6,8 @@ CREATE TABLE companies (
   id int NOT NULL AUTO_INCREMENT,
   company_name varchar(100) NOT NULL,
   trading_name varchar(100) NOT NULL,
+  type enum('company', 'customer') NOT NULL,
   cnpj char(14) NOT NULL,
-  is_customer boolean NOT NULL,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
