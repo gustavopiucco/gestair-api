@@ -53,7 +53,7 @@ CREATE TABLE users (
   first_name varchar(20) NOT NULL,
   last_name varchar(60) NOT NULL,
   cpf char(11) NOT NULL,
-  phone varchar(20),
+  phone varchar(20) NOT NULL,
   company_id int,
   PRIMARY KEY (id),
   UNIQUE KEY (email),
