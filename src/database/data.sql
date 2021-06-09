@@ -6,9 +6,25 @@ CREATE TABLE companies (
   id int NOT NULL AUTO_INCREMENT,
   company_name varchar(100) NOT NULL,
   trading_name varchar(100) NOT NULL,
-  type enum('company', 'customer') NOT NULL,
   cnpj char(14) NOT NULL,
   PRIMARY KEY (id)
+) ENGINE=InnoDB;
+
+CREATE TABLE customers (
+  id int NOT NULL AUTO_INCREMENT,
+  company_name varchar(100) NOT NULL,
+  trading_name varchar(100) NOT NULL,
+  cnpj char(14) NOT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB;
+
+CREATE TABLE companies_customers (
+  customer_id int NOT NULL,
+  company_id int NOT NULL,
+  PRIMARY KEY (customer_id),
+  CONSTRAINT u_customer_id_company_id UNIQUE (customer_id, company_id),
+  CONSTRAINT fk_companies_customers_customer_id_companies_id FOREIGN KEY (customer_id) REFERENCES customers (id),
+  CONSTRAINT fk_companies_customers_company_id_companies_id FOREIGN KEY (company_id) REFERENCES companies (id)
 ) ENGINE=InnoDB;
 
 CREATE TABLE units (
@@ -55,7 +71,9 @@ CREATE TABLE users (
   cpf char(11) NOT NULL,
   phone varchar(20) NOT NULL,
   company_id int,
+  customer_id int,
   PRIMARY KEY (id),
   UNIQUE KEY (email),
-  CONSTRAINT fk_users_company_id_companies_id FOREIGN KEY (company_id) REFERENCES companies (id)
+  CONSTRAINT fk_users_company_id_companies_id FOREIGN KEY (company_id) REFERENCES companies (id),
+  CONSTRAINT fk_users_customer_id_customers_id FOREIGN KEY (customer_id) REFERENCES customers (id)
 ) ENGINE=InnoDB;
