@@ -12,13 +12,19 @@ const createUser = catchAsync(async (req, res) => {
 });
 
 
-const adminUpdateUser = catchAsync(async (req, res) => {
-    await userService.adminUpdateUser(req.body.type, req.body.role, req.body.email, req.body.cnpj);
+const updateUserCompany = catchAsync(async (req, res) => {
+    await userService.updateUserCompany(req.params.id, req.body.companyId);
+    res.status(httpStatus.OK).send();
+});
+
+const updateUserCustomer = catchAsync(async (req, res) => {
+    await userService.updateUserCustomer(req.params.id, req.body.customerId);
     res.status(httpStatus.OK).send();
 });
 
 module.exports = {
     getUser,
     createUser,
-    adminUpdateUser
+    updateUserCompany,
+    updateUserCustomer
 }

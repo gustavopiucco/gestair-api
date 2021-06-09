@@ -5,6 +5,7 @@ const userController = require('../../controllers/user.controller');
 
 router.post('/', userController.createUser);
 router.get('/', auth('get_user'), userController.getUser);
-router.put('/admin', auth('admin_update_user'), userController.adminUpdateUser);
+router.put('/:id/company', auth('update_user_company'), userController.updateUserCompany);
+router.put('/:id/customer', auth('update_user_customer'), userController.updateUserCustomer);
 
 module.exports = router;

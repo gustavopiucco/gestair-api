@@ -5,8 +5,8 @@ async function cnpjExists(cnpj) {
     return result.length > 0;
 }
 
-async function getCompanyByUserId(userId) {
-    const result = await mysql.execute('SELECT * FROM companies WHERE id = ?', [companyId]);
+async function getCompanyById(id) {
+    const result = await mysql.execute('SELECT * FROM companies WHERE id = ?', [id]);
     return result[0];
 }
 
@@ -29,7 +29,7 @@ async function deleteCompanyById(companyId) {
 
 module.exports = {
     cnpjExists,
-    getCompanyByUserId,
+    getCompanyById,
     getCompanyByCnpj,
     createCompany,
     updateCompanyById,
