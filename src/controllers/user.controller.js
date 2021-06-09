@@ -12,13 +12,13 @@ const createUser = catchAsync(async (req, res) => {
 });
 
 
-const updateUserCompany = catchAsync(async (req, res) => {
-    await userService.updateUserCompany(req.body.userEmail, req.body.companyCnpj);
+const adminUpdateUser = catchAsync(async (req, res) => {
+    await userService.adminUpdateUser(req.body.type, req.body.role, req.body.email, req.body.cnpj);
     res.status(httpStatus.OK).send();
 });
 
 module.exports = {
     getUser,
     createUser,
-    updateUserCompany
+    adminUpdateUser
 }

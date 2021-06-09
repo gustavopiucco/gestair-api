@@ -14,21 +14,21 @@ async function createUser(body) {
     return user;
 }
 
-async function updateUserCompany(userEmail, companyCnpj) {
-    if (!await userModel.emailExists(userEmail)) {
+async function adminUpdateUser(type, role, email, cnpj) {
+    if (!await userModel.emailExists(email)) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Este email não existe.');
     }
 
-    if (!await companyModel.getCompanyByCnpj(companyCnpj)) {
+    if (!await companyModel.getCompanyByCnpj(cnpj)) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Este CNPJ não existe.');
     }
 
-    const user = await userModel.getUserByEmail(userEmail);
-    const company = await companyModel.getCompanyByCnpj(companyCnpj);
-    await userModel.updateCompanyId(user.id, company.id);
+    const user = await userModel.getUserByEmail(email);
+    const company = await companyModel.getCompanyByCnpj(cnpj);
+    await userModel.updateUser(user.id, type, role, company.id);
 }
 
 module.exports = {
     createUser,
-    updateUserCompany
+    adminUpdateUser
 }

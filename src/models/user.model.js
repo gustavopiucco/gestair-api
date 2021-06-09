@@ -19,8 +19,8 @@ async function createUser(email, passwordHash, firstName, lastName, cpf, phone) 
     await mysql.execute('INSERT INTO users (email, password_hash, first_name, last_name, cpf, phone) VALUES (?, ?, ?, ?, ?, ?)', [email, passwordHash, firstName, lastName, cpf, phone]);
 }
 
-async function updateCompanyId(userId, companyId) {
-    await mysql.execute('UPDATE users SET company_id = ? WHERE id = ?', [companyId, userId]);
+async function updateUser(id, type, role, companyId) {
+    await mysql.execute('UPDATE users SET type = ?, role = ?, company_id = ? WHERE id = ?', [type, role, companyId, id]);
 }
 
 module.exports = {
@@ -28,5 +28,5 @@ module.exports = {
     getUserById,
     getUserByEmail,
     createUser,
-    updateCompanyId
+    updateUser
 }
