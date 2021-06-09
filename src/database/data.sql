@@ -58,7 +58,7 @@ CREATE TABLE users (
   email varchar(100) NOT NULL,
   password_hash char(60) NOT NULL,
   type enum('admin', 'company', 'customer'),
-  role enum('admin'),
+  role enum('admin', 'company_manager'),
   first_name varchar(20) NOT NULL,
   last_name varchar(60) NOT NULL,
   cpf char(11) NOT NULL,

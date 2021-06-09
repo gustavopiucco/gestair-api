@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../../middlewares/auth');
-//const companyController = require('../../controllers/company.controller');
+const customerController = require('../../controllers/customer.controller');
 
-//router.post('/admin', auth('admin_create_company'), companyController.createCompany);
+router.post('/', auth('create_customer'), customerController.createCustomer);
 
 module.exports = router;
