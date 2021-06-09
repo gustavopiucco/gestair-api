@@ -15,16 +15,9 @@ CREATE TABLE customers (
   company_name varchar(100) NOT NULL,
   trading_name varchar(100) NOT NULL,
   cnpj char(14) NOT NULL,
-  PRIMARY KEY (id)
-) ENGINE=InnoDB;
-
-CREATE TABLE companies_customers (
-  customer_id int NOT NULL,
   company_id int NOT NULL,
-  PRIMARY KEY (customer_id),
-  CONSTRAINT u_customer_id_company_id UNIQUE (customer_id, company_id),
-  CONSTRAINT fk_companies_customers_customer_id_companies_id FOREIGN KEY (customer_id) REFERENCES customers (id),
-  CONSTRAINT fk_companies_customers_company_id_companies_id FOREIGN KEY (company_id) REFERENCES companies (id)
+  PRIMARY KEY (id),
+  CONSTRAINT fk_customers_company_id_companies_id FOREIGN KEY (company_id) REFERENCES companies (id)
 ) ENGINE=InnoDB;
 
 CREATE TABLE units (
