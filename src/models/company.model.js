@@ -5,12 +5,34 @@ async function cnpjExists(cnpj) {
     return result.length > 0;
 }
 
+async function getCompanyByUserId(userId) {
+    const result = await mysql.execute('SELECT * FROM companies WHERE id = ?', [companyId]);
+    return result[0];
+}
+
+async function getCompanyByCnpj(cnpj) {
+    const result = await mysql.execute('SELECT * FROM companies WHERE cnpj = ?', [cnpj]);
+    return result[0];
+}
+
 async function createCompany(companyName, tradingName, cnpj) {
     const type = 'company';
     await mysql.execute('INSERT INTO companies (company_name, trading_name, type, cnpj) VALUES (?, ?, ?, ?)', [companyName, tradingName, type, cnpj]);
 }
 
+async function updateCompanyById(companyId, companyName, tradingName, cnpj) {
+    await mysql.execute('UPDATE companies SET (companyName, tradingName, cnpj) VALUES (?, ?, ?) WHERE id = ?', companyName, tradingName, cnpj, companyId);
+}
+
+async function deleteCompanyById(companyId) {
+    await mysql.execute('DELETE FROM companies WHERE id = ?', companyId);
+}
+
 module.exports = {
     cnpjExists,
-    createCompany
+    getCompanyByUserId,
+    getCompanyByCnpj,
+    createCompany,
+    updateCompanyById,
+    deleteCompanyById
 }
