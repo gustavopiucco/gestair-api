@@ -6,7 +6,7 @@ const auth = require('../../middlewares/auth');
 const userController = require('../../controllers/user.controller');
 
 router.post('/', validate(userValidation.createUser), userController.createUser);
-router.get('/', auth('get_user'), userController.getUser);
+router.get('/:id', auth('get_user'), validate(userValidation.getUser), userController.getUser);
 router.put('/:id/company', auth('update_user_company'), userController.updateUserCompany);
 router.put('/:id/customer', auth('update_user_customer'), userController.updateUserCustomer);
 

@@ -1,6 +1,12 @@
 const Joi = require('joi');
 const { password } = require('./custom.validation');
 
+const getUser = {
+    params: Joi.object().keys({
+        id: Joi.number().integer()
+    })
+};
+
 const createUser = {
     body: Joi.object().keys({
         email: Joi.string().required().email(),
@@ -13,5 +19,6 @@ const createUser = {
 };
 
 module.exports = {
+    getUser,
     createUser
 };

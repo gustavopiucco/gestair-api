@@ -3,7 +3,9 @@ const catchAsync = require('../utils/catchAsync');
 const userService = require('../services/user.service');
 
 const getUser = catchAsync(async (req, res) => {
-    res.status(httpStatus.OK).send();
+    const user = await userService.getUser(req.params.id);
+    delete user.password_hash;
+    res.status(httpStatus.OK).send(user);
 });
 
 const createUser = catchAsync(async (req, res) => {

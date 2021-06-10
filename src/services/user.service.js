@@ -5,9 +5,19 @@ const userModel = require('../models/user.model');
 const companyModel = require('../models/company.model');
 const customerModel = require('../models/customer.model');
 
+async function getUser(id) {
+    const user = await userModel.getUserById(id);
+
+    if (!user) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Este ID de usuário não existe');
+    }
+
+    return user;
+}
+
 async function createUser(body) {
     if (await userModel.emailExists(body.email)) {
-        throw new ApiError(httpStatus.BAD_REQUEST, 'Este email já existe.');
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Este email já existe');
     }
 
     const passwordHash = await bcrypt.hash(body.password, 8);
@@ -17,13 +27,13 @@ async function createUser(body) {
 
 async function updateUserCompany(id, companyId) {
     if (!await userModel.exists(id)) {
-        throw new ApiError(httpStatus.BAD_REQUEST, 'ID do usuário não encontrado.');
+        throw new ApiError(httpStatus.BAD_REQUEST, 'ID do usuário não encontrado');
     }
 
     const company = await companyModel.getCompanyById(companyId);
 
     if (!company) {
-        throw new ApiError(httpStatus.BAD_REQUEST, 'ID da empresa não encontrado.');
+        throw new ApiError(httpStatus.BAD_REQUEST, 'ID da empresa não encontrado');
     }
 
     const user = await userModel.getUserById(id);
@@ -32,13 +42,13 @@ async function updateUserCompany(id, companyId) {
 
 async function updateUserCustomer(id, customerId) {
     if (!await userModel.exists(id)) {
-        throw new ApiError(httpStatus.BAD_REQUEST, 'ID do usuário não encontrado.');
+        throw new ApiError(httpStatus.BAD_REQUEST, 'ID do usuário não encontrado');
     }
 
     const customer = await customerModel.getCustomerById(customerId);
 
     if (!customer) {
-        throw new ApiError(httpStatus.BAD_REQUEST, 'ID da empresa(cliente) não encontrado.');
+        throw new ApiError(httpStatus.BAD_REQUEST, 'ID da empresa(cliente) não encontrado');
     }
 
     const user = await userModel.getUserById(id);
@@ -46,6 +56,7 @@ async function updateUserCustomer(id, customerId) {
 }
 
 module.exports = {
+    getUser,
     createUser,
     updateUserCompany,
     updateUserCustomer
