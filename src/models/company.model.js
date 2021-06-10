@@ -16,7 +16,7 @@ async function getCompanyByCnpj(cnpj) {
 }
 
 async function createCompany(companyName, tradingName, cnpj) {
-    await mysql.execute('INSERT INTO companies (company_name, trading_name, cnpj) VALUES (?, ?, ?, ?)', [companyName, tradingName, cnpj]);
+    await mysql.execute('INSERT INTO companies (company_name, trading_name, cnpj) VALUES (?, ?, ?)', [companyName, tradingName, cnpj]);
 }
 
 async function updateCompanyById(companyId, companyName, tradingName, cnpj) {

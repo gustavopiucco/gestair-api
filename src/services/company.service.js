@@ -2,10 +2,6 @@ const ApiError = require('../utils/ApiError');
 const httpStatus = require('http-status');
 const companyModel = require('../models/company.model');
 
-async function getCompany(body) {
-
-}
-
 async function createCompany(body) {
     if (await companyModel.cnpjExists(body.cnpj)) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Este CNPJ já está cadastrado.');
@@ -16,6 +12,5 @@ async function createCompany(body) {
 }
 
 module.exports = {
-    getCompany,
     createCompany
 }
