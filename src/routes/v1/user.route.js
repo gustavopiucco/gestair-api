@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const validate = require('../../middlewares/validate');
+const userValidation = require('../../validations/user.validations');
 const auth = require('../../middlewares/auth');
 const userController = require('../../controllers/user.controller');
 
-router.post('/', userController.createUser);
+router.post('/', validate(userValidation.createUser), userController.createUser);
 router.get('/', auth('get_user'), userController.getUser);
 router.put('/:id/company', auth('update_user_company'), userController.updateUserCompany);
 router.put('/:id/customer', auth('update_user_customer'), userController.updateUserCustomer);
