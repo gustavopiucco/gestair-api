@@ -7,6 +7,20 @@ const getUser = {
     })
 };
 
+const updateUser = {
+    params: Joi.object().keys({
+        id: Joi.number().integer()
+    }),
+    body: Joi.object().keys({
+        password: Joi.string().custom(password),
+        firstName: Joi.string(),
+        lastName: Joi.string(),
+        phone: Joi.string(),
+        companyId: Joi.number().integer(),
+        customerId: Joi.number().integer()
+    }),
+};
+
 const createUser = {
     body: Joi.object().keys({
         email: Joi.string().required().email(),
@@ -19,6 +33,7 @@ const createUser = {
 };
 
 module.exports = {
+    updateUser,
     getUser,
     createUser
 };

@@ -13,20 +13,13 @@ const createUser = catchAsync(async (req, res) => {
     res.status(httpStatus.CREATED).send();
 });
 
-
-const updateUserCompany = catchAsync(async (req, res) => {
-    await userService.updateUserCompany(req.params.id, req.body.companyId);
-    res.status(httpStatus.OK).send();
-});
-
-const updateUserCustomer = catchAsync(async (req, res) => {
-    await userService.updateUserCustomer(req.params.id, req.body.customerId);
+const updateUser = catchAsync(async (req, res) => {
+    await userService.updateUser(req.params.id, req.user.role, req.body.password, req.body.firstName, req.body.lastName, req.body.phone, req.body.companyId, req.body.customerId);
     res.status(httpStatus.OK).send();
 });
 
 module.exports = {
     getUser,
     createUser,
-    updateUserCompany,
-    updateUserCustomer
+    updateUser
 }

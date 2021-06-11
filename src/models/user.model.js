@@ -24,6 +24,10 @@ async function createUser(email, passwordHash, firstName, lastName, cpf, phone) 
     await mysql.execute('INSERT INTO users (email, password_hash, first_name, last_name, cpf, phone) VALUES (?, ?, ?, ?, ?, ?)', [email, passwordHash, firstName, lastName, cpf, phone]);
 }
 
+async function updateUser(id, passwordHash, firstName, lastName, phone, companyId, customerId) {
+    await mysql.execute('UPDATE users SET password_hash = ?, first_name = ?, last_name = ?, phone = ?, company_id = ?, customer_id = ? WHERE id = ?', [passwordHash, firstName, lastName, phone, companyId, customerId, id]);
+}
+
 async function updateUserCompanyId(id, companyId) {
     await mysql.execute('UPDATE users SET company_id = ? WHERE id = ?', [companyId, id]);
 }
@@ -38,6 +42,7 @@ module.exports = {
     getUserById,
     getUserByEmail,
     createUser,
+    updateUser,
     updateUserCompanyId,
     updateUserCustomerId
 }
