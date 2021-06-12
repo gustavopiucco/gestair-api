@@ -14,8 +14,9 @@ rolePermissions.set(roles[0],
     ]);
 rolePermissions.set(roles[1],
     [
+        'get_user',
         'create_customer',
-        'update_user_customer'
+        'update_user'
     ]);
 rolePermissions.set(roles[2],
     [
