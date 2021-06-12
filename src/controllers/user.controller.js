@@ -3,7 +3,7 @@ const catchAsync = require('../utils/catchAsync');
 const userService = require('../services/user.service');
 
 const getUser = catchAsync(async (req, res) => {
-    const user = await userService.getUser(req.params.id);
+    const user = await userService.getUser(req.user.id);
     delete user.password_hash;
     res.status(httpStatus.OK).send(user);
 });
@@ -14,7 +14,7 @@ const createUser = catchAsync(async (req, res) => {
 });
 
 const updateUser = catchAsync(async (req, res) => {
-    await userService.updateUser(req.params.id, req.user.role, req.body.password, req.body.firstName, req.body.lastName, req.body.phone, req.body.companyId, req.body.customerId);
+    await userService.updateUser(req.user.id, req.user.role, req.body.password, req.body.firstName, req.body.lastName, req.body.phone, req.body.companyId, req.body.customerId);
     res.status(httpStatus.OK).send();
 });
 
