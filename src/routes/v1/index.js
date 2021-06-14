@@ -20,10 +20,8 @@ router.post('/auth/login', validate(authValidation.login), authController.login)
 
 //User
 router.get('/user', auth('get_user'), validate(userValidation.getUser), userController.getUser);
-//router.get('/user/:id', auth('get_user'), validate(userValidation.getUser), userController.getUser);
 router.post('/user', validate(userValidation.createUser), userController.createUser);
 router.put('/user', auth('update_user'), validate(userValidation.updateUser), userController.updateUser);
-//router.put('/users/:id', auth('update_user'), validate(userValidation.updateUser), userController.updateUser);
 
 //Company
 router.post('/company', auth('admin_create_company'), validate(companyValidation.createCompany), companyController.createCompany);

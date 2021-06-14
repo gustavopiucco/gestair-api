@@ -20,9 +20,9 @@ const auth = (requiredPermission) => (req, res, next) => {
             next(new ApiError(httpStatus.FORBIDDEN, 'Permissão negada'));
         }
 
-        if (req.params.id && req.params.id != user.id) {
-            next(new ApiError(httpStatus.FORBIDDEN, 'Permissão negada'));
-        }
+        // if (req.params.id && req.params.id != user.id) {
+        //     next(new ApiError(httpStatus.FORBIDDEN, 'Permissão negada'));
+        // }
 
         next();
     });
