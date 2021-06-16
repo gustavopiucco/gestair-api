@@ -8,6 +8,12 @@ const getUser = catchAsync(async (req, res) => {
     res.status(httpStatus.OK).send(user);
 });
 
+const getSingleUser = catchAsync(async (req, res) => {
+    const user = await userService.getUser(req.params.id);
+    delete user.password_hash;
+    res.status(httpStatus.OK).send(user);
+});
+
 const createUser = catchAsync(async (req, res) => {
     await userService.createUser(req.body);
     res.status(httpStatus.CREATED).send();
@@ -20,6 +26,7 @@ const updateUser = catchAsync(async (req, res) => {
 
 module.exports = {
     getUser,
+    getSingleUser,
     createUser,
     updateUser
 }

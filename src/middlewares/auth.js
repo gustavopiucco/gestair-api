@@ -16,8 +16,10 @@ const auth = (requiredPermission) => (req, res, next) => {
 
         req.user = user;
 
-        if (!user.role || !rolePermissions.get(user.role).includes(requiredPermission)) {
-            next(new ApiError(httpStatus.FORBIDDEN, 'Permissão negada'));
+        if (requiredPermission) {
+            if (!user.role || !rolePermissions.get(user.role).includes(requiredPermission)) {
+                next(new ApiError(httpStatus.FORBIDDEN, 'Permissão negada'));
+            }
         }
 
         // if (req.params.id && req.params.id != user.id) {

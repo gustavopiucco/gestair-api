@@ -19,7 +19,8 @@ const unitController = require('../../controllers/unit.controller');
 router.post('/auth/login', validate(authValidation.login), authController.login);
 
 //User
-router.get('/user', auth('get_user'), validate(userValidation.getUser), userController.getUser);
+router.get('/user', auth(), userController.getUser);
+router.get('/user/:id', auth('get_user'), validate(userValidation.getSingleUser), userController.getSingleUser);
 router.post('/user', validate(userValidation.createUser), userController.createUser);
 router.put('/user', auth('update_user'), validate(userValidation.updateUser), userController.updateUser);
 
