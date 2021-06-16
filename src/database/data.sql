@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS gestair DEFAULT CHARACTER SET latin1;
+CREATE DATABASE IF NOT EXISTS gestair DEFAULT CHARACTER SET utf8mb4;
 
 USE gestair;
 
@@ -43,14 +43,23 @@ CREATE TABLE enviroments (
 
 CREATE TABLE equipments (
   id int NOT NULL AUTO_INCREMENT,
-  name varchar(100) NOT NULL,
-  type enum('ac_central', 'ac_split') NOT NULL,
-  serial_numer varchar(200) NOT NULL,
+  name varchar(100),
+  type varchar(100) NOT NULL,
   capacity smallint NOT NULL,
-  brand enum('samsung') NOT NULL,
-  model enum('ac123') NOT NULL,
-  tag varchar(100) NOT NULL,
+  brand varchar(100) NOT NULL,
+  model varchar(100) NOT NULL,
   PRIMARY KEY (id)
+) ENGINE=InnoDB;
+
+CREATE TABLE physical_equipments (
+  id int NOT NULL AUTO_INCREMENT,
+  serial_number varchar(100) NOT NULL,
+  tag varchar(100) NOT NULL,
+  equipment_id int NOT NULL,
+  enviroment_id int NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_physical_equipments_equipment_id_equipments_id FOREIGN KEY (equipment_id) REFERENCES equipments (id),
+  CONSTRAINT fk_physical_equipments_enviroments_id_enviroments_id FOREIGN KEY (enviroment_id) REFERENCES enviroments (id)
 ) ENGINE=InnoDB;
 
 CREATE TABLE users (
