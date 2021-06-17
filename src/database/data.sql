@@ -76,6 +76,7 @@ CREATE TABLE users (
   customer_id int,
   PRIMARY KEY (id),
   UNIQUE KEY (email),
+  UNIQUE KEY (cpf),
   CONSTRAINT chk_company_id_customer_id CHECK ((company_id IS NOT NULL AND customer_id IS NULL) OR (customer_id IS NOT NULL AND company_id IS NULL) OR (company_id IS NULL AND customer_id IS NULL)),
   CONSTRAINT fk_users_company_id_companies_id FOREIGN KEY (company_id) REFERENCES companies (id),
   CONSTRAINT fk_users_customer_id_customers_id FOREIGN KEY (customer_id) REFERENCES customers (id)

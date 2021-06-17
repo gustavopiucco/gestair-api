@@ -10,6 +10,11 @@ async function emailExists(email) {
     return result.length > 0;
 }
 
+async function cpfExists(cpf) {
+    const result = await mysql.execute('SELECT 1 FROM users WHERE cpf = ?', [cpf]);
+    return result.length > 0;
+}
+
 async function getUserById(userId) {
     const result = await mysql.execute('SELECT * FROM users WHERE id = ?', [userId]);
     return result[0];
@@ -44,6 +49,7 @@ async function updateUserCustomerId(id, customerId) {
 module.exports = {
     exists,
     emailExists,
+    cpfExists,
     getUserById,
     getUserByEmail,
     getUserByCpf,

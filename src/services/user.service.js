@@ -36,7 +36,11 @@ async function getUserQuery(query) {
 
 async function createUser(body) {
     if (await userModel.emailExists(body.email)) {
-        throw new ApiError(httpStatus.BAD_REQUEST, 'Este email já existe');
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Este email já está cadastrado');
+    }
+
+    if (await userModel.cpfExists(body.cpf)) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Este CPF já está cadastrado');
     }
 
     const passwordHash = await bcrypt.hash(body.password, 8);
