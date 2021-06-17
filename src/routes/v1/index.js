@@ -20,7 +20,7 @@ router.post('/auth/login', validate(authValidation.login), authController.login)
 
 //User
 router.get('/user', auth(), userController.getUser);
-router.get('/user/:id', auth('get_user'), validate(userValidation.getSingleUser), userController.getSingleUser);
+router.get('/user/query', auth('get_user'), validate(userValidation.getUserQuery), userController.getUserQuery);
 router.post('/user', validate(userValidation.createUser), userController.createUser);
 router.put('/user', auth('update_user'), validate(userValidation.updateUser), userController.updateUser);
 

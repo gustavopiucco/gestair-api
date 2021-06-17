@@ -8,8 +8,8 @@ const getUser = catchAsync(async (req, res) => {
     res.status(httpStatus.OK).send(user);
 });
 
-const getSingleUser = catchAsync(async (req, res) => {
-    const user = await userService.getUser(req.params.id);
+const getUserQuery = catchAsync(async (req, res) => {
+    const user = await userService.getUserQuery(req.query);
     delete user.password_hash;
     res.status(httpStatus.OK).send(user);
 });
@@ -26,7 +26,7 @@ const updateUser = catchAsync(async (req, res) => {
 
 module.exports = {
     getUser,
-    getSingleUser,
+    getUserQuery,
     createUser,
     updateUser
 }

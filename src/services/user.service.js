@@ -16,6 +16,24 @@ async function getUser(id) {
     return user;
 }
 
+async function getUserQuery(query) {
+    let user;
+
+    if (query.id) {
+        user = await userModel.getUserById(query.id);
+    } else if (query.email) {
+        user = await userModel.getUserByEmail(query.email);
+    } else if (query.cpf) {
+        user = await userModel.getUserByCpf(query.cpf);
+    }
+
+    if (!user) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Este ID de usuário não existe');
+    }
+
+    return user;
+}
+
 async function createUser(body) {
     if (await userModel.emailExists(body.email)) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Este email já existe');
@@ -58,6 +76,7 @@ async function updateUser(id, role, password, firstName, lastName, phone, compan
 
 module.exports = {
     getUser,
+    getUserQuery,
     createUser,
     updateUser
 }

@@ -20,6 +20,11 @@ async function getUserByEmail(email) {
     return result[0];
 }
 
+async function getUserByCpf(cpf) {
+    const result = await mysql.execute('SELECT * FROM users WHERE cpf = ?', [cpf]);
+    return result[0];
+}
+
 async function createUser(email, passwordHash, firstName, lastName, cpf, phone) {
     await mysql.execute('INSERT INTO users (email, password_hash, first_name, last_name, cpf, phone) VALUES (?, ?, ?, ?, ?, ?)', [email, passwordHash, firstName, lastName, cpf, phone]);
 }
@@ -41,6 +46,7 @@ module.exports = {
     emailExists,
     getUserById,
     getUserByEmail,
+    getUserByCpf,
     createUser,
     updateUser,
     updateUserCompanyId,
