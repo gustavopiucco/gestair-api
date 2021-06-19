@@ -20,7 +20,17 @@ const createUser = catchAsync(async (req, res) => {
 });
 
 const updateUser = catchAsync(async (req, res) => {
-    await userService.updateUser(req.user.id, req.user.role, req.body);
+    await userService.updateUser(req.user.id, req.body);
+    res.status(httpStatus.OK).send();
+});
+
+const updateUserCompany = catchAsync(async (req, res) => {
+    await userService.updateUserCompany(req.params.id, req.body.companyId);
+    res.status(httpStatus.OK).send();
+});
+
+const updateUserCustomer = catchAsync(async (req, res) => {
+    await userService.updateUserCustomer(req.params.id, req.body.customerId);
     res.status(httpStatus.OK).send();
 });
 
@@ -28,5 +38,7 @@ module.exports = {
     getUser,
     getUserQuery,
     createUser,
-    updateUser
+    updateUser,
+    updateUserCompany,
+    updateUserCustomer
 }

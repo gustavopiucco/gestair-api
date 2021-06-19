@@ -17,9 +17,25 @@ const updateUser = {
         password: Joi.string().custom(password),
         firstName: Joi.string(),
         lastName: Joi.string(),
-        phone: Joi.string(),
-        companyId: Joi.number().integer(),
-        customerId: Joi.number().integer()
+        phone: Joi.string()
+    }),
+};
+
+const updateCompany = {
+    params: Joi.object().keys({
+        id: Joi.number().integer().required()
+    }),
+    body: Joi.object().keys({
+        companyId: Joi.number().integer().required(),
+    }),
+};
+
+const updateCustomer = {
+    params: Joi.object().keys({
+        id: Joi.number().integer().required()
+    }),
+    body: Joi.object().keys({
+        customerId: Joi.number().integer().required(),
     }),
 };
 
@@ -37,5 +53,7 @@ const createUser = {
 module.exports = {
     getUserQuery,
     updateUser,
+    updateCompany,
+    updateCustomer,
     createUser
 };

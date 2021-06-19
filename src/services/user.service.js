@@ -47,15 +47,7 @@ async function createUser(body) {
     await userModel.createUser(body.email, passwordHash, body.firstName, body.lastName, body.cpf, body.phone);
 }
 
-async function updateUser(id, role, fields) {
-    if (fields.companyId && !rolePermissions.get(role).includes('update_user_company')) {
-        throw new ApiError(httpStatus.FORBIDDEN, 'Sem permissão para alterar o ID da empresa');
-    }
-
-    if (fields.customerId && !rolePermissions.get(role).includes('update_user_customer')) {
-        throw new ApiError(httpStatus.FORBIDDEN, 'Sem permissão para alterar o ID da empresa(cliente)');
-    }
-
+async function updateUser(id, fields) {
     const user = await userModel.getUserById(id);
 
     if (!user) {
@@ -66,28 +58,61 @@ async function updateUser(id, role, fields) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Este usuário já pertence a alguma outra empresa ou cliente');
     }
 
-    let company;
-    let customer;
-
-    if (fields.companyId) {
-        company = await companyModel.getCompanyById(fields.companyId);
-    }
-
     let passwordHash;
 
     passwordHash = (fields.password) ? await bcrypt.hash(fields.password, 8) : user.password_hash;
     fields.firstName = (fields.firstName) ? fields.firstName : user.first_name;
     fields.lastName = (fields.lastName) ? fields.lastName : user.last_name;
     fields.phone = (fields.phone) ? fields.phone : user.phone;
-    fields.companyId = (fields.companyId) ? fields.companyId : user.company_id;
-    fields.customerId = (fields.customerId) ? fields.customerId : user.customer_id;
 
-    await userModel.updateUser(id, passwordHash, fields.firstName, fields.lastName, fields.phone, fields.companyId, fields.customerId);
+    await userModel.updateUser(id, passwordHash, fields.firstName, fields.lastName, fields.phone);
+}
+
+async function updateUserCompany(id, companyId) {
+    const user = await userModel.getUserById(id);
+
+    if (!user) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Este usuário não existe');
+    }
+
+    if (user.company_id || user.customer_id) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Este usuário já está vinculado a uma empresa');
+    }
+
+    const company = await companyModel.getCompanyById(companyId);
+
+    if (!company) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Esta empresa não existe');
+    }
+
+    await userModel.updateUserCompanyId(id, companyId);
+}
+
+async function updateUserCustomer(id, customerId) {
+    const user = await userModel.getUserById(id);
+
+    if (!user) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Este usuário não existe');
+    }
+
+    if (user.company_id || user.customer_id) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Este usuário já está vinculado a uma empresa');
+    }
+
+    const customer = await customerModel.getCustomerById(customerId);
+
+    if (!customer) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Esta empresa não existe');
+    }
+
+    await userModel.updateUserCustomerId(id, customerId);
 }
 
 module.exports = {
     getUser,
     getUserQuery,
     createUser,
-    updateUser
+    updateUser,
+    updateUserCompany,
+    updateUserCustomer
 }
