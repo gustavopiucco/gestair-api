@@ -47,12 +47,12 @@ async function createUser(body) {
     await userModel.createUser(body.email, passwordHash, body.firstName, body.lastName, body.cpf, body.phone);
 }
 
-async function updateUser(id, role, password, firstName, lastName, phone, companyId, customerId) {
-    if (companyId && !rolePermissions.get(role).includes('update_user_company')) {
+async function updateUser(id, role, fields) {
+    if (fields.companyId && !rolePermissions.get(role).includes('update_user_company')) {
         throw new ApiError(httpStatus.FORBIDDEN, 'Sem permissão para alterar o ID da empresa');
     }
 
-    if (customerId && !rolePermissions.get(role).includes('update_user_customer')) {
+    if (fields.customerId && !rolePermissions.get(role).includes('update_user_customer')) {
         throw new ApiError(httpStatus.FORBIDDEN, 'Sem permissão para alterar o ID da empresa(cliente)');
     }
 
@@ -62,20 +62,27 @@ async function updateUser(id, role, password, firstName, lastName, phone, compan
         throw new ApiError(httpStatus.BAD_REQUEST, 'Este ID de usuário não existe');
     }
 
-    if ((companyId && user.customer_id) || (customerId && user.company_id)) {
+    if ((fields.companyId && user.customer_id) || (fields.customerId && user.company_id)) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Este usuário já pertence a alguma outra empresa ou cliente');
+    }
+
+    let company;
+    let customer;
+
+    if (fields.companyId) {
+        company = await companyModel.getCompanyById(fields.companyId);
     }
 
     let passwordHash;
 
-    passwordHash = (password) ? await bcrypt.hash(password, 8) : user.password_hash;
-    firstName = (firstName) ? firstName : user.first_name;
-    lastName = (lastName) ? lastName : user.last_name;
-    phone = (phone) ? phone : user.phone;
-    companyId = (companyId) ? companyId : user.company_id;
-    customerId = (customerId) ? customerId : user.customer_id;
+    passwordHash = (fields.password) ? await bcrypt.hash(fields.password, 8) : user.password_hash;
+    fields.firstName = (fields.firstName) ? fields.firstName : user.first_name;
+    fields.lastName = (fields.lastName) ? fields.lastName : user.last_name;
+    fields.phone = (fields.phone) ? fields.phone : user.phone;
+    fields.companyId = (fields.companyId) ? fields.companyId : user.company_id;
+    fields.customerId = (fields.customerId) ? fields.customerId : user.customer_id;
 
-    await userModel.updateUser(id, passwordHash, firstName, lastName, phone, companyId, customerId);
+    await userModel.updateUser(id, passwordHash, fields.firstName, fields.lastName, fields.phone, fields.companyId, fields.customerId);
 }
 
 module.exports = {

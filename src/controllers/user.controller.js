@@ -20,7 +20,7 @@ const createUser = catchAsync(async (req, res) => {
 });
 
 const updateUser = catchAsync(async (req, res) => {
-    await userService.updateUser(req.user.id, req.user.role, req.body.password, req.body.firstName, req.body.lastName, req.body.phone, req.body.companyId, req.body.customerId);
+    await userService.updateUser(req.user.id, req.user.role, req.body);
     res.status(httpStatus.OK).send();
 });
 
