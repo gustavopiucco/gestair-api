@@ -23,8 +23,8 @@ router.get('/user', auth(), userController.getUser);
 router.get('/user/query', auth('get_user'), validate(userValidation.getUserQuery), userController.getUserQuery);
 router.post('/user', validate(userValidation.createUser), userController.createUser);
 router.put('/user', auth('update_user'), validate(userValidation.updateUser), userController.updateUser);
-router.put('/user/:id/company', auth('update_user_company'), validate(userValidation.updateCompany), userController.updateUserCompany);
-router.put('/user/:id/customer', auth('update_user_customer'), validate(userValidation.updateCustomer), userController.updateUserCustomer);
+router.patch('/user/:id/company', auth('update_user_company'), validate(userValidation.updateCompany), userController.updateUserCompany);
+router.patch('/user/:id/customer', auth('update_user_customer'), validate(userValidation.updateCustomer), userController.updateUserCustomer);
 
 //Company
 router.post('/company', auth('admin_create_company'), validate(companyValidation.createCompany), companyController.createCompany);
