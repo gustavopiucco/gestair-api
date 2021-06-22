@@ -11,7 +11,8 @@ rolePermissions.set(roles[0],
         'update_user',
         'update_user_company',
         'update_user_customer',
-        'create_work_time'
+        'create_work_time',
+        'get_work_time'
     ]);
 rolePermissions.set(roles[1],
     [

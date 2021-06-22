@@ -29,7 +29,8 @@ router.patch('/user/:id/company', auth('update_user_company'), validate(userVali
 router.patch('/user/:id/customer', auth('update_user_customer'), validate(userValidation.updateCustomer), userController.updateUserCustomer);
 
 //Work Time
-router.post('/worktime', auth('create_work_time'), validate(workTimeValidation.createWorkTime), workTimeController.createUserWorkTime);
+router.get('/worktime/:id', auth('get_work_time'), validate(workTimeValidation.getWorkTimeById), workTimeController.getWorkTimeById);
+router.post('/worktime', auth('create_work_time'), validate(workTimeValidation.createWorkTime), workTimeController.createWorkTime);
 
 //Company
 router.post('/company', auth('admin_create_company'), validate(companyValidation.createCompany), companyController.createCompany);

@@ -2,11 +2,17 @@ const httpStatus = require('http-status');
 const catchAsync = require('../utils/catchAsync');
 const workTimeService = require('../services/worktime.service');
 
-const createUserWorkTime = catchAsync(async (req, res) => {
-    await workTimeService.createUserWorkTime(req.body);
+const getWorkTimeById = catchAsync(async (req, res) => {
+    const workTime = await workTimeService.getWorkTimeById(req.params.id);
+    res.status(httpStatus.OK).send(workTime);
+});
+
+const createWorkTime = catchAsync(async (req, res) => {
+    await workTimeService.createWorkTime(req.body);
     res.status(httpStatus.CREATED).send();
 });
 
 module.exports = {
-    createUserWorkTime
+    getWorkTimeById,
+    createWorkTime
 }

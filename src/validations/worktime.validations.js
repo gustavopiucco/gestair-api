@@ -1,6 +1,12 @@
 const Joi = require('joi');
 const weekDay = require('../config/weekday');
 
+const getWorkTimeById = {
+    params: Joi.object().keys({
+        id: Joi.number().integer().required(),
+    })
+};
+
 const createWorkTime = {
     body: Joi.object().keys({
         userId: Joi.number().integer().required(),
@@ -11,5 +17,6 @@ const createWorkTime = {
 };
 
 module.exports = {
+    getWorkTimeById,
     createWorkTime
 };

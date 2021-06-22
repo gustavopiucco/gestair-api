@@ -15,6 +15,11 @@ async function getWorkTimeById(id) {
     return result[0];
 }
 
+async function getWorkTimeByUserId(userId) {
+    const result = await mysql.execute('SELECT * FROM work_time WHERE user_id = ?', [userId]);
+    return result[0];
+}
+
 async function createUserWorkTime(id, weekDay, workFrom, workTo) {
     await mysql.execute('INSERT INTO work_time (user_id, week_day, work_from, work_to) VALUES (?, ?, ?, ?)', [id, weekDay, workFrom, workTo]);
 }
@@ -23,5 +28,6 @@ module.exports = {
     workTimeExists,
     workTimeIntervalExists,
     getWorkTimeById,
+    getWorkTimeByUserId,
     createUserWorkTime,
 }
