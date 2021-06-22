@@ -7,7 +7,7 @@ CREATE TABLE companies (
   company_name varchar(100) NOT NULL,
   trading_name varchar(100) NOT NULL,
   cnpj char(14) NOT NULL,
-  PRIMARY KEY (id)
+  CONSTRAINT pk_id PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
 CREATE TABLE customers (
@@ -16,7 +16,7 @@ CREATE TABLE customers (
   trading_name varchar(100) NOT NULL,
   cnpj char(14) NOT NULL,
   company_id int NOT NULL,
-  PRIMARY KEY (id),
+  CONSTRAINT pk_id PRIMARY KEY (id),
   CONSTRAINT fk_customers_company_id_companies_id FOREIGN KEY (company_id) REFERENCES companies (id)
 ) ENGINE=InnoDB;
 
@@ -44,7 +44,7 @@ CREATE TABLE units (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(100) NOT NULL,
   floors smallint NOT NULL,
-  PRIMARY KEY (id)
+  CONSTRAINT pk_id PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
 CREATE TABLE enviroments (
@@ -57,7 +57,7 @@ CREATE TABLE enviroments (
   floating_occupants smallint NOT NULL,
   thermal_load smallint NOT NULL,
   unit_id int NOT NULL,
-  PRIMARY KEY (id),
+  CONSTRAINT pk_id PRIMARY KEY (id),
   CONSTRAINT fk_enviroments_unit_id_units_id FOREIGN KEY (unit_id) REFERENCES enviroments (id)
 ) ENGINE=InnoDB;
 
@@ -68,7 +68,7 @@ CREATE TABLE equipments (
   capacity smallint NOT NULL,
   brand varchar(100) NOT NULL,
   model varchar(100) NOT NULL,
-  PRIMARY KEY (id)
+  CONSTRAINT pk_id PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
 CREATE TABLE physical_equipments (
@@ -77,16 +77,18 @@ CREATE TABLE physical_equipments (
   tag varchar(100) NOT NULL,
   equipment_id int NOT NULL,
   enviroment_id int NOT NULL,
-  PRIMARY KEY (id),
+  CONSTRAINT pk_id PRIMARY KEY (id),
   CONSTRAINT fk_physical_equipments_equipment_id_equipments_id FOREIGN KEY (equipment_id) REFERENCES equipments (id),
   CONSTRAINT fk_physical_equipments_enviroments_id_enviroments_id FOREIGN KEY (enviroment_id) REFERENCES enviroments (id)
 ) ENGINE=InnoDB;
 
-CREATE TABLE users_work_time (
-  user_id int NOT NULL,
+CREATE TABLE work_time (
+  id int NOT NULL AUTO_INCREMENT,
   week_day enum('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday') NOT NULL,
   work_from time NOT NULL,
   work_to time NOT NULL,
+  user_id int NOT NULL,
+  CONSTRAINT pk_id PRIMARY KEY (id),
   CONSTRAINT uc_users_work_time UNIQUE (user_id, week_day, work_from, work_to),
   CONSTRAINT fk_users_working_time_user_id_users_id FOREIGN KEY (user_id) REFERENCES users (id)
 ) ENGINE=InnoDB;

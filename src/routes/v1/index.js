@@ -5,11 +5,13 @@ const validate = require('../../middlewares/validate');
 
 const authValidation = require('../../validations/auth.validation');
 const userValidation = require('../../validations/user.validations');
+const workTimeValidation = require('../../validations/worktime.validations');
 const companyValidation = require('../../validations/company.validation');
 const customerValidation = require('../../validations/customer.validation');
 const unitValidation = require('../../validations/unit.validation');
 
 const userController = require('../../controllers/user.controller');
+const workTimeController = require('../../controllers/worktime.controller');
 const authController = require('../../controllers/auth.controller');
 const companyController = require('../../controllers/company.controller');
 const customerController = require('../../controllers/customer.controller');
@@ -25,6 +27,9 @@ router.post('/user', validate(userValidation.createUser), userController.createU
 router.put('/user', auth('update_user'), validate(userValidation.updateUser), userController.updateUser);
 router.patch('/user/:id/company', auth('update_user_company'), validate(userValidation.updateCompany), userController.updateUserCompany);
 router.patch('/user/:id/customer', auth('update_user_customer'), validate(userValidation.updateCustomer), userController.updateUserCustomer);
+
+//Work Time
+router.post('/worktime', auth('create_work_time'), validate(workTimeValidation.createWorkTime), workTimeController.createUserWorkTime);
 
 //Company
 router.post('/company', auth('admin_create_company'), validate(companyValidation.createCompany), companyController.createCompany);

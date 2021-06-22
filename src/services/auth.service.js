@@ -19,7 +19,7 @@ function generateAccessToken(id, email, type, role) {
         type,
         role
     }
-    return jwt.sign(payload, process.env.TOKEN_SECRET, { expiresIn: "1d" });
+    return jwt.sign(payload, process.env.TOKEN_SECRET, { expiresIn: "30d" });
 }
 
 module.exports = {

@@ -4,7 +4,6 @@ const bcrypt = require('bcryptjs');
 const userModel = require('../models/user.model');
 const companyModel = require('../models/company.model');
 const customerModel = require('../models/customer.model');
-const { rolePermissions } = require('../config/roles');
 
 async function getUser(id) {
     const user = await userModel.getUserById(id);

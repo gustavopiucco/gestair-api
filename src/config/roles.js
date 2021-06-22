@@ -10,14 +10,16 @@ rolePermissions.set(roles[0],
         'create_unit',
         'update_user',
         'update_user_company',
-        'update_user_customer'
+        'update_user_customer',
+        'create_work_time'
     ]);
 rolePermissions.set(roles[1],
     [
         'get_user',
         'create_customer',
         'update_user',
-        'update_user_customer'
+        'update_user_customer',
+        'create_work_time'
     ]);
 rolePermissions.set(roles[2],
     [

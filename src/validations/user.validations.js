@@ -55,5 +55,5 @@ module.exports = {
     updateUser,
     updateCompany,
     updateCustomer,
-    createUser
+    createUser,
 };
