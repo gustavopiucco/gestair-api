@@ -7,6 +7,11 @@ const getWorkTimeById = catchAsync(async (req, res) => {
     res.status(httpStatus.OK).send(workTime);
 });
 
+const getWorkTimeQuery = catchAsync(async (req, res) => {
+    const workTime = await workTimeService.getWorkTimeQuery(req.query);
+    res.status(httpStatus.OK).send(workTime);
+});
+
 const createWorkTime = catchAsync(async (req, res) => {
     await workTimeService.createWorkTime(req.body);
     res.status(httpStatus.CREATED).send();
@@ -14,5 +19,6 @@ const createWorkTime = catchAsync(async (req, res) => {
 
 module.exports = {
     getWorkTimeById,
+    getWorkTimeQuery,
     createWorkTime
 }

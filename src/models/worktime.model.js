@@ -17,7 +17,7 @@ async function getWorkTimeById(id) {
 
 async function getWorkTimeByUserId(userId) {
     const result = await mysql.execute('SELECT * FROM work_time WHERE user_id = ?', [userId]);
-    return result[0];
+    return result;
 }
 
 async function createUserWorkTime(id, weekDay, workFrom, workTo) {

@@ -14,21 +14,17 @@ async function getWorkTimeById(id) {
 }
 
 async function getWorkTimeQuery(query) {
-    let user;
+    let workTime;
 
-    if (query.id) {
-        user = await userModel.getUserById(query.id);
-    } else if (query.email) {
-        user = await userModel.getUserByEmail(query.email);
-    } else if (query.cpf) {
-        user = await userModel.getUserByCpf(query.cpf);
+    if (query.userId) {
+        workTime = await workTimeModel.getWorkTimeByUserId(query.userId);
     }
 
-    if (!user) {
-        throw new ApiError(httpStatus.BAD_REQUEST, 'Este ID de usuário não existe');
+    if (workTime.length == 0) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Nenhuma carga horária definiada para este ID de usuário');
     }
 
-    return user;
+    return workTime;
 }
 
 async function createWorkTime(body) {
