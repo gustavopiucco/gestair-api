@@ -13,7 +13,7 @@ const getWorkTimeQuery = catchAsync(async (req, res) => {
 });
 
 const createWorkTime = catchAsync(async (req, res) => {
-    await workTimeService.createWorkTime(req.body);
+    await workTimeService.createWorkTime(req.user, req.body);
     res.status(httpStatus.CREATED).send();
 });
 

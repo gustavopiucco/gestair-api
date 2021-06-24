@@ -27,7 +27,7 @@ async function getWorkTimeQuery(query) {
     return workTime;
 }
 
-async function createWorkTime(body) {
+async function createWorkTime(loggedInUser, body) {
     if (body.workFrom > '23:59' || body.workTo > '23:59') {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Os horários devem ser informados entre 00:00 e 23:59');
     }
@@ -40,10 +40,19 @@ async function createWorkTime(body) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Está carga horária já está cadastrada para este usuário');
     }
 
+    if (loggedInUser.id == body.userId) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Você não pode alterar sua própria carga horária');
+    }
+
     const user = await userModel.getUserById(body.userId);
 
     if (!user) {
         throw new ApiError(httpStatus.BAD_REQUEST, `Usuário com ID ${body.userId} não existe`);
+    }
+
+    //e se o usuario for do tipo customer?
+    if (loggedInUser.companyId != user.company_id) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Este usuário não pertence a sua empresa');
     }
 
     await workTimeModel.createUserWorkTime(body.userId, body.weekDay, body.workFrom, body.workTo);
