@@ -1,9 +1,14 @@
 const Joi = require('joi');
 const { password } = require('./custom.validation');
 
-const getUserQuery = {
+const getUserById = {
+    params: Joi.object().keys({
+        id: Joi.number().integer()
+    })
+};
+
+const getUserByQuery = {
     query: Joi.object().keys({
-        id: Joi.number().integer(),
         email: Joi.string().email(),
         cpf: Joi.string()
     })
@@ -51,7 +56,8 @@ const createUser = {
 };
 
 module.exports = {
-    getUserQuery,
+    getUserById,
+    getUserByQuery,
     updateUser,
     updateCompany,
     updateCustomer,

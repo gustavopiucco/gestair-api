@@ -21,10 +21,11 @@ const unitController = require('../../controllers/unit.controller');
 router.post('/auth/login', validate(authValidation.login), authController.login);
 
 //User
-router.get('/user', auth(), userController.getUser);
-router.get('/user/query', auth('get_user'), validate(userValidation.getUserQuery), userController.getUserQuery);
-router.post('/user', validate(userValidation.createUser), userController.createUser);
-router.put('/user', auth('update_user'), validate(userValidation.updateUser), userController.updateUser);
+router.get('/users/me', auth(), userController.getCurrentUser);
+router.get('/users/query', auth('get_user'), validate(userValidation.getUserByQuery), userController.getUserByQuery);
+router.get('/users/:id', auth('get_user'), validate(userValidation.getUserById), userController.getUserById);
+router.post('/users', validate(userValidation.createUser), userController.createUser);
+router.put('/users/me', auth('update_user'), validate(userValidation.updateUser), userController.updateUser);
 router.patch('/user/:id/company', auth('update_user_company'), validate(userValidation.updateCompany), userController.updateUserCompany);
 router.patch('/user/:id/customer', auth('update_user_customer'), validate(userValidation.updateCustomer), userController.updateUserCustomer);
 

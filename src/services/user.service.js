@@ -5,7 +5,7 @@ const userModel = require('../models/user.model');
 const companyModel = require('../models/company.model');
 const customerModel = require('../models/customer.model');
 
-async function getUser(id) {
+async function getUserById(id) {
     const user = await userModel.getUserById(id);
 
     if (!user) {
@@ -15,19 +15,17 @@ async function getUser(id) {
     return user;
 }
 
-async function getUserQuery(query) {
+async function getUserByQuery(query) {
     let user;
 
-    if (query.id) {
-        user = await userModel.getUserById(query.id);
-    } else if (query.email) {
+    if (query.email) {
         user = await userModel.getUserByEmail(query.email);
     } else if (query.cpf) {
         user = await userModel.getUserByCpf(query.cpf);
     }
 
     if (!user) {
-        throw new ApiError(httpStatus.BAD_REQUEST, 'Este ID de usuário não existe');
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Este usuário não existe');
     }
 
     return user;
@@ -108,8 +106,8 @@ async function updateUserCustomer(id, customerId) {
 }
 
 module.exports = {
-    getUser,
-    getUserQuery,
+    getUserById,
+    getUserByQuery,
     createUser,
     updateUser,
     updateUserCompany,
