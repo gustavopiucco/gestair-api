@@ -17,8 +17,14 @@ const createWorkTime = catchAsync(async (req, res) => {
     res.status(httpStatus.CREATED).send();
 });
 
+const deleteWorkTime = catchAsync(async (req, res) => {
+    await workTimeService.deleteWorkTime(req.params.id);
+    res.status(httpStatus.CREATED).send();
+});
+
 module.exports = {
     getWorkTimeById,
     getWorkTimeQuery,
-    createWorkTime
+    createWorkTime,
+    deleteWorkTime
 }

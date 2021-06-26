@@ -24,10 +24,15 @@ async function createUserWorkTime(id, weekDay, workFrom, workTo) {
     await mysql.execute('INSERT INTO work_time (user_id, week_day, work_from, work_to) VALUES (?, ?, ?, ?)', [id, weekDay, workFrom, workTo]);
 }
 
+async function deleteWorkTime(id) {
+    await mysql.execute('DELETE FROM work_time WHERE id = ?', [id]);
+}
+
 module.exports = {
     workTimeExists,
     workTimeIntervalExists,
     getWorkTimeById,
     getWorkTimeByUserId,
     createUserWorkTime,
+    deleteWorkTime
 }

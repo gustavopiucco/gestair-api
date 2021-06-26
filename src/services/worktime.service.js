@@ -58,8 +58,14 @@ async function createWorkTime(loggedInUser, body) {
     await workTimeModel.createUserWorkTime(body.userId, body.weekDay, body.workFrom, body.workTo);
 }
 
+async function deleteWorkTime(id) {
+    //TODO: restrições
+    await workTimeModel.deleteWorkTime(id);
+}
+
 module.exports = {
     getWorkTimeById,
     getWorkTimeQuery,
     createWorkTime,
+    deleteWorkTime,
 }

@@ -22,8 +22,16 @@ const createWorkTime = {
     })
 };
 
+const deleteWorkTimeById = {
+    params: Joi.object().keys({
+        id: Joi.number().integer().required(),
+    })
+};
+
+
 module.exports = {
     getWorkTimeById,
     getWorkTimeQuery,
-    createWorkTime
+    createWorkTime,
+    deleteWorkTimeById
 };
