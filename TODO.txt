@@ -1,2 +1,0 @@
-- cadastro de pessoas??? vinculo onde tenha uma pessoa a um cadastro no banco, assim como um usuario q tem acesso ao ssitema com usuario e senha, fica vinculado a uma pessoa, na qual tem os dados de uma pessoa
-- cadastro de endereço??? vinculo onde tenha endereço no sistema referenciado uma tabela só de endereço pra ficar mais organizado
