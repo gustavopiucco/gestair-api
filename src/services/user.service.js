@@ -31,6 +31,12 @@ async function getUserByQuery(query) {
     return user;
 }
 
+async function getAllUsersByCompanyId(loggedInUser) {
+    const users = await userModel.getAllUsersByCompanyId(loggedInUser.companyId);
+
+    return users;
+}
+
 async function createUser(body) {
     if (await userModel.emailExists(body.email)) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Este email já está cadastrado');
@@ -108,6 +114,7 @@ async function updateUserCustomer(id, customerId) {
 module.exports = {
     getUserById,
     getUserByQuery,
+    getAllUsersByCompanyId,
     createUser,
     updateUser,
     updateUserCompany,

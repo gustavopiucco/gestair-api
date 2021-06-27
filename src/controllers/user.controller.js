@@ -20,6 +20,11 @@ const getUserByQuery = catchAsync(async (req, res) => {
     res.status(httpStatus.OK).send(user);
 });
 
+const getAllUsersByCompanyId = catchAsync(async (req, res) => {
+    const users = await userService.getAllUsersByCompanyId(req.user, req.params.companyId);
+    res.status(httpStatus.OK).send(users);
+});
+
 const createUser = catchAsync(async (req, res) => {
     await userService.createUser(req.body);
     res.status(httpStatus.CREATED).send();
@@ -44,6 +49,7 @@ module.exports = {
     getCurrentUser,
     getUserById,
     getUserByQuery,
+    getAllUsersByCompanyId,
     createUser,
     updateUser,
     updateUserCompany,

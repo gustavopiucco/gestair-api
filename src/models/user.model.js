@@ -25,6 +25,11 @@ async function getUserByEmail(email) {
     return result[0];
 }
 
+async function getAllUsersByCompanyId(companyId) {
+    const result = await mysql.execute('SELECT id, email FROM users WHERE company_id = ?', [companyId]);
+    return result;
+}
+
 async function getUserByCpf(cpf) {
     const result = await mysql.execute('SELECT * FROM users WHERE cpf = ?', [cpf]);
     return result[0];
@@ -52,6 +57,7 @@ module.exports = {
     cpfExists,
     getUserById,
     getUserByEmail,
+    getAllUsersByCompanyId,
     getUserByCpf,
     createUser,
     updateUser,

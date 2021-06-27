@@ -23,6 +23,7 @@ router.post('/auth/login', validate(authValidation.login), authController.login)
 //User
 router.get('/users/me', auth(), userController.getCurrentUser);
 router.get('/users/query', auth('get_user'), validate(userValidation.getUserByQuery), userController.getUserByQuery);
+router.get('/users/all/company', auth('get_all_users_by_company'), validate(userValidation.getAllUsersByCompanyId), userController.getAllUsersByCompanyId);
 router.get('/users/:id', auth('get_user'), validate(userValidation.getUserById), userController.getUserById);
 router.post('/users', validate(userValidation.createUser), userController.createUser);
 router.put('/users/me', auth('update_user'), validate(userValidation.updateUser), userController.updateUser);
