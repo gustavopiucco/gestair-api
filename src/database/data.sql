@@ -61,14 +61,72 @@ CREATE TABLE enviroments (
   CONSTRAINT fk_enviroments_unit_id_units_id FOREIGN KEY (unit_id) REFERENCES enviroments (id)
 ) ENGINE=InnoDB;
 
+CREATE TABLE equipments_system_type (
+  id int NOT NULL AUTO_INCREMENT,
+  name varchar(100) NOT NULL,
+  CONSTRAINT pk_id PRIMARY KEY (id)
+) ENGINE=InnoDB;
+INSERT INTO equipments_system_type (name) VALUES ('refrigeration');
+INSERT INTO equipments_system_type (name) VALUES ('airconditioning');
+INSERT INTO equipments_system_type (name) VALUES ('heating');
+INSERT INTO equipments_system_type (name) VALUES ('ventilation');
+
+CREATE TABLE equipments_type (
+  id int NOT NULL AUTO_INCREMENT,
+  name varchar(100) NOT NULL,
+  CONSTRAINT pk_id PRIMARY KEY (id)
+) ENGINE=InnoDB;
+INSERT INTO equipments_type (name) VALUES ('split');
+INSERT INTO equipments_type (name) VALUES ('split_hidronico_piso_teto');
+INSERT INTO equipments_type (name) VALUES ('split');
+INSERT INTO equipments_type (name) VALUES ('split_hidronico_piso_teto');
+INSERT INTO equipments_type (name) VALUES ('split_hidronico');
+INSERT INTO equipments_type (name) VALUES ('split_k7');
+INSERT INTO equipments_type (name) VALUES ('fancolete_corredores');
+INSERT INTO equipments_type (name) VALUES ('fancolete_teto_embutido');
+INSERT INTO equipments_type (name) VALUES ('fancoil_casa_maquinas');
+INSERT INTO equipments_type (name) VALUES ('camaras_frias');
+INSERT INTO equipments_type (name) VALUES ('chiller');
+INSERT INTO equipments_type (name) VALUES ('fancoil');
+INSERT INTO equipments_type (name) VALUES ('bebedouro');
+INSERT INTO equipments_type (name) VALUES ('vrf');
+INSERT INTO equipments_type (name) VALUES ('vrf_split');
+INSERT INTO equipments_type (name) VALUES ('vrf_condensadora');
+INSERT INTO equipments_type (name) VALUES ('vrf_duto');
+
+CREATE TABLE equipments_brand_model (
+  id int NOT NULL AUTO_INCREMENT,
+  brand_name varchar(100) NOT NULL,
+  model_name varchar(100) NOT NULL,
+  CONSTRAINT pk_id PRIMARY KEY (id),
+  CONSTRAINT uc_equipments_brand_model_model UNIQUE (model_name),
+  CONSTRAINT uc_equipments_brand_model_brand_model UNIQUE (brand_name, model_name)
+) ENGINE=InnoDB;
+INSERT INTO equipments_brand_model (brand_name, model_name) VALUES ('carrier', '42LUCAU09515LC');
+INSERT INTO equipments_brand_model (brand_name, model_name) VALUES ('hitachi', 'RKPQ10B');
+
+CREATE TABLE equipments_capacity_type (
+  id int NOT NULL AUTO_INCREMENT,
+  name varchar(100) NOT NULL,
+  CONSTRAINT pk_id PRIMARY KEY (id)
+) ENGINE=InnoDB;
+INSERT INTO equipments_capacity_type (name) VALUES ('btu');
+INSERT INTO equipments_capacity_type (name) VALUES ('tr');
+INSERT INTO equipments_capacity_type (name) VALUES ('m3');
+
 CREATE TABLE equipments (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(100),
-  type varchar(100) NOT NULL,
-  capacity smallint NOT NULL,
-  brand varchar(100) NOT NULL,
-  model varchar(100) NOT NULL,
-  CONSTRAINT pk_id PRIMARY KEY (id)
+  equipment_system_type_id int NOT NULL,
+  equipment_type_id int NOT NULL,
+  capacity_type_id int NOT NULL,
+  capacity_value int NOT NULL,
+  equipment_brand_model_id int NOT NULL,
+  CONSTRAINT pk_id PRIMARY KEY (id),
+  CONSTRAINT fk_equipments_equipment_system_type_id_equipments_system_type_id FOREIGN KEY (equipment_system_type_id) REFERENCES equipments_system_type (id),
+  CONSTRAINT fk_equipments_equipment_type_id_equipments_type_id FOREIGN KEY (equipment_type_id) REFERENCES equipments_type (id),
+  CONSTRAINT fk_equipments_capacity_type_id_equipments_capacity_type_id FOREIGN KEY (capacity_type_id) REFERENCES equipments_capacity_type (id),
+  CONSTRAINT fk_equipments_equipment_brand_model_id_equipments_brand_model_id FOREIGN KEY (equipment_brand_model_id) REFERENCES equipments_brand_model (id)
 ) ENGINE=InnoDB;
 
 CREATE TABLE physical_equipments (
