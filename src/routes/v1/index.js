@@ -9,6 +9,7 @@ const workTimeValidation = require('../../validations/worktime.validations');
 const companyValidation = require('../../validations/company.validation');
 const customerValidation = require('../../validations/customer.validation');
 const unitValidation = require('../../validations/unit.validation');
+const maintenancePlanValidation = require('../../validations/maintenanceplan.validation');
 
 const userController = require('../../controllers/user.controller');
 const workTimeController = require('../../controllers/worktime.controller');
@@ -16,6 +17,7 @@ const authController = require('../../controllers/auth.controller');
 const companyController = require('../../controllers/company.controller');
 const customerController = require('../../controllers/customer.controller');
 const unitController = require('../../controllers/unit.controller');
+const maintenancePlanController = require('../../controllers/maintenanceplan.controller');
 
 //Auth
 router.post('/auth/login', validate(authValidation.login), authController.login);
@@ -35,6 +37,9 @@ router.get('/worktime/query', auth('get_work_time'), validate(workTimeValidation
 router.get('/worktime/:id', auth('get_work_time'), validate(workTimeValidation.getWorkTimeById), workTimeController.getWorkTimeById);
 router.post('/worktime', auth('create_work_time'), validate(workTimeValidation.createWorkTime), workTimeController.createWorkTime);
 router.delete('/worktime/:id', auth('delete_work_time'), validate(workTimeValidation.deleteWorkTimeById), workTimeController.deleteWorkTime);
+
+//Maintenance Plan
+router.post('/maintenance-plans', auth('create_maintenance_plan'), validate(maintenancePlanValidation.create), maintenancePlanController.create);
 
 //Company
 router.post('/companies', auth('admin_create_company'), validate(companyValidation.createCompany), companyController.createCompany);

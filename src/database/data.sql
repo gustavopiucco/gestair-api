@@ -114,6 +114,35 @@ INSERT INTO equipments_capacity_type (name) VALUES ('btu');
 INSERT INTO equipments_capacity_type (name) VALUES ('tr');
 INSERT INTO equipments_capacity_type (name) VALUES ('m3');
 
+CREATE TABLE work_time (
+  id int NOT NULL AUTO_INCREMENT,
+  week_day enum('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday') NOT NULL,
+  work_from time NOT NULL,
+  work_to time NOT NULL,
+  user_id int NOT NULL,
+  CONSTRAINT pk_id PRIMARY KEY (id),
+  CONSTRAINT uc_users_work_time UNIQUE (user_id, week_day, work_from, work_to),
+  CONSTRAINT fk_users_working_time_user_id_users_id FOREIGN KEY (user_id) REFERENCES users (id)
+) ENGINE=InnoDB;
+
+CREATE TABLE maintenance_plans (
+  id int NOT NULL AUTO_INCREMENT,
+  name varchar(100) NOT NULL,
+  start_date date NOT NULL,
+  end_date date NOT NULL,
+  CONSTRAINT pk_id PRIMARY KEY (id)
+) ENGINE=InnoDB;
+
+CREATE TABLE maintenance_plans_activities (
+  id int NOT NULL AUTO_INCREMENT,
+  name varchar(100) NOT NULL,
+  frequency int NOT NULL,
+  time int NOT NULL,
+  maintenance_plan_id int NOT NULL,
+  CONSTRAINT pk_id PRIMARY KEY (id),
+  CONSTRAINT fk_mpa_id_m_p_id FOREIGN KEY (maintenance_plan_id) REFERENCES maintenance_plans (id)
+) ENGINE=InnoDB;
+
 CREATE TABLE equipments (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(100),
@@ -129,24 +158,15 @@ CREATE TABLE equipments (
   CONSTRAINT fk_equipments_equipment_brand_model_id_equipments_brand_model_id FOREIGN KEY (equipment_brand_model_id) REFERENCES equipments_brand_model (id)
 ) ENGINE=InnoDB;
 
-CREATE TABLE physical_equipments (
+CREATE TABLE equipments_physical (
   id int NOT NULL AUTO_INCREMENT,
   serial_number varchar(100) NOT NULL,
   tag varchar(100) NOT NULL,
   equipment_id int NOT NULL,
   enviroment_id int NOT NULL,
+  maintenance_plan_id int NOT NULL,
   CONSTRAINT pk_id PRIMARY KEY (id),
-  CONSTRAINT fk_physical_equipments_equipment_id_equipments_id FOREIGN KEY (equipment_id) REFERENCES equipments (id),
-  CONSTRAINT fk_physical_equipments_enviroments_id_enviroments_id FOREIGN KEY (enviroment_id) REFERENCES enviroments (id)
-) ENGINE=InnoDB;
-
-CREATE TABLE work_time (
-  id int NOT NULL AUTO_INCREMENT,
-  week_day enum('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday') NOT NULL,
-  work_from time NOT NULL,
-  work_to time NOT NULL,
-  user_id int NOT NULL,
-  CONSTRAINT pk_id PRIMARY KEY (id),
-  CONSTRAINT uc_users_work_time UNIQUE (user_id, week_day, work_from, work_to),
-  CONSTRAINT fk_users_working_time_user_id_users_id FOREIGN KEY (user_id) REFERENCES users (id)
+  CONSTRAINT fk_equipments_physical_equipment_id_equipments_id FOREIGN KEY (equipment_id) REFERENCES equipments (id),
+  CONSTRAINT fk_equipments_physical_enviroments_id_enviroments_id FOREIGN KEY (enviroment_id) REFERENCES enviroments (id),
+  CONSTRAINT fk_ep_mp_id_mp_id FOREIGN KEY (maintenance_plan_id) REFERENCES maintenance_plans (id)
 ) ENGINE=InnoDB;
