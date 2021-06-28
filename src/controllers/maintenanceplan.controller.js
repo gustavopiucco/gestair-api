@@ -3,7 +3,7 @@ const catchAsync = require('../utils/catchAsync');
 const maintenancePlanService = require('../services/maintenanceplan.service');
 
 const create = catchAsync(async (req, res) => {
-    await maintenancePlanService.create(req.body);
+    await maintenancePlanService.create(req.user, req.body);
     res.status(httpStatus.CREATED).send();
 });
 

@@ -130,7 +130,9 @@ CREATE TABLE maintenance_plans (
   name varchar(100) NOT NULL,
   start_date date NOT NULL,
   end_date date NOT NULL,
-  CONSTRAINT pk_id PRIMARY KEY (id)
+  company_id int NOT NULL,
+  CONSTRAINT pk_id PRIMARY KEY (id),
+  CONSTRAINT fk_company_id FOREIGN KEY (company_id) REFERENCES companies (id)
 ) ENGINE=InnoDB;
 
 CREATE TABLE maintenance_plans_activities (
