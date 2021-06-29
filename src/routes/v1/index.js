@@ -40,7 +40,9 @@ router.delete('/worktime/:id', auth('delete_work_time'), validate(workTimeValida
 
 //Maintenance Plan
 router.get('/maintenance-plans/all', auth('get_maintenance_plans'), maintenancePlanController.getMaintenancePlans);
+router.get('/maintenance-plans-activities/maintenance-plan/:maintenancePlanId', auth('get_maintenance_plans_activities'), validate(maintenancePlanValidation.getMaintenancePlansActivities), maintenancePlanController.getMaintenancePlansActivities);
 router.post('/maintenance-plans', auth('create_maintenance_plan'), validate(maintenancePlanValidation.create), maintenancePlanController.create);
+router.post('/maintenance-plans-activities', auth('create_maintenance_plan_activity'), validate(maintenancePlanValidation.createActivity), maintenancePlanController.createActivity);
 
 //Company
 router.post('/companies', auth('admin_create_company'), validate(companyValidation.createCompany), companyController.createCompany);

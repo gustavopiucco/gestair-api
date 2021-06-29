@@ -7,12 +7,24 @@ const getMaintenancePlans = catchAsync(async (req, res) => {
     res.status(httpStatus.OK).send(maintenancePlans);
 });
 
+const getMaintenancePlansActivities = catchAsync(async (req, res) => {
+    const maintenancePlansActivities = await maintenancePlanService.getMaintenancePlansActivities(req.user, req.params.maintenancePlanId);
+    res.status(httpStatus.OK).send(maintenancePlansActivities);
+});
+
 const create = catchAsync(async (req, res) => {
     await maintenancePlanService.create(req.user, req.body);
     res.status(httpStatus.CREATED).send();
 });
 
+const createActivity = catchAsync(async (req, res) => {
+    await maintenancePlanService.createActivity(req.user, req.body);
+    res.status(httpStatus.CREATED).send();
+});
+
 module.exports = {
     getMaintenancePlans,
-    create
+    getMaintenancePlansActivities,
+    create,
+    createActivity
 }

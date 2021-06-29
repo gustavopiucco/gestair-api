@@ -1,5 +1,11 @@
 const Joi = require('joi');
 
+const getMaintenancePlansActivities = {
+    params: Joi.object().keys({
+        maintenancePlanId: Joi.number().integer().required()
+    }),
+};
+
 const create = {
     body: Joi.object().keys({
         name: Joi.string().required(),
@@ -8,6 +14,17 @@ const create = {
     }),
 };
 
+const createActivity = {
+    body: Joi.object().keys({
+        name: Joi.string().required(),
+        frequency: Joi.number().integer().required(),
+        time: Joi.number().integer().required(),
+        maintenancePlanId: Joi.number().integer().required(),
+    }),
+};
+
 module.exports = {
-    create
+    getMaintenancePlansActivities,
+    create,
+    createActivity
 };

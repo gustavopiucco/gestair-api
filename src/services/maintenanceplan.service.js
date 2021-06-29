@@ -8,13 +8,43 @@ async function getMaintenancePlans(loggedInUser) {
     return maintenancePlans;
 }
 
+async function getMaintenancePlansActivities(loggedInUser, maintenancePlanId) {
+    const maintenancePlan = await maintenancePlanModel.getMaintenancePlanById(maintenancePlanId);
+
+    if (!maintenancePlan) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Este plano de manutenção não existe');
+    }
+
+    console.log(maintenancePlan)
+
+    if (loggedInUser.companyId != maintenancePlan.company_id) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Este plano de manutenção não pertence a sua empresa');
+    }
+
+    const maintenancePlansActivities = await maintenancePlanModel.getMaintenancePlansActivitiesByMaintenancePlanId(maintenancePlanId);
+
+    return maintenancePlansActivities;
+}
+
 async function create(loggedInUser, body) {
     const maintenancePlan = await maintenancePlanModel.create(body.name, loggedInUser.companyId);
 
     return maintenancePlan;
 }
 
+async function createActivity(loggedInUser, body) {
+    if (!await maintenancePlanModel.maintenancePlanExists(body.maintenancePlanId)) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Este plano de manutenção não existe');
+    }
+
+    const maintenancePlanActivity = await maintenancePlanModel.createActivity(body.name, body.frequency, body.time, body.maintenancePlanId);
+
+    return maintenancePlanActivity;
+}
+
 module.exports = {
     getMaintenancePlans,
-    create
+    getMaintenancePlansActivities,
+    create,
+    createActivity
 }
