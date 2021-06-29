@@ -15,7 +15,8 @@ rolePermissions.set(roles[0],
         'get_work_time',
         'delete_work_time',
         'get_all_users_by_company',
-        'create_maintenance_plan'
+        'create_maintenance_plan',
+        'get_maintenance_plans'
     ]);
 rolePermissions.set(roles[1],
     [
@@ -28,7 +29,8 @@ rolePermissions.set(roles[1],
         'delete_work_time',
         'get_work_time',
         'get_all_users_by_company',
-        'create_maintenance_plan'
+        'create_maintenance_plan',
+        'get_maintenance_plans'
     ]);
 rolePermissions.set(roles[2],
     [

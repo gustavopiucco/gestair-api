@@ -26,7 +26,7 @@ async function getUserByEmail(email) {
 }
 
 async function getAllUsersByCompanyId(companyId) {
-    const result = await mysql.execute('SELECT id, email FROM users WHERE company_id = ?', [companyId]);
+    const result = await mysql.execute('SELECT * FROM users WHERE company_id = ?', [companyId]);
     return result;
 }
 

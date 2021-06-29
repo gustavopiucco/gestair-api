@@ -39,6 +39,7 @@ router.post('/worktime', auth('create_work_time'), validate(workTimeValidation.c
 router.delete('/worktime/:id', auth('delete_work_time'), validate(workTimeValidation.deleteWorkTimeById), workTimeController.deleteWorkTime);
 
 //Maintenance Plan
+router.get('/maintenance-plans/all', auth('get_maintenance_plans'), maintenancePlanController.getMaintenancePlans);
 router.post('/maintenance-plans', auth('create_maintenance_plan'), validate(maintenancePlanValidation.create), maintenancePlanController.create);
 
 //Company
