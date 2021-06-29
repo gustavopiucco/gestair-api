@@ -22,6 +22,9 @@ const getUserByQuery = catchAsync(async (req, res) => {
 
 const getAllUsersByCompanyId = catchAsync(async (req, res) => {
     const users = await userService.getAllUsersByCompanyId(req.user, req.params.companyId);
+
+    users.map((user) => delete user.password_hash);
+
     res.status(httpStatus.OK).send(users);
 });
 
