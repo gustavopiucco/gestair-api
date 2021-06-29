@@ -128,8 +128,6 @@ CREATE TABLE work_time (
 CREATE TABLE maintenance_plans (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(100) NOT NULL,
-  start_date date NOT NULL,
-  end_date date NOT NULL,
   company_id int NOT NULL,
   CONSTRAINT pk_id PRIMARY KEY (id),
   CONSTRAINT fk_company_id FOREIGN KEY (company_id) REFERENCES companies (id)

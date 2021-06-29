@@ -9,7 +9,7 @@ async function getMaintenancePlans(loggedInUser) {
 }
 
 async function create(loggedInUser, body) {
-    const maintenancePlan = await maintenancePlanModel.create(body.name, body.startDate, body.endDate, loggedInUser.companyId);
+    const maintenancePlan = await maintenancePlanModel.create(body.name, loggedInUser.companyId);
 
     return maintenancePlan;
 }
