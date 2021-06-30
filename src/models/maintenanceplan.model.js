@@ -25,6 +25,11 @@ async function getMaintenancePlansActivitiesByMaintenancePlanId(maintenancePlanI
     return result;
 }
 
+async function getMaintenancePlanCompanyIdByMaintenancePlansActivityId(id) {
+    const result = await mysql.execute('SELECT company_id FROM maintenance_plans WHERE id = (SELECT maintenance_plan_id FROM maintenance_plans_activities WHERE id = ?);', [id]);
+    return result[0].company_id;
+}
+
 async function create(name, companyId) {
     await mysql.execute('INSERT INTO maintenance_plans (name, company_id) VALUES (?, ?)', [name, companyId]);
 }
@@ -43,6 +48,7 @@ module.exports = {
     getMaintenancePlanById,
     getMaintenancePlansByCompanyId,
     getMaintenancePlansActivitiesByMaintenancePlanId,
+    getMaintenancePlanCompanyIdByMaintenancePlansActivityId,
     create,
     createActivity,
     createActivityChecklist

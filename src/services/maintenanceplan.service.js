@@ -45,6 +45,10 @@ async function createActivityChecklist(loggedInUser, body) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Esta atividade não existe');
     }
 
+    if (loggedInUser.companyId != await maintenancePlanModel.getMaintenancePlanCompanyIdByMaintenancePlansActivityId(body.maintenancePlanActivityId)) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Esta atividade não pertence a sua empresa');
+    }
+
     body.done = (body.done) ? body.done : false;
     body.minValue = (body.minValue) ? body.minValue : null;
     body.maxValue = (body.maxValue) ? body.maxValue : null;
