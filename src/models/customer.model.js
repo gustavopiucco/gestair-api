@@ -1,5 +1,10 @@
 const mysql = require('../database/mysql');
 
+async function exists(id) {
+    const result = await mysql.execute('SELECT 1 FROM customers WHERE id = ?', [id]);
+    return result.length > 0;
+}
+
 async function cnpjExists(cnpj) {
     const result = await mysql.execute('SELECT 1 FROM customers WHERE cnpj = ?', [cnpj]);
     return result.length > 0;
@@ -20,6 +25,7 @@ async function createCustomer(companyName, tradingName, cnpj, companyId) {
 }
 
 module.exports = {
+    exists,
     cnpjExists,
     getCustomerById,
     getAllCustomersByCompanyId,

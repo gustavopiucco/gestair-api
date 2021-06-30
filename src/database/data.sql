@@ -44,7 +44,14 @@ CREATE TABLE units (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(100) NOT NULL,
   floors smallint NOT NULL,
-  CONSTRAINT pk_id PRIMARY KEY (id)
+  address varchar(150) NOT NULL,
+  district varchar(50) NOT NULL,
+  city varchar(50) NOT NULL,
+  federal_unit varchar(50) NOT NULL,
+  cep varchar(20) NOT NULL,
+  customer_id int NOT NULL,
+  CONSTRAINT pk_id PRIMARY KEY (id),
+  CONSTRAINT fk_u_c_id_c_id FOREIGN KEY (customer_id) REFERENCES customers (id)
 ) ENGINE=InnoDB;
 
 CREATE TABLE enviroments (

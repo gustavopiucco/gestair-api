@@ -23,7 +23,8 @@ rolePermissions.set(roles[0],
         'get_maintenance_plans_activities_checklists',
         'delete_maintenance_plan_activity',
         'delete_maintenance_plan_activity_checklist',
-        'get_all_customers'
+        'get_all_customers',
+        'get_all_units'
     ]);
 rolePermissions.set(roles[1],
     [
@@ -44,7 +45,9 @@ rolePermissions.set(roles[1],
         'get_maintenance_plans_activities_checklists',
         'delete_maintenance_plan_activity',
         'delete_maintenance_plan_activity_checklist',
-        'get_all_customers'
+        'get_all_customers',
+        'create_unit',
+        'get_all_units'
     ]);
 rolePermissions.set(roles[2],
     [

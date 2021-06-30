@@ -56,6 +56,7 @@ router.get('/customers/all', auth('get_all_customers'), customerController.getAl
 router.post('/customers', auth('create_customer'), validate(customerValidation.createCustomer), customerController.createCustomer);
 
 //Unit
+router.get('/units/all/customer/:customerId', auth('get_all_units'), validate(unitValidation.getAllUnitsByCustomerId), unitController.getAllUnits);
 router.post('/units', auth('create_unit'), validate(unitValidation.createUnit), unitController.createUnit);
 
 module.exports = router;
