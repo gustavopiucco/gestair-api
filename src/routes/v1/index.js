@@ -52,6 +52,7 @@ router.delete('/maintenance-plans-activities-checklists/:id', auth('delete_maint
 router.post('/companies', auth('admin_create_company'), validate(companyValidation.createCompany), companyController.createCompany);
 
 //Customer
+router.get('/customers/all', auth('get_all_customers'), customerController.getAllCustomers);
 router.post('/customers', auth('create_customer'), validate(customerValidation.createCustomer), customerController.createCustomer);
 
 //Unit
