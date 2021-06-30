@@ -150,9 +150,9 @@ CREATE TABLE maintenance_plans_activities_checklists (
   min_value double,
   max_value double,
   done boolean NOT NULL,
-  maintenance_plans_activity_id int NOT NULL,
+  maintenance_plan_activity_id int NOT NULL,
   CONSTRAINT pk_id PRIMARY KEY (id),
-  CONSTRAINT fk_mpac_mpa_id_mpa_id FOREIGN KEY (maintenance_plans_activity_id) REFERENCES maintenance_plans_activities (id)
+  CONSTRAINT fk_mpac_mpa_id_mpa_id FOREIGN KEY (maintenance_plan_activity_id) REFERENCES maintenance_plans_activities (id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE TABLE equipments (

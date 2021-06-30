@@ -6,6 +6,12 @@ const getMaintenancePlansActivities = {
     }),
 };
 
+const getMaintenancePlansActivitiesChecklists = {
+    params: Joi.object().keys({
+        maintenancePlanActivityId: Joi.number().integer().required()
+    }),
+};
+
 const create = {
     body: Joi.object().keys({
         name: Joi.string().required(),
@@ -33,9 +39,25 @@ const createActivityChecklist = {
     }),
 };
 
+const deleteActivityById = {
+    params: Joi.object().keys({
+        id: Joi.number().integer().required(),
+    })
+};
+
+
+const deleteActivityChecklistById = {
+    params: Joi.object().keys({
+        id: Joi.number().integer().required(),
+    })
+};
+
 module.exports = {
     getMaintenancePlansActivities,
+    getMaintenancePlansActivitiesChecklists,
     create,
     createActivity,
-    createActivityChecklist
+    createActivityChecklist,
+    deleteActivityById,
+    deleteActivityChecklistById
 };

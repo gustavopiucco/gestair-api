@@ -30,9 +30,9 @@ async function getMaintenancePlansActivitiesByMaintenancePlanId(maintenancePlanI
     return result;
 }
 
-async function getMaintenancePlanCompanyIdByMaintenancePlansActivityId(id) {
-    const result = await mysql.execute('SELECT company_id FROM maintenance_plans WHERE id = (SELECT maintenance_plan_id FROM maintenance_plans_activities WHERE id = ?);', [id]);
-    return result[0].company_id;
+async function getMaintenancePlansActivitiesChecklistsByMaintenancePlanActivityId(id) {
+    const result = await mysql.execute('SELECT id, name, min_value AS minValue, max_value AS `maxValue`, done FROM maintenance_plans_activities_checklists WHERE maintenance_plan_activity_id = ?', [id]);
+    return result;
 }
 
 async function create(name, companyId) {
@@ -45,8 +45,16 @@ async function createActivity(name, frequency, time, maintenancePlanId) {
 }
 
 async function createActivityChecklist(name, minValue, maxValue, done, maintenancePlansActivityId) {
-    const result = await mysql.execute('INSERT INTO maintenance_plans_activities_checklists (name, min_value, max_value, done, maintenance_plans_activity_id) VALUES (?, ?, ?, ?, ?)', [name, minValue, maxValue, done, maintenancePlansActivityId]);
+    const result = await mysql.execute('INSERT INTO maintenance_plans_activities_checklists (name, min_value, max_value, done, maintenance_plan_activity_id) VALUES (?, ?, ?, ?, ?)', [name, minValue, maxValue, done, maintenancePlansActivityId]);
     return result;
+}
+
+async function deleteActivity(id) {
+    await mysql.execute('DELETE FROM maintenance_plans_activities WHERE id = ?', [id]);
+}
+
+async function deleteActivityChecklist(id) {
+    await mysql.execute('DELETE FROM maintenance_plans_activities_checklists WHERE id = ?', [id]);
 }
 
 module.exports = {
@@ -56,8 +64,10 @@ module.exports = {
     getMaintenancePlanActivityById,
     getMaintenancePlansByCompanyId,
     getMaintenancePlansActivitiesByMaintenancePlanId,
-    getMaintenancePlanCompanyIdByMaintenancePlansActivityId,
+    getMaintenancePlansActivitiesChecklistsByMaintenancePlanActivityId,
     create,
     createActivity,
-    createActivityChecklist
+    createActivityChecklist,
+    deleteActivity,
+    deleteActivityChecklist
 }

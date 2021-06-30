@@ -24,6 +24,22 @@ async function getMaintenancePlansActivities(loggedInUser, maintenancePlanId) {
     return maintenancePlansActivities;
 }
 
+async function getMaintenancePlansActivitiesChecklists(loggedInUser, maintenancePlanActivityId) {
+    const maintenancePlanActivity = await maintenancePlanModel.getMaintenancePlanActivityById(maintenancePlanActivityId);
+
+    if (!maintenancePlanActivity) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Esta atividade não existe');
+    }
+
+    // if (loggedInUser.companyId != maintenancePlan.company_id) {
+    //     throw new ApiError(httpStatus.BAD_REQUEST, 'Este plano de manutenção não pertence a sua empresa');
+    // }
+
+    const maintenancePlansActivitiesChecklists = await maintenancePlanModel.getMaintenancePlansActivitiesChecklistsByMaintenancePlanActivityId(maintenancePlanActivityId);
+
+    return maintenancePlansActivitiesChecklists;
+}
+
 async function create(loggedInUser, body) {
     const maintenancePlan = await maintenancePlanModel.create(body.name, loggedInUser.companyId);
 
@@ -62,10 +78,23 @@ async function createActivityChecklist(loggedInUser, body) {
     return { id: created.insertId };
 }
 
+async function deleteActivity(id) {
+    //TODO: restrições
+    await maintenancePlanModel.deleteActivity(id);
+}
+
+async function deleteActivityChecklist(id) {
+    //TODO: restrições
+    await maintenancePlanModel.deleteActivityChecklist(id);
+}
+
 module.exports = {
     getMaintenancePlans,
     getMaintenancePlansActivities,
+    getMaintenancePlansActivitiesChecklists,
     create,
     createActivity,
-    createActivityChecklist
+    createActivityChecklist,
+    deleteActivity,
+    deleteActivityChecklist
 }

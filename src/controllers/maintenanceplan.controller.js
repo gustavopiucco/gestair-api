@@ -12,6 +12,11 @@ const getMaintenancePlansActivities = catchAsync(async (req, res) => {
     res.status(httpStatus.OK).send(maintenancePlansActivities);
 });
 
+const getMaintenancePlansActivitiesChecklists = catchAsync(async (req, res) => {
+    const maintenancePlansActivitiesChecklists = await maintenancePlanService.getMaintenancePlansActivitiesChecklists(req.user, req.params.maintenancePlanActivityId);
+    res.status(httpStatus.OK).send(maintenancePlansActivitiesChecklists);
+});
+
 const create = catchAsync(async (req, res) => {
     await maintenancePlanService.create(req.user, req.body);
     res.status(httpStatus.CREATED).send();
@@ -27,10 +32,23 @@ const createActivityChecklist = catchAsync(async (req, res) => {
     res.status(httpStatus.CREATED).send(created);
 });
 
+const deleteActivity = catchAsync(async (req, res) => {
+    await maintenancePlanService.deleteActivity(req.params.id);
+    res.status(httpStatus.OK).send();
+});
+
+const deleteActivityChecklist = catchAsync(async (req, res) => {
+    await maintenancePlanService.deleteActivityChecklist(req.params.id);
+    res.status(httpStatus.OK).send();
+});
+
 module.exports = {
     getMaintenancePlans,
     getMaintenancePlansActivities,
+    getMaintenancePlansActivitiesChecklists,
     create,
     createActivity,
-    createActivityChecklist
+    createActivityChecklist,
+    deleteActivity,
+    deleteActivityChecklist
 }

@@ -27,7 +27,6 @@ const deleteWorkTimeById = {
     })
 };
 
-
 module.exports = {
     getWorkTimeById,
     getWorkTimeQuery,
