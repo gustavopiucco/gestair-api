@@ -35,11 +35,9 @@ async function createActivity(loggedInUser, body) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Este plano de manutenção não existe');
     }
 
-    const maintenancePlanActivity = await maintenancePlanModel.createActivity(body.name, body.frequency, body.time, body.maintenancePlanId);
+    const created = await maintenancePlanModel.createActivity(body.name, body.frequency, body.time, body.maintenancePlanId);
 
-    return {
-        id: maintenancePlanActivity.insertedId
-    }
+    return { id: created.insertId };
 }
 
 async function createActivityChecklist(loggedInUser, body) {
@@ -59,11 +57,9 @@ async function createActivityChecklist(loggedInUser, body) {
     body.minValue = (body.minValue) ? body.minValue : null;
     body.maxValue = (body.maxValue) ? body.maxValue : null;
 
-    const maintenancePlanActivityChecklist = await maintenancePlanModel.createActivityChecklist(body.name, body.minValue, body.maxValue, body.done, body.maintenancePlanActivityId);
+    const created = await maintenancePlanModel.createActivityChecklist(body.name, body.minValue, body.maxValue, body.done, body.maintenancePlanActivityId);
 
-    return {
-        id: maintenancePlanActivityChecklist.insertId
-    }
+    return { id: created.insertId };
 }
 
 module.exports = {
