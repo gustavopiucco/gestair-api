@@ -37,15 +37,21 @@ async function createActivity(loggedInUser, body) {
 
     const maintenancePlanActivity = await maintenancePlanModel.createActivity(body.name, body.frequency, body.time, body.maintenancePlanId);
 
-    return maintenancePlanActivity;
+    return {
+        id: maintenancePlanActivity.insertedId
+    }
 }
 
 async function createActivityChecklist(loggedInUser, body) {
-    if (!await maintenancePlanModel.maintenancePlanActivityExists(body.maintenancePlanActivityId)) {
+    const maintenancePlanActivity = await maintenancePlanModel.getMaintenancePlanActivityById(body.maintenancePlanActivityId);
+
+    if (!maintenancePlanActivity) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Esta atividade não existe');
     }
 
-    if (loggedInUser.companyId != await maintenancePlanModel.getMaintenancePlanCompanyIdByMaintenancePlansActivityId(body.maintenancePlanActivityId)) {
+    const maintenancePlan = await maintenancePlanModel.getMaintenancePlanById(maintenancePlanActivity.maintenance_plan_id);
+
+    if (loggedInUser.companyId != maintenancePlan.company_id) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Esta atividade não pertence a sua empresa');
     }
 
@@ -55,7 +61,9 @@ async function createActivityChecklist(loggedInUser, body) {
 
     const maintenancePlanActivityChecklist = await maintenancePlanModel.createActivityChecklist(body.name, body.minValue, body.maxValue, body.done, body.maintenancePlanActivityId);
 
-    return maintenancePlanActivityChecklist;
+    return {
+        id: maintenancePlanActivityChecklist.insertId
+    }
 }
 
 module.exports = {

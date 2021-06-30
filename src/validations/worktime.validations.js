@@ -1,5 +1,4 @@
 const Joi = require('joi');
-const weekDay = require('../config/weekday');
 
 const getWorkTimeById = {
     params: Joi.object().keys({
@@ -16,7 +15,7 @@ const getWorkTimeQuery = {
 const createWorkTime = {
     body: Joi.object().keys({
         userId: Joi.number().integer().required(),
-        weekDay: Joi.string().required().valid(weekDay.Monday, weekDay.Tuesday, weekDay.Wednesday, weekDay.Thursday, weekDay.Friday, weekDay.Saturday, weekDay.Sunday),
+        weekDay: Joi.string().required().valid('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'),
         workFrom: Joi.string().regex(/^([0-9]{2})\:([0-9]{2})$/).required(),
         workTo: Joi.string().regex(/^([0-9]{2})\:([0-9]{2})$/).required(),
     })

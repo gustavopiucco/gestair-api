@@ -18,13 +18,13 @@ const create = catchAsync(async (req, res) => {
 });
 
 const createActivity = catchAsync(async (req, res) => {
-    await maintenancePlanService.createActivity(req.user, req.body);
-    res.status(httpStatus.CREATED).send();
+    const created = await maintenancePlanService.createActivity(req.user, req.body);
+    res.status(httpStatus.CREATED).send(created);
 });
 
 const createActivityChecklist = catchAsync(async (req, res) => {
-    await maintenancePlanService.createActivityChecklist(req.user, req.body);
-    res.status(httpStatus.CREATED).send();
+    const created = maintenancePlanActivityChecklist = await maintenancePlanService.createActivityChecklist(req.user, req.body);
+    res.status(httpStatus.CREATED).send(created);
 });
 
 module.exports = {

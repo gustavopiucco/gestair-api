@@ -17,7 +17,7 @@ const create = {
 const createActivity = {
     body: Joi.object().keys({
         name: Joi.string().required(),
-        frequency: Joi.number().integer().required(),
+        frequency: Joi.string().required().valid('daily', 'weekly', 'monthly', 'bimonthly', 'quarterly', 'biannual', 'annual'),
         time: Joi.number().integer().required(),
         maintenancePlanId: Joi.number().integer().required(),
     }),
