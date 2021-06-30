@@ -128,6 +128,7 @@ CREATE TABLE work_time (
 CREATE TABLE maintenance_plans (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(100) NOT NULL,
+  isolated boolean DEFAULT false,
   company_id int NOT NULL,
   CONSTRAINT pk_id PRIMARY KEY (id),
   CONSTRAINT fk_company_id FOREIGN KEY (company_id) REFERENCES companies (id)
@@ -136,11 +137,22 @@ CREATE TABLE maintenance_plans (
 CREATE TABLE maintenance_plans_activities (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(100) NOT NULL,
-  frequency int NOT NULL,
+  frequency enum('daily', 'weekly', 'monthly', 'bimonthly', 'quarterly', 'biannual', 'annual') NOT NULL,
   time int NOT NULL,
   maintenance_plan_id int NOT NULL,
   CONSTRAINT pk_id PRIMARY KEY (id),
   CONSTRAINT fk_mpa_id_m_p_id FOREIGN KEY (maintenance_plan_id) REFERENCES maintenance_plans (id)
+) ENGINE=InnoDB;
+
+CREATE TABLE maintenance_plans_activities_checklists (
+  id int NOT NULL AUTO_INCREMENT,
+  name varchar(100) NOT NULL,
+  min_value double NOT NULL,
+  max_value double NOT NULL,
+  done boolean NOT NULL,
+  maintenance_plans_activity_id int NOT NULL,
+  CONSTRAINT pk_id PRIMARY KEY (id),
+  CONSTRAINT fk_mpac_mpa_id_mpa_id FOREIGN KEY (maintenance_plans_activity_id) REFERENCES maintenance_plans_activities (id)
 ) ENGINE=InnoDB;
 
 CREATE TABLE equipments (
@@ -169,4 +181,9 @@ CREATE TABLE equipments_physical (
   CONSTRAINT fk_equipments_physical_equipment_id_equipments_id FOREIGN KEY (equipment_id) REFERENCES equipments (id),
   CONSTRAINT fk_equipments_physical_enviroments_id_enviroments_id FOREIGN KEY (enviroment_id) REFERENCES enviroments (id),
   CONSTRAINT fk_ep_mp_id_mp_id FOREIGN KEY (maintenance_plan_id) REFERENCES maintenance_plans (id)
+) ENGINE=InnoDB;
+
+CREATE TABLE schedules (
+  id int NOT NULL AUTO_INCREMENT,
+  CONSTRAINT pk_id PRIMARY KEY (id)
 ) ENGINE=InnoDB;

@@ -15,8 +15,6 @@ async function getMaintenancePlansActivities(loggedInUser, maintenancePlanId) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Este plano de manutenção não existe');
     }
 
-    console.log(maintenancePlan)
-
     if (loggedInUser.companyId != maintenancePlan.company_id) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Este plano de manutenção não pertence a sua empresa');
     }
