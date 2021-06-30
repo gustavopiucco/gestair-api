@@ -147,8 +147,8 @@ CREATE TABLE maintenance_plans_activities (
 CREATE TABLE maintenance_plans_activities_checklists (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(100) NOT NULL,
-  min_value double NOT NULL,
-  max_value double NOT NULL,
+  min_value double,
+  max_value double,
   done boolean NOT NULL,
   maintenance_plans_activity_id int NOT NULL,
   CONSTRAINT pk_id PRIMARY KEY (id),

@@ -23,8 +23,19 @@ const createActivity = {
     }),
 };
 
+const createActivityChecklist = {
+    body: Joi.object().keys({
+        name: Joi.string().required(),
+        minValue: Joi.number(),
+        maxValue: Joi.number(),
+        done: Joi.bool(),
+        maintenancePlanActivityId: Joi.number().integer().required(),
+    }),
+};
+
 module.exports = {
     getMaintenancePlansActivities,
     create,
-    createActivity
+    createActivity,
+    createActivityChecklist
 };

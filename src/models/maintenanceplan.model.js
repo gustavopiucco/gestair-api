@@ -5,6 +5,10 @@ async function maintenancePlanExists(id) {
     return result.length > 0;
 }
 
+async function maintenancePlanActivityExists(id) {
+    const result = await mysql.execute('SELECT 1 FROM maintenance_plans_activities WHERE id = ?', [id]);
+    return result.length > 0;
+}
 
 async function getMaintenancePlanById(id) {
     const result = await mysql.execute('SELECT * FROM maintenance_plans WHERE id = ?', [id]);
@@ -29,11 +33,17 @@ async function createActivity(name, frequency, time, maintenancePlanId) {
     await mysql.execute('INSERT INTO maintenance_plans_activities (name, frequency, time, maintenance_plan_id) VALUES (?, ?, ?, ?)', [name, frequency, time, maintenancePlanId]);
 }
 
+async function createActivityChecklist(name, minValue, maxValue, done, maintenancePlansActivityId) {
+    await mysql.execute('INSERT INTO maintenance_plans_activities_checklists (name, min_value, max_value, done, maintenance_plans_activity_id) VALUES (?, ?, ?, ?, ?)', [name, minValue, maxValue, done, maintenancePlansActivityId]);
+}
+
 module.exports = {
     maintenancePlanExists,
+    maintenancePlanActivityExists,
     getMaintenancePlanById,
     getMaintenancePlansByCompanyId,
     getMaintenancePlansActivitiesByMaintenancePlanId,
     create,
-    createActivity
+    createActivity,
+    createActivityChecklist
 }

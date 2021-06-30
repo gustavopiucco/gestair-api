@@ -22,9 +22,15 @@ const createActivity = catchAsync(async (req, res) => {
     res.status(httpStatus.CREATED).send();
 });
 
+const createActivityChecklist = catchAsync(async (req, res) => {
+    await maintenancePlanService.createActivityChecklist(req.user, req.body);
+    res.status(httpStatus.CREATED).send();
+});
+
 module.exports = {
     getMaintenancePlans,
     getMaintenancePlansActivities,
     create,
-    createActivity
+    createActivity,
+    createActivityChecklist
 }

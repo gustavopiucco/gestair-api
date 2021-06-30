@@ -19,6 +19,7 @@ rolePermissions.set(roles[0],
         'get_maintenance_plans',
         'create_maintenance_plan_activity',
         'get_maintenance_plans_activities',
+        'create_maintenance_plan_activity_checklist'
     ]);
 rolePermissions.set(roles[1],
     [
@@ -34,7 +35,8 @@ rolePermissions.set(roles[1],
         'create_maintenance_plan',
         'get_maintenance_plans',
         'create_maintenance_plan_activity',
-        'get_maintenance_plans_activities'
+        'get_maintenance_plans_activities',
+        'create_maintenance_plan_activity_checklist'
     ]);
 rolePermissions.set(roles[2],
     [

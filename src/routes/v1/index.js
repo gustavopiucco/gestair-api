@@ -43,6 +43,7 @@ router.get('/maintenance-plans/all', auth('get_maintenance_plans'), maintenanceP
 router.get('/maintenance-plans-activities/maintenance-plan/:maintenancePlanId', auth('get_maintenance_plans_activities'), validate(maintenancePlanValidation.getMaintenancePlansActivities), maintenancePlanController.getMaintenancePlansActivities);
 router.post('/maintenance-plans', auth('create_maintenance_plan'), validate(maintenancePlanValidation.create), maintenancePlanController.create);
 router.post('/maintenance-plans-activities', auth('create_maintenance_plan_activity'), validate(maintenancePlanValidation.createActivity), maintenancePlanController.createActivity);
+router.post('/maintenance-plans-activities-checklists', auth('create_maintenance_plan_activity_checklist'), validate(maintenancePlanValidation.createActivityChecklist), maintenancePlanController.createActivityChecklist);
 
 //Company
 router.post('/companies', auth('admin_create_company'), validate(companyValidation.createCompany), companyController.createCompany);

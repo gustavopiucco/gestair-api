@@ -40,9 +40,24 @@ async function createActivity(loggedInUser, body) {
     return maintenancePlanActivity;
 }
 
+async function createActivityChecklist(loggedInUser, body) {
+    if (!await maintenancePlanModel.maintenancePlanActivityExists(body.maintenancePlanActivityId)) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Esta atividade não existe');
+    }
+
+    body.done = (body.done) ? body.done : false;
+    body.minValue = (body.minValue) ? body.minValue : null;
+    body.maxValue = (body.maxValue) ? body.maxValue : null;
+
+    const maintenancePlanActivityChecklist = await maintenancePlanModel.createActivityChecklist(body.name, body.minValue, body.maxValue, body.done, body.maintenancePlanActivityId);
+
+    return maintenancePlanActivityChecklist;
+}
+
 module.exports = {
     getMaintenancePlans,
     getMaintenancePlansActivities,
     create,
-    createActivity
+    createActivity,
+    createActivityChecklist
 }
