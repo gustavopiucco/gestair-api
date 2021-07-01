@@ -10,6 +10,7 @@ const companyValidation = require('../../validations/company.validation');
 const customerValidation = require('../../validations/customer.validation');
 const unitValidation = require('../../validations/unit.validation');
 const maintenancePlanValidation = require('../../validations/maintenanceplan.validation');
+const enviromentValidation = require('../../validations/enviroment.validation');
 
 const userController = require('../../controllers/user.controller');
 const workTimeController = require('../../controllers/worktime.controller');
@@ -18,6 +19,7 @@ const companyController = require('../../controllers/company.controller');
 const customerController = require('../../controllers/customer.controller');
 const unitController = require('../../controllers/unit.controller');
 const maintenancePlanController = require('../../controllers/maintenanceplan.controller');
+const enviromentController = require('../../controllers/enviroment.controller');
 
 //Auth
 router.post('/auth/login', validate(authValidation.login), authController.login);
@@ -58,5 +60,9 @@ router.post('/customers', auth('create_customer'), validate(customerValidation.c
 //Unit
 router.get('/units/all/customer/:customerId', auth('get_all_units'), validate(unitValidation.getAllUnitsByCustomerId), unitController.getAllUnits);
 router.post('/units', auth('create_unit'), validate(unitValidation.createUnit), unitController.createUnit);
+
+//Enviroments
+router.get('/enviroments/all/unit/:unitId', auth('get_all_enviroments'), validate(enviromentValidation.getAllEnviromentsByUnitId), enviromentController.getAllEnviroments);
+router.post('/enviroments', auth('create_enviroment'), validate(enviromentValidation.createEnviroment), enviromentController.create);
 
 module.exports = router;

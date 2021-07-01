@@ -58,14 +58,14 @@ CREATE TABLE enviroments (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(100) NOT NULL,
   floor varchar(20) NOT NULL,
-  area varchar(20) NOT NULL,
-  activity_type varchar(30) NOT NULL,
+  area mediumint NOT NULL,
+  activity_type varchar(100) NOT NULL,
   fixed_occupants smallint NOT NULL,
   floating_occupants smallint NOT NULL,
   thermal_load smallint NOT NULL,
   unit_id int NOT NULL,
   CONSTRAINT pk_id PRIMARY KEY (id),
-  CONSTRAINT fk_enviroments_unit_id_units_id FOREIGN KEY (unit_id) REFERENCES enviroments (id)
+  CONSTRAINT fk_enviroments_unit_id_units_id FOREIGN KEY (unit_id) REFERENCES units (id)
 ) ENGINE=InnoDB;
 
 CREATE TABLE equipments_system_type (
