@@ -31,7 +31,7 @@ async function getMaintenancePlansActivitiesByMaintenancePlanId(maintenancePlanI
 }
 
 async function getMaintenancePlansActivitiesChecklistsByMaintenancePlanActivityId(id) {
-    const result = await mysql.execute('SELECT id, name, min_value AS minValue, max_value AS `maxValue`, done FROM maintenance_plans_activities_checklists WHERE maintenance_plan_activity_id = ?', [id]);
+    const result = await mysql.execute('SELECT id, name, value_type AS valueType, min_value AS minValue, max_value AS `maxValue`, done FROM maintenance_plans_activities_checklists WHERE maintenance_plan_activity_id = ?', [id]);
     return result;
 }
 
