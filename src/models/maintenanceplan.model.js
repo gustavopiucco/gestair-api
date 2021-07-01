@@ -44,8 +44,8 @@ async function createActivity(name, frequency, time, maintenancePlanId) {
     return result;
 }
 
-async function createActivityChecklist(name, minValue, maxValue, done, maintenancePlansActivityId) {
-    const result = await mysql.execute('INSERT INTO maintenance_plans_activities_checklists (name, min_value, max_value, done, maintenance_plan_activity_id) VALUES (?, ?, ?, ?, ?)', [name, minValue, maxValue, done, maintenancePlansActivityId]);
+async function createActivityChecklist(name, valueType, minValue, maxValue, done, maintenancePlansActivityId) {
+    const result = await mysql.execute('INSERT INTO maintenance_plans_activities_checklists (name, value_type, min_value, max_value, done, maintenance_plan_activity_id) VALUES (?, ?, ?, ?, ?, ?)', [name, valueType, minValue, maxValue, done, maintenancePlansActivityId]);
     return result;
 }
 

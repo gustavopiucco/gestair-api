@@ -154,6 +154,7 @@ CREATE TABLE maintenance_plans_activities (
 CREATE TABLE maintenance_plans_activities_checklists (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(100) NOT NULL,
+  value_type varchar(20),
   min_value double,
   max_value double,
   done boolean NOT NULL,

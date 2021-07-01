@@ -32,6 +32,7 @@ const createActivity = {
 const createActivityChecklist = {
     body: Joi.object().keys({
         name: Joi.string().required(),
+        valueType: Joi.string(),
         minValue: Joi.number(),
         maxValue: Joi.number(),
         done: Joi.bool(),

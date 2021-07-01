@@ -69,11 +69,12 @@ async function createActivityChecklist(loggedInUser, body) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Esta atividade não pertence a sua empresa');
     }
 
-    body.done = (body.done) ? body.done : false;
+    body.valueType = (body.valueType) ? body.valueType : null;
     body.minValue = (body.minValue) ? body.minValue : null;
     body.maxValue = (body.maxValue) ? body.maxValue : null;
+    body.done = (body.done) ? body.done : false;
 
-    const created = await maintenancePlanModel.createActivityChecklist(body.name, body.minValue, body.maxValue, body.done, body.maintenancePlanActivityId);
+    const created = await maintenancePlanModel.createActivityChecklist(body.name, body.valueType, body.minValue, body.maxValue, body.done, body.maintenancePlanActivityId);
 
     return { id: created.insertId };
 }
