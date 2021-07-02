@@ -68,6 +68,7 @@ router.get('/enviroments/all/unit/:unitId', auth('get_all_enviroments'), validat
 router.post('/enviroments', auth('create_enviroment'), validate(enviromentValidation.createEnviroment), enviromentController.create);
 
 //Equipments
+router.get('/equipments/system-types/all', auth('get_all_equipments'), equipmentController.getAllSystemTypes);
 router.get('/equipments/enviroment/:enviromentId', auth('get_all_equipments'), validate(equipmentValidation.getAllEquipmentsByEnviromentId), equipmentController.getAllEquipments);
 router.post('/equipments', auth('create_equipment'), validate(equipmentValidation.create), equipmentController.create);
 

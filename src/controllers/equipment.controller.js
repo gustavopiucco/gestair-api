@@ -7,6 +7,11 @@ const getAllEquipments = catchAsync(async (req, res) => {
     res.status(httpStatus.OK).send(equipments);
 });
 
+const getAllSystemTypes = catchAsync(async (req, res) => {
+    const systemTyes = await equipmentService.getAllSystemTypes();
+    res.status(httpStatus.OK).send(systemTyes);
+});
+
 const create = catchAsync(async (req, res) => {
     await equipmentService.create(req.body);
     res.status(httpStatus.CREATED).send();
@@ -14,5 +19,6 @@ const create = catchAsync(async (req, res) => {
 
 module.exports = {
     getAllEquipments,
+    getAllSystemTypes,
     create
 }
