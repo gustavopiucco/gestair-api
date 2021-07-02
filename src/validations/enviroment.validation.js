@@ -9,7 +9,7 @@ const getAllEnviromentsByUnitId = {
 const createEnviroment = {
     body: Joi.object().keys({
         name: Joi.string().required(),
-        floor: Joi.string().required(),
+        floor: Joi.number().integer().required(),
         area: Joi.number().integer().required(),
         activityType: Joi.string().required(),
         fixedOccupants: Joi.number().integer().required(),

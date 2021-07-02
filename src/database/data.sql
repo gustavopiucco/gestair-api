@@ -56,7 +56,7 @@ CREATE TABLE units (
 CREATE TABLE enviroments (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(100) NOT NULL,
-  floor varchar(20) NOT NULL,
+  floor smallint NOT NULL,
   area mediumint NOT NULL,
   activity_type varchar(100) NOT NULL,
   fixed_occupants smallint NOT NULL,
