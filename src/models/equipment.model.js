@@ -21,7 +21,7 @@ async function brandModelExists(id) {
 }
 
 async function getAllEquipmentsByEnviromentId(enviromentId) {
-    const result = await mysql.execute('SELECT name FROM equipments WHERE enviroment_id = ?', [enviromentId]);
+    const result = await mysql.execute('SELECT name, serial_number AS serialNumber, tag, system_type_id AS systemTypeId, equipment_type_id AS equipmentTypeId, capacity_type_id AS capatityTypeId, capacity_value AS capacityValue, brand_model_id AS brandModelId, enviroment_id AS enviromentId, maintenance_plan_id AS maintenancePlanId FROM equipments WHERE enviroment_id = ?', [enviromentId]);
     return result;
 }
 

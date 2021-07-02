@@ -27,7 +27,8 @@ rolePermissions.set(roles[0],
         'get_all_units',
         'create_enviroment',
         'get_all_enviroments',
-        'create_equipment'
+        'create_equipment',
+        'get_all_equipments'
     ]);
 rolePermissions.set(roles[1],
     [
@@ -53,7 +54,8 @@ rolePermissions.set(roles[1],
         'get_all_units',
         'create_enviroment',
         'get_all_enviroments',
-        'create_equipment'
+        'create_equipment',
+        'get_all_equipments'
     ]);
 rolePermissions.set(roles[2],
     [
