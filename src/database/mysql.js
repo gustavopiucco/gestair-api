@@ -10,10 +10,11 @@ const pool = mysql.createPool({
 
 async function testConnection() {
     try {
+        await pool.query('SET GLOBAL time_zone = `UTC`');
         await pool.query('SELECT 1 AS test');
     }
     catch (err) {
-        throw new Error('MySQL connection failed');
+        throw new Error('MySQL connection failed\n' + err);
     }
 }
 
