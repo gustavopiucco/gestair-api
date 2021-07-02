@@ -1,6 +1,6 @@
 const mysql = require('../database/mysql');
 
-async function maintenancePlanExists(id) {
+async function exists(id) {
     const result = await mysql.execute('SELECT 1 FROM maintenance_plans WHERE id = ?', [id]);
     return result.length > 0;
 }
@@ -58,7 +58,7 @@ async function deleteActivityChecklist(id) {
 }
 
 module.exports = {
-    maintenancePlanExists,
+    exists,
     maintenancePlanActivityExists,
     getMaintenancePlanById,
     getMaintenancePlanActivityById,

@@ -20,7 +20,17 @@ const create = {
     }),
 };
 
+const setMaintenancePlanId = {
+    params: Joi.object().keys({
+        id: Joi.number().integer().required(),
+    }),
+    body: Joi.object().keys({
+        maintenancePlanId: Joi.number().integer().required(),
+    }),
+};
+
 module.exports = {
     getAllEquipmentsByEnviromentId,
-    create
+    create,
+    setMaintenancePlanId
 };

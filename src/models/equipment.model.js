@@ -1,5 +1,10 @@
 const mysql = require('../database/mysql');
 
+async function exists(id) {
+    const result = await mysql.execute('SELECT 1 FROM equipments WHERE id = ?', [id]);
+    return result.length > 0;
+}
+
 async function systemTypeExists(id) {
     const result = await mysql.execute('SELECT 1 FROM system_types WHERE id = ?', [id]);
     return result.length > 0;
@@ -49,7 +54,12 @@ async function create(name, serialNumber, tag, systemTypeId, equipmentTypeId, ca
     await mysql.execute('INSERT INTO equipments (name, serial_number, tag, system_type_id, equipment_type_id, capacity_type_id, capacity_value, brand_model_id, enviroment_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [name, serialNumber, tag, systemTypeId, equipmentTypeId, capacityTypeId, capacityValue, brandModelId, enviromentId]);
 }
 
+async function setMaintenancePlan(id, maintenancePlanId) {
+    await mysql.execute('UPDATE equipments SET maintenance_plan_id = ? WHERE id = ?', [maintenancePlanId, id]);
+}
+
 module.exports = {
+    exists,
     systemTypeExists,
     equipmentTypeExists,
     capacityTypeExists,
@@ -59,5 +69,6 @@ module.exports = {
     getAllCapacityTypes,
     getAllBrandModels,
     getAllEquipmentsByEnviromentId,
-    create
+    create,
+    setMaintenancePlan
 }

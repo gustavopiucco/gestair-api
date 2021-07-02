@@ -47,7 +47,7 @@ async function create(loggedInUser, body) {
 }
 
 async function createActivity(loggedInUser, body) {
-    if (!await maintenancePlanModel.maintenancePlanExists(body.maintenancePlanId)) {
+    if (!await maintenancePlanModel.exists(body.maintenancePlanId)) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Este plano de manutenção não existe');
     }
 

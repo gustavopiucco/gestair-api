@@ -2,6 +2,7 @@ const ApiError = require('../utils/ApiError');
 const httpStatus = require('http-status');
 const equipmentModel = require('../models/equipment.model');
 const enviromentModel = require('../models/enviroment.model');
+const maintenancePlanModel = require('../models/maintenanceplan.model');
 
 async function getAllEquipmentsByEnviromentId(enviromentId) {
     const equipments = await equipmentModel.getAllEquipmentsByEnviromentId(enviromentId);
@@ -57,11 +58,25 @@ async function create(body) {
     await equipmentModel.create(body.name, body.serialNumber, body.tag, body.systemTypeId, body.equipmentTypeId, body.capacityTypeId, body.capacityValue, body.brandModelId, body.enviromentId);
 }
 
+async function setMaintenancePlanId(id, maintenancePlanId) {
+    if (!await equipmentModel.exists(id)) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Este equipamento não existe');
+    }
+
+    //checar se o plano de manutenção existe
+    if (!await maintenancePlanModel.exists(maintenancePlanId)) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Este plano de manutenção não existe');
+    }
+
+    await equipmentModel.setMaintenancePlan(id, maintenancePlanId);
+}
+
 module.exports = {
     getAllEquipmentsByEnviromentId,
     getAllSystemTypes,
     getAllEquipmentTypes,
     getAllCapacityTypes,
     getAllBrandModels,
+    setMaintenancePlanId,
     create
 }
