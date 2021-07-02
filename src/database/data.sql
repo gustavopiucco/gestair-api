@@ -183,6 +183,21 @@ CREATE TABLE equipments (
   CONSTRAINT fk_e_mp_id_m_id FOREIGN KEY (maintenance_plan_id) REFERENCES maintenance_plans (id)
 ) ENGINE=InnoDB;
 
+CREATE TABLE maintenance_plans_requests (
+  id int NOT NULL AUTO_INCREMENT,
+  requester_cpf char(11) NOT NULL,
+  requester_firstname varchar(50) NOT NULL,
+  requester_lastname varchar(50) NOT NULL,
+  description varchar(250) NOT NULL,
+  approved_by_client boolean DEFAULT false,
+  approved_by_client_at datetime,
+  approved_by_manager boolean DEFAULT false,
+  approved_by_manager_at datetime,
+  equipment_id int NOT NULL,
+  CONSTRAINT pk_id PRIMARY KEY (id),
+  CONSTRAINT fk_mpr_id_e_id FOREIGN KEY (equipment_id) REFERENCES equipments (id)
+) ENGINE=InnoDB;
+
 CREATE TABLE schedules (
   id int NOT NULL AUTO_INCREMENT,
   CONSTRAINT pk_id PRIMARY KEY (id)
