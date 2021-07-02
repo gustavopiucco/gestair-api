@@ -24,7 +24,6 @@ CREATE TABLE users (
   id int NOT NULL AUTO_INCREMENT,
   email varchar(100) NOT NULL,
   password_hash char(60) NOT NULL,
-  type enum('admin', 'company', 'customer'),
   role enum('admin', 'company_manager'),
   first_name varchar(20) NOT NULL,
   last_name varchar(60) NOT NULL,
@@ -68,15 +67,15 @@ CREATE TABLE enviroments (
   CONSTRAINT fk_enviroments_unit_id_units_id FOREIGN KEY (unit_id) REFERENCES units (id)
 ) ENGINE=InnoDB;
 
-CREATE TABLE equipments_system_type (
+CREATE TABLE system_type (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(100) NOT NULL,
   CONSTRAINT pk_id PRIMARY KEY (id)
 ) ENGINE=InnoDB;
-INSERT INTO equipments_system_type (name) VALUES ('refrigeration');
-INSERT INTO equipments_system_type (name) VALUES ('airconditioning');
-INSERT INTO equipments_system_type (name) VALUES ('heating');
-INSERT INTO equipments_system_type (name) VALUES ('ventilation');
+INSERT INTO system_type (name) VALUES ('refrigeration');
+INSERT INTO system_type (name) VALUES ('airconditioning');
+INSERT INTO system_type (name) VALUES ('heating');
+INSERT INTO system_type (name) VALUES ('ventilation');
 
 CREATE TABLE equipments_type (
   id int NOT NULL AUTO_INCREMENT,
@@ -101,25 +100,25 @@ INSERT INTO equipments_type (name) VALUES ('vrf_split');
 INSERT INTO equipments_type (name) VALUES ('vrf_condensadora');
 INSERT INTO equipments_type (name) VALUES ('vrf_duto');
 
-CREATE TABLE equipments_brand_model (
+CREATE TABLE brand_model (
   id int NOT NULL AUTO_INCREMENT,
   brand_name varchar(100) NOT NULL,
   model_name varchar(100) NOT NULL,
   CONSTRAINT pk_id PRIMARY KEY (id),
-  CONSTRAINT uc_equipments_brand_model_model UNIQUE (model_name),
-  CONSTRAINT uc_equipments_brand_model_brand_model UNIQUE (brand_name, model_name)
+  CONSTRAINT uc_brand_model_model UNIQUE (model_name),
+  CONSTRAINT uc_brand_model_brand_model UNIQUE (brand_name, model_name)
 ) ENGINE=InnoDB;
-INSERT INTO equipments_brand_model (brand_name, model_name) VALUES ('carrier', '42LUCAU09515LC');
-INSERT INTO equipments_brand_model (brand_name, model_name) VALUES ('hitachi', 'RKPQ10B');
+INSERT INTO brand_model (brand_name, model_name) VALUES ('carrier', '42LUCAU09515LC');
+INSERT INTO brand_model (brand_name, model_name) VALUES ('hitachi', 'RKPQ10B');
 
-CREATE TABLE equipments_capacity_type (
+CREATE TABLE capacity_type (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(100) NOT NULL,
   CONSTRAINT pk_id PRIMARY KEY (id)
 ) ENGINE=InnoDB;
-INSERT INTO equipments_capacity_type (name) VALUES ('btu');
-INSERT INTO equipments_capacity_type (name) VALUES ('tr');
-INSERT INTO equipments_capacity_type (name) VALUES ('m3');
+INSERT INTO capacity_type (name) VALUES ('btu');
+INSERT INTO capacity_type (name) VALUES ('tr');
+INSERT INTO capacity_type (name) VALUES ('m3');
 
 CREATE TABLE work_time (
   id int NOT NULL AUTO_INCREMENT,
@@ -135,7 +134,6 @@ CREATE TABLE work_time (
 CREATE TABLE maintenance_plans (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(100) NOT NULL,
-  isolated boolean DEFAULT false,
   company_id int NOT NULL,
   CONSTRAINT pk_id PRIMARY KEY (id),
   CONSTRAINT fk_company_id FOREIGN KEY (company_id) REFERENCES companies (id)
@@ -146,6 +144,7 @@ CREATE TABLE maintenance_plans_activities (
   name varchar(100) NOT NULL,
   frequency enum('daily', 'weekly', 'monthly', 'bimonthly', 'quarterly', 'biannual', 'annual') NOT NULL,
   time int NOT NULL,
+  isolated boolean DEFAULT false,
   maintenance_plan_id int NOT NULL,
   CONSTRAINT pk_id PRIMARY KEY (id),
   CONSTRAINT fk_mpa_id_m_p_id FOREIGN KEY (maintenance_plan_id) REFERENCES maintenance_plans (id)
@@ -166,29 +165,22 @@ CREATE TABLE maintenance_plans_activities_checklists (
 CREATE TABLE equipments (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(100),
-  equipment_system_type_id int NOT NULL,
+  serial_number varchar(100) NOT NULL,
+  tag varchar(100) NOT NULL,
+  system_type_id int NOT NULL,
   equipment_type_id int NOT NULL,
   capacity_type_id int NOT NULL,
   capacity_value int NOT NULL,
-  equipment_brand_model_id int NOT NULL,
-  CONSTRAINT pk_id PRIMARY KEY (id),
-  CONSTRAINT fk_equipments_equipment_system_type_id_equipments_system_type_id FOREIGN KEY (equipment_system_type_id) REFERENCES equipments_system_type (id),
-  CONSTRAINT fk_equipments_equipment_type_id_equipments_type_id FOREIGN KEY (equipment_type_id) REFERENCES equipments_type (id),
-  CONSTRAINT fk_equipments_capacity_type_id_equipments_capacity_type_id FOREIGN KEY (capacity_type_id) REFERENCES equipments_capacity_type (id),
-  CONSTRAINT fk_equipments_equipment_brand_model_id_equipments_brand_model_id FOREIGN KEY (equipment_brand_model_id) REFERENCES equipments_brand_model (id)
-) ENGINE=InnoDB;
-
-CREATE TABLE equipments_physical (
-  id int NOT NULL AUTO_INCREMENT,
-  serial_number varchar(100) NOT NULL,
-  tag varchar(100) NOT NULL,
-  equipment_id int NOT NULL,
+  brand_model_id int NOT NULL,
   enviroment_id int NOT NULL,
-  maintenance_plan_id int NOT NULL,
+  maintenance_plan_id int,
   CONSTRAINT pk_id PRIMARY KEY (id),
-  CONSTRAINT fk_equipments_physical_equipment_id_equipments_id FOREIGN KEY (equipment_id) REFERENCES equipments (id),
-  CONSTRAINT fk_equipments_physical_enviroments_id_enviroments_id FOREIGN KEY (enviroment_id) REFERENCES enviroments (id),
-  CONSTRAINT fk_ep_mp_id_mp_id FOREIGN KEY (maintenance_plan_id) REFERENCES maintenance_plans (id)
+  CONSTRAINT fk_e_st_st_id FOREIGN KEY (system_type_id) REFERENCES system_type (id),
+  CONSTRAINT fk_e_et_id_et_id FOREIGN KEY (equipment_type_id) REFERENCES equipments_type (id),
+  CONSTRAINT fk_e_ct_id_ct_id FOREIGN KEY (capacity_type_id) REFERENCES capacity_type (id),
+  CONSTRAINT fk_e_bm_id_bm_id FOREIGN KEY (brand_model_id) REFERENCES brand_model (id),
+  CONSTRAINT fk_e_env_id_env_id FOREIGN KEY (enviroment_id) REFERENCES enviroments (id),
+  CONSTRAINT fk_e_mp_id_m_id FOREIGN KEY (maintenance_plan_id) REFERENCES maintenance_plans (id)
 ) ENGINE=InnoDB;
 
 CREATE TABLE schedules (
