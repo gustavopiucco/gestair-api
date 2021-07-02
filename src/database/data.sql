@@ -67,40 +67,40 @@ CREATE TABLE enviroments (
   CONSTRAINT fk_enviroments_unit_id_units_id FOREIGN KEY (unit_id) REFERENCES units (id)
 ) ENGINE=InnoDB;
 
-CREATE TABLE system_type (
+CREATE TABLE system_types (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(100) NOT NULL,
   CONSTRAINT pk_id PRIMARY KEY (id)
 ) ENGINE=InnoDB;
-INSERT INTO system_type (name) VALUES ('refrigeration');
-INSERT INTO system_type (name) VALUES ('airconditioning');
-INSERT INTO system_type (name) VALUES ('heating');
-INSERT INTO system_type (name) VALUES ('ventilation');
+INSERT INTO system_types (name) VALUES ('refrigeration');
+INSERT INTO system_types (name) VALUES ('airconditioning');
+INSERT INTO system_types (name) VALUES ('heating');
+INSERT INTO system_types (name) VALUES ('ventilation');
 
-CREATE TABLE equipments_type (
+CREATE TABLE equipment_types (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(100) NOT NULL,
   CONSTRAINT pk_id PRIMARY KEY (id)
 ) ENGINE=InnoDB;
-INSERT INTO equipments_type (name) VALUES ('split');
-INSERT INTO equipments_type (name) VALUES ('split_hidronico_piso_teto');
-INSERT INTO equipments_type (name) VALUES ('split');
-INSERT INTO equipments_type (name) VALUES ('split_hidronico_piso_teto');
-INSERT INTO equipments_type (name) VALUES ('split_hidronico');
-INSERT INTO equipments_type (name) VALUES ('split_k7');
-INSERT INTO equipments_type (name) VALUES ('fancolete_corredores');
-INSERT INTO equipments_type (name) VALUES ('fancolete_teto_embutido');
-INSERT INTO equipments_type (name) VALUES ('fancoil_casa_maquinas');
-INSERT INTO equipments_type (name) VALUES ('camaras_frias');
-INSERT INTO equipments_type (name) VALUES ('chiller');
-INSERT INTO equipments_type (name) VALUES ('fancoil');
-INSERT INTO equipments_type (name) VALUES ('bebedouro');
-INSERT INTO equipments_type (name) VALUES ('vrf');
-INSERT INTO equipments_type (name) VALUES ('vrf_split');
-INSERT INTO equipments_type (name) VALUES ('vrf_condensadora');
-INSERT INTO equipments_type (name) VALUES ('vrf_duto');
+INSERT INTO equipment_types (name) VALUES ('split');
+INSERT INTO equipment_types (name) VALUES ('split_hidronico_piso_teto');
+INSERT INTO equipment_types (name) VALUES ('split');
+INSERT INTO equipment_types (name) VALUES ('split_hidronico_piso_teto');
+INSERT INTO equipment_types (name) VALUES ('split_hidronico');
+INSERT INTO equipment_types (name) VALUES ('split_k7');
+INSERT INTO equipment_types (name) VALUES ('fancolete_corredores');
+INSERT INTO equipment_types (name) VALUES ('fancolete_teto_embutido');
+INSERT INTO equipment_types (name) VALUES ('fancoil_casa_maquinas');
+INSERT INTO equipment_types (name) VALUES ('camaras_frias');
+INSERT INTO equipment_types (name) VALUES ('chiller');
+INSERT INTO equipment_types (name) VALUES ('fancoil');
+INSERT INTO equipment_types (name) VALUES ('bebedouro');
+INSERT INTO equipment_types (name) VALUES ('vrf');
+INSERT INTO equipment_types (name) VALUES ('vrf_split');
+INSERT INTO equipment_types (name) VALUES ('vrf_condensadora');
+INSERT INTO equipment_types (name) VALUES ('vrf_duto');
 
-CREATE TABLE brand_model (
+CREATE TABLE brand_models (
   id int NOT NULL AUTO_INCREMENT,
   brand_name varchar(100) NOT NULL,
   model_name varchar(100) NOT NULL,
@@ -108,17 +108,17 @@ CREATE TABLE brand_model (
   CONSTRAINT uc_brand_model_model UNIQUE (model_name),
   CONSTRAINT uc_brand_model_brand_model UNIQUE (brand_name, model_name)
 ) ENGINE=InnoDB;
-INSERT INTO brand_model (brand_name, model_name) VALUES ('carrier', '42LUCAU09515LC');
-INSERT INTO brand_model (brand_name, model_name) VALUES ('hitachi', 'RKPQ10B');
+INSERT INTO brand_models (brand_name, model_name) VALUES ('carrier', '42LUCAU09515LC');
+INSERT INTO brand_models (brand_name, model_name) VALUES ('hitachi', 'RKPQ10B');
 
-CREATE TABLE capacity_type (
+CREATE TABLE capacity_types (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(100) NOT NULL,
   CONSTRAINT pk_id PRIMARY KEY (id)
 ) ENGINE=InnoDB;
-INSERT INTO capacity_type (name) VALUES ('btu');
-INSERT INTO capacity_type (name) VALUES ('tr');
-INSERT INTO capacity_type (name) VALUES ('m3');
+INSERT INTO capacity_types (name) VALUES ('btu');
+INSERT INTO capacity_types (name) VALUES ('tr');
+INSERT INTO capacity_types (name) VALUES ('m3');
 
 CREATE TABLE work_time (
   id int NOT NULL AUTO_INCREMENT,

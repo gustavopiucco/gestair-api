@@ -1,27 +1,32 @@
 const mysql = require('../database/mysql');
 
 async function systemTypeExists(id) {
-    const result = await mysql.execute('SELECT 1 FROM system_type WHERE id = ?', [id]);
+    const result = await mysql.execute('SELECT 1 FROM system_types WHERE id = ?', [id]);
     return result.length > 0;
 }
 
 async function equipmentTypeExists(id) {
-    const result = await mysql.execute('SELECT 1 FROM equipments_type WHERE id = ?', [id]);
+    const result = await mysql.execute('SELECT 1 FROM equipment_types WHERE id = ?', [id]);
     return result.length > 0;
 }
 
 async function capacityTypeExists(id) {
-    const result = await mysql.execute('SELECT 1 FROM capacity_type WHERE id = ?', [id]);
+    const result = await mysql.execute('SELECT 1 FROM capacity_types WHERE id = ?', [id]);
     return result.length > 0;
 }
 
 async function brandModelExists(id) {
-    const result = await mysql.execute('SELECT 1 FROM brand_model WHERE id = ?', [id]);
+    const result = await mysql.execute('SELECT 1 FROM brand_models WHERE id = ?', [id]);
     return result.length > 0;
 }
 
 async function getAllSystemTypes() {
-    const result = await mysql.execute('SELECT * FROM system_type');
+    const result = await mysql.execute('SELECT * FROM system_types');
+    return result;
+}
+
+async function getAllEquipmentTypes() {
+    const result = await mysql.execute('SELECT * FROM equipment_types');
     return result;
 }
 
@@ -40,6 +45,7 @@ module.exports = {
     capacityTypeExists,
     brandModelExists,
     getAllSystemTypes,
+    getAllEquipmentTypes,
     getAllEquipmentsByEnviromentId,
     create
 }
