@@ -70,6 +70,8 @@ router.post('/enviroments', auth('create_enviroment'), validate(enviromentValida
 //Equipments
 router.get('/equipments/system-types/all', auth('get_all_equipments'), equipmentController.getAllSystemTypes);
 router.get('/equipments/equipment-types/all', auth('get_all_equipments'), equipmentController.getAllEquipmentTypes);
+router.get('/equipments/capacity-types/all', auth('get_all_equipments'), equipmentController.getAllCapacityTypes);
+router.get('/equipments/brand-models/all', auth('get_all_equipments'), equipmentController.getAllBrandModels);
 router.get('/equipments/enviroment/:enviromentId', auth('get_all_equipments'), validate(equipmentValidation.getAllEquipmentsByEnviromentId), equipmentController.getAllEquipments);
 router.post('/equipments', auth('create_equipment'), validate(equipmentValidation.create), equipmentController.create);
 

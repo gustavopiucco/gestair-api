@@ -21,6 +21,18 @@ async function getAllEquipmentTypes() {
     return systemTypes;
 }
 
+async function getAllCapacityTypes() {
+    const capacityTypes = await equipmentModel.getAllCapacityTypes();
+
+    return capacityTypes;
+}
+
+async function getAllBrandModels() {
+    const brandModels = await equipmentModel.getAllBrandModels();
+
+    return brandModels;
+}
+
 async function create(body) {
     if (!await equipmentModel.systemTypeExists(body.systemTypeId)) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Este tipo de sistema não está cadastrado');
@@ -49,5 +61,7 @@ module.exports = {
     getAllEquipmentsByEnviromentId,
     getAllSystemTypes,
     getAllEquipmentTypes,
+    getAllCapacityTypes,
+    getAllBrandModels,
     create
 }

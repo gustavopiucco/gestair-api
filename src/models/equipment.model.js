@@ -30,6 +30,16 @@ async function getAllEquipmentTypes() {
     return result;
 }
 
+async function getAllCapacityTypes() {
+    const result = await mysql.execute('SELECT * FROM capacity_types');
+    return result;
+}
+
+async function getAllBrandModels() {
+    const result = await mysql.execute('SELECT * FROM brand_models');
+    return result;
+}
+
 async function getAllEquipmentsByEnviromentId(enviromentId) {
     const result = await mysql.execute('SELECT name, serial_number AS serialNumber, tag, system_type_id AS systemTypeId, equipment_type_id AS equipmentTypeId, capacity_type_id AS capatityTypeId, capacity_value AS capacityValue, brand_model_id AS brandModelId, enviroment_id AS enviromentId, maintenance_plan_id AS maintenancePlanId FROM equipments WHERE enviroment_id = ?', [enviromentId]);
     return result;
@@ -46,6 +56,8 @@ module.exports = {
     brandModelExists,
     getAllSystemTypes,
     getAllEquipmentTypes,
+    getAllCapacityTypes,
+    getAllBrandModels,
     getAllEquipmentsByEnviromentId,
     create
 }
