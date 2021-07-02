@@ -10,7 +10,6 @@ const pool = mysql.createPool({
 
 async function testConnection() {
     try {
-        await pool.query('SET GLOBAL time_zone = `UTC`');
         await pool.query('SELECT 1 AS test');
     }
     catch (err) {
