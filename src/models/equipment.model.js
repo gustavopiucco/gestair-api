@@ -71,6 +71,7 @@ async function getEquipmentCompanyIdByEquipmentId(id){
   INNER JOIN customers ON customers.id = units.customer_id
   WHERE equipments.id = ?
   `,[id])
+  
   return result;
 }
 

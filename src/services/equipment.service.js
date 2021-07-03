@@ -68,7 +68,7 @@ async function setMaintenancePlanId(loggedInUser, id, maintenancePlanId) {
     }
 
     //TODO: verificar se este equipamento (id) o pertence a empresa do usuário logado
-    const equipmentCompanyId = await equipmentModel.getEquipmentCompanyIdByEquipmentId(id);
+    const equipmentCompanyId = (await equipmentModel.getEquipmentCompanyIdByEquipmentId(id))[0].company_id;
     if (loggedInUser.companyId !== equipmentCompanyId ){
         throw new ApiError(httpStatus.BAD_REQUEST, 'Este equipamento não pertence a sua empresa');
     }
