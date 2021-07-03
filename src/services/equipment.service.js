@@ -67,15 +67,14 @@ async function setMaintenancePlanId(loggedInUser, id, maintenancePlanId) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Este plano de manutenção não existe');
     }
 
-    //TODO: verificar se este equipamento (id) o pertence a empresa do usuário logado
-    const equipmentCompanyId = (await equipmentModel.getEquipmentCompanyIdByEquipmentId(id))[0].company_id;
-    if (loggedInUser.companyId !== equipmentCompanyId ){
+    const equipmentCompanyId = (await equipmentModel.getEquipmentCompanyIdByEquipmentId(id));
+    if (loggedInUser.companyId !== equipmentCompanyId) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Este equipamento não pertence a sua empresa');
     }
-    //TODO: verificar se este plano de manutenção (maintenancePlanId) pertence a empresa do usuário logado
+
     var maintenancePlan = await maintenancePlanModel.getMaintenancePlanById(maintenancePlanId)
-    if (loggedInUser.companyId !== maintenancePlan.company_id){
-        throw new ApiError(httpStatus.BAD_REQUEST, 'Este plano de manutenção não pertence a sua empresa'); 
+    if (loggedInUser.companyId !== maintenancePlan.company_id) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Este plano de manutenção não pertence a sua empresa');
     }
 
     const activities = await equipmentModel.getAllActivitesByMaintenancePlanId(maintenancePlanId);
