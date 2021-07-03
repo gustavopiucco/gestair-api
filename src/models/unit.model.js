@@ -6,7 +6,7 @@ async function exists(id) {
 }
 
 async function getAllUnitsByCustomerId(customerId) {
-    const result = await mysql.execute('SELECT name, floors address, district, city, federal_unit AS federalUnit, cep FROM units WHERE customer_id = ?', [customerId]);
+    const result = await mysql.execute('SELECT name, floors, address, district, city, federal_unit AS federalUnit, cep FROM units WHERE customer_id = ?', [customerId]);
     return result;
 }
 
