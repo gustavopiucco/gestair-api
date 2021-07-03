@@ -57,6 +57,8 @@ async function deleteActivityChecklist(id) {
     await mysql.execute('DELETE FROM maintenance_plans_activities_checklists WHERE id = ?', [id]);
 }
 
+
+
 module.exports = {
     exists,
     maintenancePlanActivityExists,

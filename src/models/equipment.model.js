@@ -63,6 +63,17 @@ async function setMaintenancePlan(id, maintenancePlanId) {
     await mysql.execute('UPDATE equipments SET maintenance_plan_id = ? WHERE id = ?', [maintenancePlanId, id]);
 }
 
+async function getEquipmentCompanyIdByEquipmentId(id){
+  const result =  await mysql.execute(`SELECT customers.company_id
+  FROM equipments 
+  INNER JOIN enviroments ON enviroments.id = equipments.enviroment_id
+  INNER JOIN units ON units.id = enviroments.unit_id 
+  INNER JOIN customers ON customers.id = units.customer_id
+  WHERE equipments.id = ?
+  `,[id])
+  return result;
+}
+
 module.exports = {
     exists,
     systemTypeExists,
@@ -76,5 +87,6 @@ module.exports = {
     getAllEquipmentsByEnviromentId,
     getAllActivitesByMaintenancePlanId,
     create,
-    setMaintenancePlan
+    setMaintenancePlan,
+    getEquipmentCompanyIdByEquipmentId
 }
