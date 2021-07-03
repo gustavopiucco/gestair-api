@@ -12,7 +12,13 @@ const createUnit = catchAsync(async (req, res) => {
     res.status(httpStatus.CREATED).send();
 });
 
+const createTechnicianUnitLink = catchAsync(async (req, res) => {
+    await unitService.createTechnicianUnitLink(req.user, req.body);
+    res.status(httpStatus.CREATED).send();
+});
+
 module.exports = {
     getAllUnits,
-    createUnit
+    createUnit,
+    createTechnicianUnitLink
 }
