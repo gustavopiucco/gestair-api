@@ -24,7 +24,7 @@ CREATE TABLE users (
   id int NOT NULL AUTO_INCREMENT,
   email varchar(100) NOT NULL,
   password_hash char(60) NOT NULL,
-  role enum('admin', 'company_manager'),
+  role enum('admin', 'company_manager', 'company_technician'),
   first_name varchar(20) NOT NULL,
   last_name varchar(60) NOT NULL,
   cpf char(11) NOT NULL,

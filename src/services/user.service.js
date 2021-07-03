@@ -89,6 +89,7 @@ async function updateUserCompany(id, companyId) {
     }
 
     await userModel.updateUserCompanyId(id, companyId);
+    await userModel.updateRole(id, 'company_technician');
 }
 
 async function updateUserCustomer(id, customerId) {

@@ -43,6 +43,10 @@ async function updateUser(id, passwordHash, firstName, lastName, phone) {
     await mysql.execute('UPDATE users SET password_hash = ?, first_name = ?, last_name = ?, phone = ? WHERE id = ?', [passwordHash, firstName, lastName, phone, id]);
 }
 
+async function updateRole(id, role) {
+    await mysql.execute('UPDATE users SET role = ? WHERE id = ?', [role, id]);
+}
+
 async function updateUserCompanyId(id, companyId) {
     await mysql.execute('UPDATE users SET company_id = ? WHERE id = ?', [companyId, id]);
 }
@@ -61,6 +65,7 @@ module.exports = {
     getUserByCpf,
     createUser,
     updateUser,
+    updateRole,
     updateUserCompanyId,
     updateUserCustomerId
 }
