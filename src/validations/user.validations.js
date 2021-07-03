@@ -26,7 +26,7 @@ const updateUser = {
     }),
 };
 
-const updateCompany = {
+const setCompanyTechnician = {
     params: Joi.object().keys({
         id: Joi.number().integer().required()
     }),
@@ -35,7 +35,7 @@ const updateCompany = {
     }),
 };
 
-const updateCustomer = {
+const setCustomerManager = {
     params: Joi.object().keys({
         id: Joi.number().integer().required()
     }),
@@ -59,7 +59,7 @@ module.exports = {
     getUserById,
     getUserByQuery,
     updateUser,
-    updateCompany,
-    updateCustomer,
+    setCompanyTechnician,
+    setCustomerManager,
     createUser,
 };

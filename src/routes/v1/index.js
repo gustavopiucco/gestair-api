@@ -33,8 +33,8 @@ router.get('/users/all/company', auth('get_all_users_by_company'), validate(user
 router.get('/users/:id', auth('get_user'), validate(userValidation.getUserById), userController.getUserById);
 router.post('/users', validate(userValidation.createUser), userController.createUser);
 router.put('/users/me', auth('update_user'), validate(userValidation.updateUser), userController.updateUser);
-router.patch('/users/:id/company', auth('update_user_company'), validate(userValidation.updateCompany), userController.updateUserCompany);
-router.patch('/users/:id/customer', auth('update_user_customer'), validate(userValidation.updateCustomer), userController.updateUserCustomer);
+router.patch('/users/:id/roles/company-technician', auth('set_company_technician'), validate(userValidation.setCompanyTechnician), userController.setCompanyTechnician);
+router.patch('/users/:id/roles/customer-manager', auth('set_customer_manager'), validate(userValidation.setCustomerManager), userController.setCustomerManager);
 
 //Work Time
 router.get('/worktime/query', auth('get_work_time'), validate(workTimeValidation.getWorkTimeQuery), workTimeController.getWorkTimeQuery)

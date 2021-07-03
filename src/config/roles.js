@@ -1,4 +1,4 @@
-const roles = ['admin', 'company_manager', 'company_unit_manager'];
+const roles = ['admin', 'company_manager', 'company_technician', 'customer_manager'];
 
 const rolePermissions = new Map();
 
@@ -9,8 +9,8 @@ rolePermissions.set(roles[0],
         'admin_create_company',
         'create_unit',
         'update_user',
-        'update_user_company',
-        'update_user_customer',
+        'set_company_technician',
+        'set_customer_manager',
         'create_work_time',
         'get_work_time',
         'delete_work_time',
@@ -36,8 +36,8 @@ rolePermissions.set(roles[1],
         'get_user',
         'create_customer',
         'update_user',
-        'update_user_customer',
-        'update_user_company',
+        'set_customer_manager',
+        'set_company_technician',
         'create_work_time',
         'delete_work_time',
         'get_work_time',
@@ -61,7 +61,11 @@ rolePermissions.set(roles[1],
     ]);
 rolePermissions.set(roles[2],
     [
-        'create_unit'
+
+    ]);
+rolePermissions.set(roles[3],
+    [
+
     ]);
 
 module.exports = {

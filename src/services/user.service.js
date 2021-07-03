@@ -71,7 +71,7 @@ async function updateUser(id, fields) {
     await userModel.updateUser(id, passwordHash, fields.firstName, fields.lastName, fields.phone);
 }
 
-async function updateUserCompany(id, companyId) {
+async function setCompanyTechnician(id, companyId) {
     const user = await userModel.getUserById(id);
 
     if (!user) {
@@ -92,7 +92,7 @@ async function updateUserCompany(id, companyId) {
     await userModel.updateRole(id, 'company_technician');
 }
 
-async function updateUserCustomer(id, customerId) {
+async function setCustomerManager(id, customerId) {
     const user = await userModel.getUserById(id);
 
     if (!user) {
@@ -110,6 +110,7 @@ async function updateUserCustomer(id, customerId) {
     }
 
     await userModel.updateUserCustomerId(id, customerId);
+    await userModel.updateRole(id, 'customer_manager');
 }
 
 module.exports = {
@@ -118,6 +119,6 @@ module.exports = {
     getAllUsersByCompanyId,
     createUser,
     updateUser,
-    updateUserCompany,
-    updateUserCustomer
+    setCompanyTechnician,
+    setCustomerManager
 }
