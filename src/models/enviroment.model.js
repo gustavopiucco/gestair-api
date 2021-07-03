@@ -6,7 +6,7 @@ async function exists(id) {
 }
 
 async function getAllEnviromentsByUnitId(unitId) {
-    const result = await mysql.execute('SELECT name, floor, area, activity_type AS activityType, fixed_occupants AS fixedOccupants, floating_occupants AS floatingOccupants, thermal_load AS thermalLoad, unit_id as unitId FROM enviroments WHERE unit_id = ?', [unitId]);
+    const result = await mysql.execute('SELECT id, name, floor, area, activity_type AS activityType, fixed_occupants AS fixedOccupants, floating_occupants AS floatingOccupants, thermal_load AS thermalLoad, unit_id as unitId FROM enviroments WHERE unit_id = ?', [unitId]);
     return result;
 }
 
