@@ -50,6 +50,11 @@ async function getAllEquipmentsByEnviromentId(enviromentId) {
     return result;
 }
 
+async function getAllActivitesByMaintenancePlanId(maintenancePlanId) {
+    const result = await mysql.execute('SELECT * FROM maintenance_plans_activities WHERE maintenance_plan_id = ?', [maintenancePlanId]);
+    return result;
+}
+
 async function create(name, serialNumber, tag, systemTypeId, equipmentTypeId, capacityTypeId, capacityValue, brandModelId, enviromentId) {
     await mysql.execute('INSERT INTO equipments (name, serial_number, tag, system_type_id, equipment_type_id, capacity_type_id, capacity_value, brand_model_id, enviroment_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [name, serialNumber, tag, systemTypeId, equipmentTypeId, capacityTypeId, capacityValue, brandModelId, enviromentId]);
 }
@@ -69,6 +74,7 @@ module.exports = {
     getAllCapacityTypes,
     getAllBrandModels,
     getAllEquipmentsByEnviromentId,
+    getAllActivitesByMaintenancePlanId,
     create,
     setMaintenancePlan
 }

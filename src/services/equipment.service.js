@@ -58,16 +58,26 @@ async function create(body) {
     await equipmentModel.create(body.name, body.serialNumber, body.tag, body.systemTypeId, body.equipmentTypeId, body.capacityTypeId, body.capacityValue, body.brandModelId, body.enviromentId);
 }
 
-async function setMaintenancePlanId(id, maintenancePlanId) {
+async function setMaintenancePlanId(loggedInUser, id, maintenancePlanId) {
     if (!await equipmentModel.exists(id)) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Este equipamento não existe');
     }
 
-    //checar se o plano de manutenção existe
     if (!await maintenancePlanModel.exists(maintenancePlanId)) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Este plano de manutenção não existe');
     }
 
+    //TODO: verificar se este equipamento (id) o pertence a empresa do usuário logado
+    //TODO: verificar se este plano de manutenção (maintenancePlanId) pertence a empresa do usuário logado
+
+    const activities = await equipmentModel.getAllActivitesByMaintenancePlanId(maintenancePlanId);
+
+    for (let activity of activities) {
+        //pra cada atividade tem que pegar o activity.frequency, que é um enum do tipo daily, weekly, monthly etc, 
+        //pra cada um tem q calcular os dias pra adicionar na agenda, no periodo do contrato, q vamos definir 1 ano, pq depois vamos ter inicio e fim de contrato, mas no MVP vai ser por 12 meses a partir do momento q ativa essa merda
+    }
+
+    //depois que criou a agenda, seta o plano de manutenção pro equipamento
     await equipmentModel.setMaintenancePlan(id, maintenancePlanId);
 }
 
