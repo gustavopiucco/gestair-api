@@ -80,11 +80,9 @@ async function setMaintenancePlanId(loggedInUser, id, maintenancePlanId) {
     const activities = await equipmentModel.getAllActivitesByMaintenancePlanId(maintenancePlanId);
 
     for (let activity of activities) {
-        //pra cada atividade tem que pegar o activity.frequency, que é um enum do tipo daily, weekly, monthly etc, 
-        //pra cada um tem q calcular os dias pra adicionar na agenda, no periodo do contrato, q vamos definir 1 ano, pq depois vamos ter inicio e fim de contrato, mas no MVP vai ser por 12 meses a partir do momento q ativa essa merda
+        //TODO
     }
 
-    //depois que criou a agenda, seta o plano de manutenção pro equipamento
     await equipmentModel.setMaintenancePlan(id, maintenancePlanId);
 }
 
