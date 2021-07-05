@@ -139,7 +139,7 @@ CREATE TABLE maintenance_plans (
   CONSTRAINT fk_company_id FOREIGN KEY (company_id) REFERENCES companies (id)
 ) ENGINE=InnoDB;
 
-CREATE TABLE maintenance_plans_activities (
+CREATE TABLE activities (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(100) NOT NULL,
   frequency enum('daily', 'weekly', 'monthly', 'bimonthly', 'quarterly', 'biannual', 'annual') NOT NULL,
@@ -147,19 +147,19 @@ CREATE TABLE maintenance_plans_activities (
   isolated boolean DEFAULT false,
   maintenance_plan_id int NOT NULL,
   CONSTRAINT pk_id PRIMARY KEY (id),
-  CONSTRAINT fk_mpa_id_m_p_id FOREIGN KEY (maintenance_plan_id) REFERENCES maintenance_plans (id)
+  CONSTRAINT fk_a_id_m_p_id FOREIGN KEY (maintenance_plan_id) REFERENCES maintenance_plans (id)
 ) ENGINE=InnoDB;
 
-CREATE TABLE maintenance_plans_activities_checklists (
+CREATE TABLE checklists (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(100) NOT NULL,
   value_type varchar(20),
   min_value double,
   max_value double,
   done boolean NOT NULL,
-  maintenance_plan_activity_id int NOT NULL,
+  activity_id int NOT NULL,
   CONSTRAINT pk_id PRIMARY KEY (id),
-  CONSTRAINT fk_mpac_mpa_id_mpa_id FOREIGN KEY (maintenance_plan_activity_id) REFERENCES maintenance_plans_activities (id) ON DELETE CASCADE
+  CONSTRAINT fk_c_mpa_id_a_id FOREIGN KEY (activity_id) REFERENCES activities (id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE TABLE equipments (

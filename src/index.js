@@ -10,6 +10,10 @@ mysql.testConnection().then(() => {
     });
 });
 
+mysql.execute('SELECT * FROM schedules').then((result) => {
+    console.log(result);
+});
+
 const exitHandler = () => {
     if (server) {
         server.close(() => {

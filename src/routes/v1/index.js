@@ -12,6 +12,7 @@ const unitValidation = require('../../validations/unit.validation');
 const maintenancePlanValidation = require('../../validations/maintenanceplan.validation');
 const enviromentValidation = require('../../validations/enviroment.validation');
 const equipmentValidation = require('../../validations/equipment.validation');
+const activityValidation = require('../../validations/activity.validation');
 
 const userController = require('../../controllers/user.controller');
 const workTimeController = require('../../controllers/worktime.controller');
@@ -22,6 +23,7 @@ const unitController = require('../../controllers/unit.controller');
 const maintenancePlanController = require('../../controllers/maintenanceplan.controller');
 const enviromentController = require('../../controllers/enviroment.controller');
 const equipmentController = require('../../controllers/equipment.controller');
+const activityController = require('../../controllers/activity.controller');
 
 //Auth
 router.post('/auth/login', validate(authValidation.login), authController.login);
@@ -44,13 +46,15 @@ router.delete('/worktime/:id', auth('delete_work_time'), validate(workTimeValida
 
 //Maintenance Plan
 router.get('/maintenance-plans/all', auth('get_maintenance_plans'), maintenancePlanController.getMaintenancePlans);
-router.get('/maintenance-plans-activities/maintenance-plan/:maintenancePlanId', auth('get_maintenance_plans_activities'), validate(maintenancePlanValidation.getMaintenancePlansActivities), maintenancePlanController.getMaintenancePlansActivities);
 router.get('/maintenance-plans-activities-checklists/maintenance-plan-activity/:maintenancePlanActivityId', auth('get_maintenance_plans_activities_checklists'), validate(maintenancePlanValidation.getMaintenancePlansActivitiesChecklists), maintenancePlanController.getMaintenancePlansActivitiesChecklists);
 router.post('/maintenance-plans', auth('create_maintenance_plan'), validate(maintenancePlanValidation.create), maintenancePlanController.create);
-router.post('/maintenance-plans-activities', auth('create_maintenance_plan_activity'), validate(maintenancePlanValidation.createActivity), maintenancePlanController.createActivity);
 router.post('/maintenance-plans-activities-checklists', auth('create_maintenance_plan_activity_checklist'), validate(maintenancePlanValidation.createActivityChecklist), maintenancePlanController.createActivityChecklist);
-router.delete('/maintenance-plans-activities/:id', auth('delete_maintenance_plan_activity'), validate(maintenancePlanValidation.deleteActivityById), maintenancePlanController.deleteActivity);
 router.delete('/maintenance-plans-activities-checklists/:id', auth('delete_maintenance_plan_activity_checklist'), validate(maintenancePlanValidation.deleteActivityChecklistById), maintenancePlanController.deleteActivityChecklist);
+
+//Activity
+router.get('/activities/maintenance-plan/:maintenancePlanId', auth('get_activities'), validate(activityValidation.getMaintenancePlansActivities), activityController.getMaintenancePlansActivities);
+router.post('/activities', auth('create_activity'), validate(activityValidation.createActivity), activityController.createActivity);
+router.delete('/activities/:id', auth('delete_activity'), validate(activityValidation.deleteActivityById), activityController.deleteActivity);
 
 //Company
 router.post('/companies', auth('admin_create_company'), validate(companyValidation.createCompany), companyController.createCompany);
