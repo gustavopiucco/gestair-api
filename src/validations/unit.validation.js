@@ -19,15 +19,7 @@ const createUnit = {
     }),
 };
 
-const createTechnicianUnitLink = {
-    body: Joi.object().keys({
-        unitId: Joi.number().integer().required(),
-        technicianUserId: Joi.number().integer().required(),
-    }),
-};
-
 module.exports = {
     getAllUnitsByCustomerId,
-    createUnit,
-    createTechnicianUnitLink
+    createUnit
 };

@@ -198,14 +198,6 @@ CREATE TABLE maintenance_plans_requests (
   CONSTRAINT fk_mpr_id_e_id FOREIGN KEY (equipment_id) REFERENCES equipments (id)
 ) ENGINE=InnoDB;
 
-CREATE TABLE units_technicians (
-  unit_id int NOT NULL,
-  technician_user_id int NOT NULL,
-  CONSTRAINT pk_tu PRIMARY KEY (technician_user_id, unit_id),
-  CONSTRAINT fk_ut_u_id_u_id FOREIGN KEY (unit_id) REFERENCES units (id),
-  CONSTRAINT fk_ut_tu_id_u_id FOREIGN KEY (technician_user_id) REFERENCES users (id)
-) ENGINE=InnoDB;
-
 CREATE TABLE schedules (
   id int NOT NULL AUTO_INCREMENT,
   CONSTRAINT pk_id PRIMARY KEY (id)
