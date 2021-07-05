@@ -13,6 +13,7 @@ const maintenancePlanValidation = require('../../validations/maintenanceplan.val
 const enviromentValidation = require('../../validations/enviroment.validation');
 const equipmentValidation = require('../../validations/equipment.validation');
 const activityValidation = require('../../validations/activity.validation');
+const checklistValidation = require('../../validations/checklist.validation');
 
 const userController = require('../../controllers/user.controller');
 const workTimeController = require('../../controllers/worktime.controller');
@@ -24,6 +25,7 @@ const maintenancePlanController = require('../../controllers/maintenanceplan.con
 const enviromentController = require('../../controllers/enviroment.controller');
 const equipmentController = require('../../controllers/equipment.controller');
 const activityController = require('../../controllers/activity.controller');
+const checklistController = require('../../controllers/checklist.controller');
 
 //Auth
 router.post('/auth/login', validate(authValidation.login), authController.login);
@@ -45,16 +47,18 @@ router.post('/worktime', auth('create_work_time'), validate(workTimeValidation.c
 router.delete('/worktime/:id', auth('delete_work_time'), validate(workTimeValidation.deleteWorkTimeById), workTimeController.deleteWorkTime);
 
 //Maintenance Plan
-router.get('/maintenance-plans/all', auth('get_maintenance_plans'), maintenancePlanController.getMaintenancePlans);
-router.get('/maintenance-plans-activities-checklists/maintenance-plan-activity/:maintenancePlanActivityId', auth('get_maintenance_plans_activities_checklists'), validate(maintenancePlanValidation.getMaintenancePlansActivitiesChecklists), maintenancePlanController.getMaintenancePlansActivitiesChecklists);
+router.get('/maintenance-plans/all', auth('get_maintenance_plans'), maintenancePlanController.getAll);
 router.post('/maintenance-plans', auth('create_maintenance_plan'), validate(maintenancePlanValidation.create), maintenancePlanController.create);
-router.post('/maintenance-plans-activities-checklists', auth('create_maintenance_plan_activity_checklist'), validate(maintenancePlanValidation.createActivityChecklist), maintenancePlanController.createActivityChecklist);
-router.delete('/maintenance-plans-activities-checklists/:id', auth('delete_maintenance_plan_activity_checklist'), validate(maintenancePlanValidation.deleteActivityChecklistById), maintenancePlanController.deleteActivityChecklist);
 
 //Activity
 router.get('/activities/maintenance-plan/:maintenancePlanId', auth('get_activities'), validate(activityValidation.getAllByMaintenancePlanId), activityController.getAllByMaintenancePlanId);
 router.post('/activities', auth('create_activity'), validate(activityValidation.createActivity), activityController.create);
 router.delete('/activities/:id', auth('delete_activity'), validate(activityValidation.deleteActivityById), activityController.remove);
+
+//Checklist
+router.get('/checklists/activity/:activityId', auth('get_checklists'), validate(checklistValidation.getAllByActivityId), checklistController.getAllByActivityId);
+router.post('/checklists', auth('create_checklist'), validate(checklistValidation.create), checklistController.create);
+router.delete('/checklists/:id', auth('delete_checklist'), validate(checklistValidation.remove), checklistController.remove);
 
 //Company
 router.post('/companies', auth('admin_create_company'), validate(companyValidation.createCompany), companyController.createCompany);
