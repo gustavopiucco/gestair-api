@@ -3,7 +3,7 @@ const httpStatus = require('http-status');
 const activityModel = require('../models/activity.model');
 const maintenancePlanModel = require('../models/maintenanceplan.model');
 
-async function getMaintenancePlansActivities(loggedInUser, maintenancePlanId) {
+async function getAllByMaintenancePlanId(loggedInUser, maintenancePlanId) {
     const maintenancePlan = await maintenancePlanModel.getMaintenancePlanById(maintenancePlanId);
 
     if (!maintenancePlan) {
@@ -14,28 +14,28 @@ async function getMaintenancePlansActivities(loggedInUser, maintenancePlanId) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Este plano de manutenção não pertence a sua empresa');
     }
 
-    const maintenancePlansActivities = await activityModel.getMaintenancePlansActivitiesByMaintenancePlanId(maintenancePlanId);
+    const activities = await activityModel.getAllByMaintenancePlanId(maintenancePlanId);
 
-    return maintenancePlansActivities;
+    return activities;
 }
 
-async function createActivity(loggedInUser, body) {
-    if (!await activityModel.maintenancePlanActivityExists(body.maintenancePlanId)) {
+async function create(loggedInUser, body) {
+    if (!await activityModel.exists(body.maintenancePlanId)) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Este plano de manutenção não existe');
     }
 
-    const created = await activityModel.createActivity(body.name, body.frequency, body.time, body.maintenancePlanId);
+    const created = await activityModel.create(body.name, body.frequency, body.time, body.maintenancePlanId);
 
     return { id: created.insertId };
 }
 
-async function deleteActivity(id) {
+async function remove(id) {
     //TODO: restrições
-    await activityModel.deleteActivity(id);
+    await activityModel.remove(id);
 }
 
 module.exports = {
-    getMaintenancePlansActivities,
-    createActivity,
-    deleteActivity
+    getAllByMaintenancePlanId,
+    create,
+    remove
 }

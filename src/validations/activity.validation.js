@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const getMaintenancePlansActivities = {
+const getAllByMaintenancePlanId = {
     params: Joi.object().keys({
         maintenancePlanId: Joi.number().integer().required()
     }),
@@ -22,7 +22,7 @@ const deleteActivityById = {
 };
 
 module.exports = {
-    getMaintenancePlansActivities,
+    getAllByMaintenancePlanId,
     createActivity,
     deleteActivityById
 }

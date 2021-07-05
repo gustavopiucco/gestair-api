@@ -52,9 +52,9 @@ router.post('/maintenance-plans-activities-checklists', auth('create_maintenance
 router.delete('/maintenance-plans-activities-checklists/:id', auth('delete_maintenance_plan_activity_checklist'), validate(maintenancePlanValidation.deleteActivityChecklistById), maintenancePlanController.deleteActivityChecklist);
 
 //Activity
-router.get('/activities/maintenance-plan/:maintenancePlanId', auth('get_activities'), validate(activityValidation.getMaintenancePlansActivities), activityController.getMaintenancePlansActivities);
-router.post('/activities', auth('create_activity'), validate(activityValidation.createActivity), activityController.createActivity);
-router.delete('/activities/:id', auth('delete_activity'), validate(activityValidation.deleteActivityById), activityController.deleteActivity);
+router.get('/activities/maintenance-plan/:maintenancePlanId', auth('get_activities'), validate(activityValidation.getAllByMaintenancePlanId), activityController.getAllByMaintenancePlanId);
+router.post('/activities', auth('create_activity'), validate(activityValidation.createActivity), activityController.create);
+router.delete('/activities/:id', auth('delete_activity'), validate(activityValidation.deleteActivityById), activityController.remove);
 
 //Company
 router.post('/companies', auth('admin_create_company'), validate(companyValidation.createCompany), companyController.createCompany);

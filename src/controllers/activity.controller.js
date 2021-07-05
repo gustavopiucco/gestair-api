@@ -1,24 +1,24 @@
 const httpStatus = require('http-status');
 const catchAsync = require('../utils/catchAsync');
-const maintenancePlanService = require('../services/maintenanceplan.service');
+const acitivityService = require('../services/activity.service');
 
-const getMaintenancePlansActivities = catchAsync(async (req, res) => {
-    const maintenancePlansActivities = await maintenancePlanService.getMaintenancePlansActivities(req.user, req.params.maintenancePlanId);
+const getAllByMaintenancePlanId = catchAsync(async (req, res) => {
+    const maintenancePlansActivities = await acitivityService.getAllByMaintenancePlanId(req.user, req.params.maintenancePlanId);
     res.status(httpStatus.OK).send(maintenancePlansActivities);
 });
 
-const createActivity = catchAsync(async (req, res) => {
-    const created = await maintenancePlanService.createActivity(req.user, req.body);
+const create = catchAsync(async (req, res) => {
+    const created = await acitivityService.create(req.user, req.body);
     res.status(httpStatus.CREATED).send(created);
 });
 
-const deleteActivity = catchAsync(async (req, res) => {
-    await maintenancePlanService.deleteActivity(req.params.id);
+const remove = catchAsync(async (req, res) => {
+    await acitivityService.remove(req.params.id);
     res.status(httpStatus.OK).send();
 });
 
 module.exports = {
-    getMaintenancePlansActivities,
-    createActivity,
-    deleteActivity
+    getAllByMaintenancePlanId,
+    create,
+    remove
 }

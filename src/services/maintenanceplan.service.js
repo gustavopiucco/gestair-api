@@ -1,6 +1,7 @@
 const ApiError = require('../utils/ApiError');
 const httpStatus = require('http-status');
 const maintenancePlanModel = require('../models/maintenanceplan.model');
+const acitvityModel = require('../models/activity.model');
 
 async function getMaintenancePlans(loggedInUser) {
     const maintenancePlans = await maintenancePlanModel.getMaintenancePlansByCompanyId(loggedInUser.companyId);
@@ -9,7 +10,7 @@ async function getMaintenancePlans(loggedInUser) {
 }
 
 async function getMaintenancePlansActivitiesChecklists(loggedInUser, maintenancePlanActivityId) {
-    const maintenancePlanActivity = await maintenancePlanModel.getMaintenancePlanActivityById(maintenancePlanActivityId);
+    const maintenancePlanActivity = await acitvityModel.getActivityById(maintenancePlanActivityId);
 
     if (!maintenancePlanActivity) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Esta atividade não existe');
@@ -31,7 +32,7 @@ async function create(loggedInUser, body) {
 }
 
 async function createActivityChecklist(loggedInUser, body) {
-    const maintenancePlanActivity = await maintenancePlanModel.getMaintenancePlanActivityById(body.maintenancePlanActivityId);
+    const maintenancePlanActivity = await acitvityModel.getActivityById(body.maintenancePlanActivityId);
 
     if (!maintenancePlanActivity) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Esta atividade não existe');
