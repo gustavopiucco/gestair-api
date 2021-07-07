@@ -1,2 +1,3 @@
-- Criar a role company_admin que vai vincular a quais clientes cada company_manager pertence
-- Ao criar um plano de manutenção, se for o company_manager que está criando, então ja vincula a ele automaticamente, se for o company_admin, precisa setar o company_manager responsavel
+- Criar a role company_admin que vai vincular a quais unidades cada company_manager pertence
+- Ao criar um plano de manutenção, se for o company_manager que está criando, então ja vincula a ele automaticamente, 
+    se for o company_admin, precisa setar o company_manager responsavel, ou ele próprio caso a empresa so tenha company_admin
