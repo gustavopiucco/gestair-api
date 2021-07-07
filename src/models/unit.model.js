@@ -15,15 +15,6 @@ async function getAllUnitsByCustomerId(customerId) {
     return result;
 }
 
-async function getCompanyIdByUnitsTechniciansUnitId(unitId) {
-    const result = await mysql.execute(`SELECT customers.company_id
-    FROM units_technicians
-    JOIN units ON units.id = units_technicians.unit_id
-    JOIN customers ON customers.id = units.customer_id
-    WHERE units_technicians.unit_id = ?`, [unitId]);
-    return result[0].company_id;
-}
-
 async function createUnit(name, floors, address, district, city, federalUnit, cep, customerId) {
     await mysql.execute('INSERT INTO units (name, floors, address, district, city, federal_unit, cep, customer_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [name, floors, address, district, city, federalUnit, cep, customerId]);
 }
@@ -36,7 +27,6 @@ module.exports = {
     exists,
     unitTechnicianExists,
     getAllUnitsByCustomerId,
-    getCompanyIdByUnitsTechniciansUnitId,
     createUnit,
     createUnitTechnician
 }
