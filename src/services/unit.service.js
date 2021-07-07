@@ -10,15 +10,28 @@ async function getAllUnitsByCustomerId(customerId) {
     return units;
 }
 
-async function createUnit(body) {
+async function create(body) {
     if (!await customerModel.exists(body.customerId)) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Esta empresa/cliente não existe');
     }
 
-    await unitModel.createUnit(body.name, body.floors, body.address, body.district, body.city, body.federalUnit, body.cep, body.customerId);
+    await unitModel.create(body.name, body.floors, body.address, body.district, body.city, body.federalUnit, body.cep, body.customerId);
+}
+
+async function createUnitUserLink(loggedInUser, body) {
+    if (await unitModel.unitUserExists(body.unitId, body.userId)) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Está unidade já está vinculada a esté usuário');
+    }
+
+    //verificar se está unitId -> customerId -> companyId pertence ao loggedInUser.companyId
+
+    //verificar se este userId pertence a loggedInUser.companyId
+
+    await unitModel.createUnitUserLink(body.unitId, body.userId)
 }
 
 module.exports = {
     getAllUnitsByCustomerId,
-    createUnit
+    create,
+    createUnitUserLink
 }

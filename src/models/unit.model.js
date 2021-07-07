@@ -5,8 +5,8 @@ async function exists(id) {
     return result.length > 0;
 }
 
-async function unitTechnicianExists(id, technicianUserId) {
-    const result = await mysql.execute('SELECT 1 FROM units_technicians WHERE id = ? AND technician_user_id = ?', [id, technicianUserId]);
+async function unitUserExists(id, userId) {
+    const result = await mysql.execute('SELECT 1 FROM units_users WHERE id = ? AND user_id = ?', [id, userId]);
     return result.length > 0;
 }
 
@@ -15,18 +15,18 @@ async function getAllUnitsByCustomerId(customerId) {
     return result;
 }
 
-async function createUnit(name, floors, address, district, city, federalUnit, cep, customerId) {
+async function create(name, floors, address, district, city, federalUnit, cep, customerId) {
     await mysql.execute('INSERT INTO units (name, floors, address, district, city, federal_unit, cep, customer_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [name, floors, address, district, city, federalUnit, cep, customerId]);
 }
 
-async function createUnitTechnician(unitId, technicianUserId) {
-    await mysql.execute('INSERT INTO units_technicians (unit_id, technician_user_id) VALUES (?, ?)', [unitId, technicianUserId]);
+async function createUnitUserLink(unitId, userId) {
+    await mysql.execute('INSERT INTO units_users (unit_id, user_id) VALUES (?, ?)', [unitId, userId]);
 }
 
 module.exports = {
     exists,
-    unitTechnicianExists,
+    unitUserExists,
     getAllUnitsByCustomerId,
-    createUnit,
-    createUnitTechnician
+    create,
+    createUnitUserLink
 }

@@ -6,7 +6,7 @@ const getAllUnitsByCustomerId = {
     }),
 };
 
-const createUnit = {
+const create = {
     body: Joi.object().keys({
         name: Joi.string().required(),
         floors: Joi.number().integer().required(),
@@ -19,7 +19,15 @@ const createUnit = {
     }),
 };
 
+const createUnitUserLink = {
+    body: Joi.object().keys({
+        unitId: Joi.number().integer().required(),
+        userId: Joi.number().integer().required()
+    }),
+};
+
 module.exports = {
     getAllUnitsByCustomerId,
-    createUnit
+    create,
+    createUnitUserLink
 };

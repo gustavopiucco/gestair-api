@@ -7,12 +7,18 @@ const getAllUnits = catchAsync(async (req, res) => {
     res.status(httpStatus.OK).send(units);
 });
 
-const createUnit = catchAsync(async (req, res) => {
-    await unitService.createUnit(req.body);
+const create = catchAsync(async (req, res) => {
+    await unitService.create(req.body);
+    res.status(httpStatus.CREATED).send();
+});
+
+const createUnitUserLink = catchAsync(async (req, res) => {
+    await unitService.createUnitUserLink(req.user, req.body);
     res.status(httpStatus.CREATED).send();
 });
 
 module.exports = {
     getAllUnits,
-    createUnit
+    create,
+    createUnitUserLink
 }

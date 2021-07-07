@@ -69,7 +69,8 @@ router.post('/customers', auth('create_customer'), validate(customerValidation.c
 
 //Unit
 router.get('/units/all/customer/:customerId', auth('get_all_units'), validate(unitValidation.getAllUnitsByCustomerId), unitController.getAllUnits);
-router.post('/units', auth('create_unit'), validate(unitValidation.createUnit), unitController.createUnit);
+router.post('/units', auth('create_unit'), validate(unitValidation.create), unitController.create);
+router.post('/units/user-link', auth('create_unit_user_link'), validate(unitValidation.createUnitUserLink), unitController.createUnitUserLink);
 
 //Enviroments
 router.get('/enviroments/all/unit/:unitId', auth('get_all_enviroments'), validate(enviromentValidation.getAllEnviromentsByUnitId), enviromentController.getAllEnviroments);
