@@ -23,9 +23,19 @@ async function createUnitUserLink(loggedInUser, body) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Está unidade já está vinculada a esté usuário');
     }
 
-    //verificar se está unitId -> customerId -> companyId pertence ao loggedInUser.companyId
+    if (await unitModel.getCompanyIdById(body.unitId) != loggedInUser.companyId) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Esta unidade não pertence a sua empresa');
+    }
 
-    //verificar se este userId pertence a loggedInUser.companyId
+    const user = await userModel.getUserById(body.userId);
+
+    if (!user) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Este usuário não existe');
+    }
+
+    if (user.company_id != loggedInUser.companyId) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Este usuário não pertence a sua empresa');
+    }
 
     await unitModel.createUnitUserLink(body.unitId, body.userId)
 }
