@@ -144,10 +144,11 @@ CREATE TABLE activities (
   name varchar(100) NOT NULL,
   frequency enum('daily', 'weekly', 'monthly', 'bimonthly', 'quarterly', 'biannual', 'annual') NOT NULL,
   time int NOT NULL,
-  isolated boolean DEFAULT false,
   maintenance_plan_id int NOT NULL,
+  user_id int NOT NULL,
   CONSTRAINT pk_id PRIMARY KEY (id),
-  CONSTRAINT fk_a_id_m_p_id FOREIGN KEY (maintenance_plan_id) REFERENCES maintenance_plans (id)
+  CONSTRAINT fk_a_id_m_p_id FOREIGN KEY (maintenance_plan_id) REFERENCES maintenance_plans (id),
+  CONSTRAINT fk_a_u_id_u_id FOREIGN KEY (user_id) REFERENCES users (id)
 ) ENGINE=InnoDB;
 
 CREATE TABLE checklists (

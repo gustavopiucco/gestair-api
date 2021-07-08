@@ -15,8 +15,8 @@ async function getAllByMaintenancePlanId(maintenancePlanId) {
     return result;
 }
 
-async function create(name, frequency, time, maintenancePlanId) {
-    const result = await mysql.execute('INSERT INTO activities (name, frequency, time, maintenance_plan_id) VALUES (?, ?, ?, ?)', [name, frequency, time, maintenancePlanId]);
+async function create(name, frequency, time, maintenancePlanId, userId) {
+    const result = await mysql.execute('INSERT INTO activities (name, frequency, time, maintenance_plan_id, user_id) VALUES (?, ?, ?, ?, ?)', [name, frequency, time, maintenancePlanId, userId]);
     return result;
 }
 
