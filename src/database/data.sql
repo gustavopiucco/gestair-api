@@ -135,8 +135,10 @@ CREATE TABLE maintenance_plans (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(100) NOT NULL,
   company_id int NOT NULL,
+  user_id int NOT NULL,
   CONSTRAINT pk_id PRIMARY KEY (id),
-  CONSTRAINT fk_company_id FOREIGN KEY (company_id) REFERENCES companies (id)
+  CONSTRAINT fk_company_id FOREIGN KEY (company_id) REFERENCES companies (id),
+  CONSTRAINT fk_ump_u_id_u_id FOREIGN KEY (user_id) REFERENCES users (id)
 ) ENGINE=InnoDB;
 
 CREATE TABLE activities (

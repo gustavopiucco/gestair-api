@@ -15,8 +15,8 @@ async function getAllByCompanyId(companyId) {
     return result;
 }
 
-async function create(name, companyId) {
-    await mysql.execute('INSERT INTO maintenance_plans (name, company_id) VALUES (?, ?)', [name, companyId]);
+async function create(name, companyId, userId) {
+    await mysql.execute('INSERT INTO maintenance_plans (name, company_id, user_id) VALUES (?, ?, ?)', [name, companyId, userId]);
 }
 
 module.exports = {
