@@ -5,8 +5,8 @@ async function exists(id) {
     return result.length > 0;
 }
 
-async function unitUserExists(id, userId) {
-    const result = await mysql.execute('SELECT 1 FROM units_users WHERE id = ? AND user_id = ?', [id, userId]);
+async function unitUserExists(unitId, userId) {
+    const result = await mysql.execute('SELECT 1 FROM units_users WHERE unit_id = ? AND user_id = ?', [unitId, userId]);
     return result.length > 0;
 }
 
