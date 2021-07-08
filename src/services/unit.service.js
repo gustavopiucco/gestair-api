@@ -19,6 +19,10 @@ async function create(body) {
 }
 
 async function createUnitUserLink(loggedInUser, body) {
+    if (body.userId == loggedInUser.id) {
+        throw new ApiError(httpStatus.FORBIDDEN, 'Você não pode atribuir a você mesmo');
+    }
+
     if (await unitModel.unitUserExists(body.unitId, body.userId)) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Está unidade já está vinculada a esté usuário');
     }
@@ -31,6 +35,10 @@ async function createUnitUserLink(loggedInUser, body) {
 
     if (!user) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Este usuário não existe');
+    }
+
+    if (user.role != 'company_manager') {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Este usuário não é um Company Manager');
     }
 
     if (user.company_id != loggedInUser.companyId) {
