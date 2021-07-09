@@ -211,5 +211,13 @@ CREATE TABLE units_users (
 
 CREATE TABLE schedules (
   id int NOT NULL AUTO_INCREMENT,
-  CONSTRAINT pk_id PRIMARY KEY (id)
+  startDate datetime NOT NULL,
+  endDate datetime NOT NULL,
+  company_id int NOT NULL,
+  maintenance_plan_id int NOT NULL,
+  user_id int NOT NULL,
+  CONSTRAINT pk_id PRIMARY KEY (id),
+  CONSTRAINT fk_s_c_id_c_id FOREIGN KEY (company_id) REFERENCES companies (id),
+  CONSTRAINT fk_s_mp_id_mp_id FOREIGN KEY (maintenance_plan_id) REFERENCES maintenance_plans (id),
+  CONSTRAINT fk_s_u_id_u_id FOREIGN KEY (user_id) REFERENCES users (id)
 ) ENGINE=InnoDB;

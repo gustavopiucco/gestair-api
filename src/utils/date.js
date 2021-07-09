@@ -7,6 +7,13 @@ function sumTimes() {
     return dt.getHours() + ':' + dt.getMinutes();
 }
 
+function addMinutes(date, minutes) {
+    date.setMinutes(date.getMinutes() + minutes);
+    console.log(date)
+    return date;
+}
+
 module.exports = {
-    sumTimes
+    sumTimes,
+    addMinutes
 }

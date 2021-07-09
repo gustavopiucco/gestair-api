@@ -1,1 +1,2 @@
+- Receber a data inicial do plano de manutenção quando o plano é ativo no equipamento
 - Gerar a agenda ao ativar um plano de manutenção e verificar as cargas horarias do técnico se estão disponiveis

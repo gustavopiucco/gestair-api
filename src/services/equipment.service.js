@@ -4,6 +4,7 @@ const equipmentModel = require('../models/equipment.model');
 const enviromentModel = require('../models/enviroment.model');
 const maintenancePlanModel = require('../models/maintenanceplan.model');
 const activityModel = require('../models/activity.model');
+const date = require('../utils/date');
 
 async function getAllEquipmentsByEnviromentId(enviromentId) {
     const equipments = await equipmentModel.getAllEquipmentsByEnviromentId(enviromentId);
@@ -59,12 +60,12 @@ async function create(body) {
     await equipmentModel.create(body.name, body.serialNumber, body.tag, body.systemTypeId, body.equipmentTypeId, body.capacityTypeId, body.capacityValue, body.brandModelId, body.enviromentId);
 }
 
-async function setMaintenancePlanId(loggedInUser, id, maintenancePlanId) {
+async function setMaintenancePlanId(loggedInUser, id, body) {
     if (!await equipmentModel.exists(id)) {
         throw new ApiError(httpStatus.NOT_FOUND, 'Este equipamento não existe');
     }
 
-    if (!await maintenancePlanModel.exists(maintenancePlanId)) {
+    if (!await maintenancePlanModel.exists(body.maintenancePlanId)) {
         throw new ApiError(httpStatus.NOT_FOUND, 'Este plano de manutenção não existe');
     }
 
@@ -74,19 +75,25 @@ async function setMaintenancePlanId(loggedInUser, id, maintenancePlanId) {
         throw new ApiError(httpStatus.FORBIDDEN, 'Este equipamento não pertence a sua empresa');
     }
 
-    const maintenancePlan = await maintenancePlanModel.getById(maintenancePlanId);
+    const maintenancePlan = await maintenancePlanModel.getById(body.maintenancePlanId);
 
     if (loggedInUser.companyId !== maintenancePlan.company_id) {
         throw new ApiError(httpStatus.FORBIDDEN, 'Este plano de manutenção não pertence a sua empresa');
     }
 
-    const activities = await activityModel.getAllByMaintenancePlanId(maintenancePlanId);
+    const activities = await activityModel.getAllByMaintenancePlanId(body.maintenancePlanId);
+
+    let startDate = new Date(body.startDate);
+    let endDate = new Date(body.startDate);
+    let activitiesTimeInMinutes = 0;
 
     for (let activity of activities) {
-        console.log(activity.frequency);
+        activitiesTimeInMinutes += activity.time;
     }
 
-    await equipmentModel.setMaintenancePlan(id, maintenancePlanId);
+    endDate.setMinutes(endDate.getMinutes() + activitiesTimeInMinutes);
+
+    await equipmentModel.setMaintenancePlan(id, body.maintenancePlanId);
 }
 
 module.exports = {

@@ -33,7 +33,7 @@ const create = catchAsync(async (req, res) => {
 });
 
 const setMaintenancePlan = catchAsync(async (req, res) => {
-    await equipmentService.setMaintenancePlanId(req.user, req.params.id, req.body.maintenancePlanId);
+    await equipmentService.setMaintenancePlanId(req.user, req.params.id, req.body);
     res.status(httpStatus.OK).send();
 });
 
