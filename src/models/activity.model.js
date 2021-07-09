@@ -11,7 +11,7 @@ async function getById(id) {
 }
 
 async function getAllByMaintenancePlanId(maintenancePlanId) {
-    const result = await mysql.execute('SELECT id, name, frequency, time FROM activities WHERE maintenance_plan_id = ?', [maintenancePlanId]);
+    const result = await mysql.execute('SELECT * FROM activities WHERE maintenance_plan_id = ?', [maintenancePlanId]);
     return result;
 }
 

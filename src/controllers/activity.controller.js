@@ -1,19 +1,19 @@
 const httpStatus = require('http-status');
 const catchAsync = require('../utils/catchAsync');
-const acitivityService = require('../services/activity.service');
+const activityService = require('../services/activity.service');
 
 const getAllByMaintenancePlanId = catchAsync(async (req, res) => {
-    const maintenancePlansActivities = await acitivityService.getAllByMaintenancePlanId(req.user, req.params.maintenancePlanId);
+    const maintenancePlansActivities = await activityService.getAllByMaintenancePlanId(req.user, req.params.maintenancePlanId);
     res.status(httpStatus.OK).send(maintenancePlansActivities);
 });
 
 const create = catchAsync(async (req, res) => {
-    const created = await acitivityService.create(req.user, req.body);
+    const created = await activityService.create(req.user, req.body);
     res.status(httpStatus.CREATED).send(created);
 });
 
 const remove = catchAsync(async (req, res) => {
-    await acitivityService.remove(req.params.id);
+    await activityService.remove(req.params.id);
     res.status(httpStatus.OK).send();
 });
 

@@ -3,6 +3,7 @@ const httpStatus = require('http-status');
 const equipmentModel = require('../models/equipment.model');
 const enviromentModel = require('../models/enviroment.model');
 const maintenancePlanModel = require('../models/maintenanceplan.model');
+const activityModel = require('../models/activity.model');
 
 async function getAllEquipmentsByEnviromentId(enviromentId) {
     const equipments = await equipmentModel.getAllEquipmentsByEnviromentId(enviromentId);
@@ -73,16 +74,16 @@ async function setMaintenancePlanId(loggedInUser, id, maintenancePlanId) {
         throw new ApiError(httpStatus.FORBIDDEN, 'Este equipamento não pertence a sua empresa');
     }
 
-    const maintenancePlan = await maintenancePlanModel.getMaintenancePlanById(maintenancePlanId);
+    const maintenancePlan = await maintenancePlanModel.getById(maintenancePlanId);
 
     if (loggedInUser.companyId !== maintenancePlan.company_id) {
         throw new ApiError(httpStatus.FORBIDDEN, 'Este plano de manutenção não pertence a sua empresa');
     }
 
-    const activities = await equipmentModel.getAllActivitesByMaintenancePlanId(maintenancePlanId);
+    const activities = await activityModel.getAllByMaintenancePlanId(maintenancePlanId);
 
     for (let activity of activities) {
-        //TODO
+        console.log(activity.frequency);
     }
 
     await equipmentModel.setMaintenancePlan(id, maintenancePlanId);

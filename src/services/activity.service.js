@@ -5,7 +5,7 @@ const maintenancePlanModel = require('../models/maintenanceplan.model');
 const userModel = require('../models/user.model');
 
 async function getAllByMaintenancePlanId(loggedInUser, maintenancePlanId) {
-    const maintenancePlan = await maintenancePlanModel.getMaintenancePlanById(maintenancePlanId);
+    const maintenancePlan = await maintenancePlanModel.getById(maintenancePlanId);
 
     if (!maintenancePlan) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Este plano de manutenção não existe');
@@ -16,6 +16,11 @@ async function getAllByMaintenancePlanId(loggedInUser, maintenancePlanId) {
     }
 
     const activities = await activityModel.getAllByMaintenancePlanId(maintenancePlanId);
+
+    activities.map((activity) => {
+        delete activity.user_id;
+        delete activity.maintenance_plan_id
+    });
 
     return activities;
 }
