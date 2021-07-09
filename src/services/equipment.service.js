@@ -52,7 +52,7 @@ async function create(body) {
     }
 
     if (!await enviromentModel.exists(body.enviromentId)) {
-        throw new ApiError(httpStatus.BAD_REQUEST, 'Esta ambiente não está cadastrado');
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Este ambiente não está cadastrado');
     }
 
     await equipmentModel.create(body.name, body.serialNumber, body.tag, body.systemTypeId, body.equipmentTypeId, body.capacityTypeId, body.capacityValue, body.brandModelId, body.enviromentId);
@@ -60,21 +60,23 @@ async function create(body) {
 
 async function setMaintenancePlanId(loggedInUser, id, maintenancePlanId) {
     if (!await equipmentModel.exists(id)) {
-        throw new ApiError(httpStatus.BAD_REQUEST, 'Este equipamento não existe');
+        throw new ApiError(httpStatus.NOT_FOUND, 'Este equipamento não existe');
     }
 
     if (!await maintenancePlanModel.exists(maintenancePlanId)) {
-        throw new ApiError(httpStatus.BAD_REQUEST, 'Este plano de manutenção não existe');
+        throw new ApiError(httpStatus.NOT_FOUND, 'Este plano de manutenção não existe');
     }
 
     const equipmentCompanyId = (await equipmentModel.getEquipmentCompanyIdByEquipmentId(id));
+
     if (loggedInUser.companyId !== equipmentCompanyId) {
-        throw new ApiError(httpStatus.BAD_REQUEST, 'Este equipamento não pertence a sua empresa');
+        throw new ApiError(httpStatus.FORBIDDEN, 'Este equipamento não pertence a sua empresa');
     }
 
-    var maintenancePlan = await maintenancePlanModel.getMaintenancePlanById(maintenancePlanId)
+    const maintenancePlan = await maintenancePlanModel.getMaintenancePlanById(maintenancePlanId);
+
     if (loggedInUser.companyId !== maintenancePlan.company_id) {
-        throw new ApiError(httpStatus.BAD_REQUEST, 'Este plano de manutenção não pertence a sua empresa');
+        throw new ApiError(httpStatus.FORBIDDEN, 'Este plano de manutenção não pertence a sua empresa');
     }
 
     const activities = await equipmentModel.getAllActivitesByMaintenancePlanId(maintenancePlanId);
