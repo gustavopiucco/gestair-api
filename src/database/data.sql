@@ -211,8 +211,8 @@ CREATE TABLE units_users (
 
 CREATE TABLE schedules (
   id int NOT NULL AUTO_INCREMENT,
-  startDate datetime NOT NULL,
-  endDate datetime NOT NULL,
+  start_date datetime NOT NULL,
+  end_date datetime NOT NULL,
   company_id int NOT NULL,
   maintenance_plan_id int NOT NULL,
   user_id int NOT NULL,

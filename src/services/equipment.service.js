@@ -93,6 +93,8 @@ async function setMaintenancePlanId(loggedInUser, id, body) {
 
     endDate.setMinutes(endDate.getMinutes() + activitiesTimeInMinutes);
 
+    console.log(startDate, endDate)
+
     await equipmentModel.setMaintenancePlan(id, body.maintenancePlanId);
 }
 
