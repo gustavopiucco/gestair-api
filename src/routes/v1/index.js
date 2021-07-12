@@ -14,6 +14,7 @@ const enviromentValidation = require('../../validations/enviroment.validation');
 const equipmentValidation = require('../../validations/equipment.validation');
 const activityValidation = require('../../validations/activity.validation');
 const checklistValidation = require('../../validations/checklist.validation');
+const scheduleValidation = require('../../validations/schedule.validation');
 
 const userController = require('../../controllers/user.controller');
 const workTimeController = require('../../controllers/worktime.controller');
@@ -26,6 +27,7 @@ const enviromentController = require('../../controllers/enviroment.controller');
 const equipmentController = require('../../controllers/equipment.controller');
 const activityController = require('../../controllers/activity.controller');
 const checklistController = require('../../controllers/checklist.controller');
+const scheduleController = require('../../controllers/schedule.controller');
 
 //Auth
 router.post('/auth/login', validate(authValidation.login), authController.login);
@@ -84,5 +86,8 @@ router.get('/equipments/brand-models/all', auth('get_all_equipments'), equipment
 router.get('/equipments/enviroment/:enviromentId', auth('get_all_equipments'), validate(equipmentValidation.getAllEquipmentsByEnviromentId), equipmentController.getAllEquipments);
 router.post('/equipments', auth('create_equipment'), validate(equipmentValidation.create), equipmentController.create);
 router.patch('/equipments/:id/maintenance-plan', auth('set_maintenance_plan'), validate(equipmentValidation.setMaintenancePlanId), equipmentController.setMaintenancePlan);
+
+//Schedules
+router.post('/schedules', auth('create_schedule'), validate(scheduleValidation.create), scheduleController.create);
 
 module.exports = router;

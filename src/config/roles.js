@@ -61,7 +61,8 @@ rolePermissions.set(roles[1],
         'create_equipment',
         'get_all_equipments',
         'set_maintenance_plan',
-        'create_unit_user_link'
+        'create_unit_user_link',
+        'create_schedule'
     ]);
 
 rolePermissions.set(roles[2],
@@ -91,7 +92,8 @@ rolePermissions.set(roles[2],
         'create_equipment',
         'get_all_equipments',
         'set_maintenance_plan',
-        'create_unit_technician_link'
+        'create_unit_technician_link',
+        'create_schedule'
     ]);
 
 rolePermissions.set(roles[3],
