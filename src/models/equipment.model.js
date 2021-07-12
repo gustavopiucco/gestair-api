@@ -25,6 +25,11 @@ async function brandModelExists(id) {
     return result.length > 0;
 }
 
+async function maintenancePlanExists(maintenancePlanId) {
+    const result = await mysql.execute('SELECT 1 FROM equipments WHERE maintenance_plan_id = ?', [maintenancePlanId]);
+    return result.length > 0;
+}
+
 async function getAllSystemTypes() {
     const result = await mysql.execute('SELECT * FROM system_types');
     return result;
@@ -75,6 +80,7 @@ module.exports = {
     equipmentTypeExists,
     capacityTypeExists,
     brandModelExists,
+    maintenancePlanExists,
     getAllSystemTypes,
     getAllEquipmentTypes,
     getAllCapacityTypes,

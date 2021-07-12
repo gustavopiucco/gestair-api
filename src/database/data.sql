@@ -178,6 +178,7 @@ CREATE TABLE equipments (
   maintenance_plan_id int,
   enviroment_id int NOT NULL,
   CONSTRAINT pk_id PRIMARY KEY (id),
+  CONSTRAINT uc_maintenance_plan_id UNIQUE (maintenance_plan_id),
   CONSTRAINT fk_e_st_st_id FOREIGN KEY (system_type_id) REFERENCES system_types (id),
   CONSTRAINT fk_e_et_id_et_id FOREIGN KEY (equipment_type_id) REFERENCES equipment_types (id),
   CONSTRAINT fk_e_ct_id_ct_id FOREIGN KEY (capacity_type_id) REFERENCES capacity_types (id),

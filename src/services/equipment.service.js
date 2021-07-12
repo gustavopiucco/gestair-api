@@ -79,6 +79,10 @@ async function setMaintenancePlanId(loggedInUser, id, body) {
         throw new ApiError(httpStatus.FORBIDDEN, 'Este plano de manutenção não pertence a sua empresa');
     }
 
+    if (await equipmentModel.maintenancePlanExists(body.maintenancePlanId)) {
+        throw new ApiError(httpStatus.FORBIDDEN, 'Este plano de manutenção já está vinculado a outro equipamento');
+    }
+
     await equipmentModel.setMaintenancePlan(id, body.maintenancePlanId);
 }
 
