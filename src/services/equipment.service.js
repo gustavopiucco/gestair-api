@@ -80,7 +80,7 @@ async function setMaintenancePlanId(loggedInUser, id, body) {
     }
 
     if (await equipmentModel.maintenancePlanExists(body.maintenancePlanId)) {
-        throw new ApiError(httpStatus.FORBIDDEN, 'Este plano de manutenção já está vinculado a outro equipamento');
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Este plano de manutenção já está vinculado a um equipamento');
     }
 
     await equipmentModel.setMaintenancePlan(id, body.maintenancePlanId);

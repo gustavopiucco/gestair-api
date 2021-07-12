@@ -1,3 +1,1 @@
-- Cada plano de manutenção só pode estar vinculado a um unico equipamento(fisico)
-    - Criar unique key pra um plano de manutenção a um equipamento + verificação no service
 - Gerar a agenda ao ativar um plano de manutenção e verificar as cargas horarias do técnico se estão disponiveis
