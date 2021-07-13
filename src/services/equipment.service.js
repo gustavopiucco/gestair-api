@@ -84,6 +84,10 @@ async function setMaintenancePlanId(loggedInUser, id, body) {
     }
 
     await equipmentModel.setMaintenancePlan(id, body.maintenancePlanId);
+
+    //Gerar agenda
+
+
 }
 
 module.exports = {
