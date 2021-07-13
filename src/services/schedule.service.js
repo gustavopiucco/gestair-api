@@ -5,20 +5,20 @@ const enviromentModel = require('../models/enviroment.model');
 const maintenancePlanModel = require('../models/maintenanceplan.model');
 const activityModel = require('../models/activity.model');
 
-async function create() {
+async function create(body) {
     const activities = await activityModel.getAllByMaintenancePlanId(body.maintenancePlanId);
 
-    // let startDate = new Date(body.startDate);
-    // let endDate = new Date(body.startDate);
-    // let activitiesTimeInMinutes = 0;
+    let startDate = new Date(body.startDate);
+    let endDate = new Date(body.startDate);
+    let activitiesTimeInMinutes = 0;
 
-    // for (let activity of activities) {
-    //     activitiesTimeInMinutes += activity.time;
-    // }
+    for (let activity of activities) {
+        activitiesTimeInMinutes += activity.time;
+    }
 
-    // endDate.setMinutes(endDate.getMinutes() + activitiesTimeInMinutes);
+    endDate.setMinutes(endDate.getMinutes() + activitiesTimeInMinutes);
 
-    // console.log(startDate, endDate)
+    console.log(startDate, endDate)
 }
 
 module.exports = {
