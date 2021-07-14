@@ -5,11 +5,13 @@ const enviromentModel = require('../models/enviroment.model');
 const maintenancePlanModel = require('../models/maintenanceplan.model');
 const activityModel = require('../models/activity.model');
 
-async function create(body) {
-    const activities = await activityModel.getAllByMaintenancePlanId(body.maintenancePlanId);
+async function generate(maintenancePlanId) {
+    //ao cadastrar pra periodicidade seguinte, verificar se o técnico tem um work time disponivel no dia q cair, pq as vezes cai num dia que não trabalha, independente do horario
 
-    let startDate = new Date(body.startDate);
-    let endDate = new Date(body.startDate);
+    const activities = await activityModel.getAllByMaintenancePlanId(maintenancePlanId);
+
+    let startDate = new Date();
+    let endDate = new Date();
     let activitiesTimeInMinutes = 0;
 
     for (let activity of activities) {
@@ -18,9 +20,11 @@ async function create(body) {
 
     endDate.setMinutes(endDate.getMinutes() + activitiesTimeInMinutes);
 
-    console.log(startDate, endDate)
+    console.log('Total Atividades:', activitiesTimeInMinutes, 'min');
+    console.log('Data inicial    :', startDate);
+    console.log('Data final      :', endDate);
 }
 
 module.exports = {
-    create
+    generate
 }

@@ -3,6 +3,7 @@ const httpStatus = require('http-status');
 const equipmentModel = require('../models/equipment.model');
 const enviromentModel = require('../models/enviroment.model');
 const maintenancePlanModel = require('../models/maintenanceplan.model');
+const scheduleService = require('../services/schedule.service');
 
 async function getAllEquipmentsByEnviromentId(enviromentId) {
     const equipments = await equipmentModel.getAllEquipmentsByEnviromentId(enviromentId);
@@ -80,13 +81,14 @@ async function setMaintenancePlanId(loggedInUser, id, body) {
     }
 
     if (await equipmentModel.maintenancePlanExists(body.maintenancePlanId)) {
-        throw new ApiError(httpStatus.BAD_REQUEST, 'Este plano de manutenção já está vinculado a um equipamento');
+        //throw new ApiError(httpStatus.BAD_REQUEST, 'Este plano de manutenção já está vinculado a um equipamento');
     }
 
     await equipmentModel.setMaintenancePlan(id, body.maintenancePlanId);
 
     //Gerar agenda
 
+    await scheduleService.generate(body.maintenancePlanId);
 
 }
 
