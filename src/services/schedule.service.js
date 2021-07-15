@@ -18,11 +18,20 @@ async function generate(maintenancePlanId, startDateString) {
 
         switch (activity.frequency) {
             case 'month':
+                //tentar puxar a logica da transaction pro serviço, passando pro model apenas o necessario pra executar os comandos sql
+                //começar transaction
                 for (let i = 1; i <= 12; i++) {
                     startDate.setMonth(startDate.getMonth() + 1);
                     endDate.setMonth(endDate.getMonth() + 1);
+
+                    if (await scheduleModel.dateRangeExists(startDate, endDate)) {
+                        //se cair aqui, então da rollback em tudo
+                        throw new ApiError(httpStatus.BAD_REQUEST, 'Esta data já está ocupada');
+                    }
+
                     await scheduleModel.create(startDate, endDate, activity.id);
                 }
+                //commit transaction
                 break;
             case '2month':
                 for (let i = 1; i <= 6; i++) {
@@ -49,13 +58,25 @@ async function generate(maintenancePlanId, startDateString) {
                 for (let i = 1; i <= 2; i++) {
                     startDate.setMonth(startDate.getMonth() + 6);
                     endDate.setMonth(endDate.getMonth() + 6);
+
+                    if (await scheduleModel.dateRangeExists(startDate, endDate)) {
+                        throw new ApiError(httpStatus.BAD_REQUEST, 'Esta data já está ocupada');
+                    }
+
                     await scheduleModel.create(startDate, endDate, activity.id);
                 }
                 break;
             case 'year':
-                startDate.setMonth(startDate.getMonth() + 12);
-                endDate.setMonth(endDate.getMonth() + 12);
-                await scheduleModel.create(startDate, endDate, activity.id);
+                for (let i = 1; i <= 1; i++) {
+                    startDate.setMonth(startDate.getMonth() + 12);
+                    endDate.setMonth(endDate.getMonth() + 12);
+
+                    if (await scheduleModel.dateRangeExists(startDate, endDate)) {
+                        throw new ApiError(httpStatus.BAD_REQUEST, 'Esta data já está ocupada');
+                    }
+
+                    await scheduleModel.create(startDate, endDate, activity.id);
+                }
                 break;
         }
     }
