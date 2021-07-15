@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const { date } = require('./custom.validation');
 
 const getAllEquipmentsByEnviromentId = {
     params: Joi.object().keys({
@@ -26,7 +27,7 @@ const setMaintenancePlanId = {
     }),
     body: Joi.object().keys({
         maintenancePlanId: Joi.number().integer().required(),
-        //startDate: Joi.string().regex(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/).required(),
+        startDate: Joi.custom(date).required(),
     }),
 };
 

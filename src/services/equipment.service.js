@@ -88,7 +88,7 @@ async function setMaintenancePlanId(loggedInUser, id, body) {
 
     //Gerar agenda
 
-    await scheduleService.generate(body.maintenancePlanId);
+    await scheduleService.generate(body.maintenancePlanId, body.startDate);
 
 }
 

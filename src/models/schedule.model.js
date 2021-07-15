@@ -10,8 +10,8 @@ async function getById(id) {
     return result[0];
 }
 
-async function create(startDate, endDate, companyId, maintenancePlanId, userId) {
-    await mysql.execute('INSERT INTO schedules (start_date, end_date, company_id, maintenance_plan_id, user_id) VALUES (?, ?, ?, ?, ?)', [startDate, endDate, companyId, maintenancePlanId, userId]);
+async function create(startDate, endDate, activityId) {
+    await mysql.execute('INSERT INTO schedules (start_date, end_date, activity_id) VALUES (?, ?, ?)', [startDate, endDate, activityId]);
 }
 
 module.exports = {

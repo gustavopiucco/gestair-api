@@ -144,7 +144,7 @@ CREATE TABLE maintenance_plans (
 CREATE TABLE activities (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(100) NOT NULL,
-  frequency enum('daily', 'weekly', 'monthly', 'bimonthly', 'quarterly', 'biannual', 'annual') NOT NULL,
+  frequency enum('day', 'week', 'month', '2month', '3month', '4month', '6month', 'year') NOT NULL,
   time int NOT NULL,
   maintenance_plan_id int NOT NULL,
   CONSTRAINT pk_id PRIMARY KEY (id),
@@ -213,7 +213,7 @@ CREATE TABLE schedules (
   start_date datetime NOT NULL,
   end_date datetime NOT NULL,
   activity_id int NOT NULL,
-  user_id int NOT NULL,
+  user_id int,
   CONSTRAINT pk_id PRIMARY KEY (id),
   CONSTRAINT fk_s_a_id_a_id FOREIGN KEY (activity_id) REFERENCES activities (id),
   CONSTRAINT fk_s_u_id_u_id FOREIGN KEY (user_id) REFERENCES users (id)

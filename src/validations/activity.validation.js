@@ -9,7 +9,7 @@ const getAllByMaintenancePlanId = {
 const createActivity = {
     body: Joi.object().keys({
         name: Joi.string().required(),
-        frequency: Joi.string().required().valid('daily', 'weekly', 'monthly', 'bimonthly', 'quarterly', 'biannual', 'annual'),
+        frequency: Joi.string().required().valid('day', 'week', 'month', '2month', '3month', '4month', '6month', 'year'),
         time: Joi.number().integer().required(),
         maintenancePlanId: Joi.number().integer().required()
     }),
