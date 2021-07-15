@@ -11,8 +11,7 @@ const createActivity = {
         name: Joi.string().required(),
         frequency: Joi.string().required().valid('daily', 'weekly', 'monthly', 'bimonthly', 'quarterly', 'biannual', 'annual'),
         time: Joi.number().integer().required(),
-        maintenancePlanId: Joi.number().integer().required(),
-        userId: Joi.number().integer().required()
+        maintenancePlanId: Joi.number().integer().required()
     }),
 };
 

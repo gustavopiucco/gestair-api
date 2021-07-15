@@ -40,21 +40,21 @@ async function create(loggedInUser, body) {
         throw new ApiError(httpStatus.FORBIDDEN, 'Este plano de manutenção não pertence a sua empresa');
     }
 
-    const user = await userModel.getUserById(body.userId);
+    // const user = await userModel.getUserById(body.userId);
 
-    if (!user) {
-        throw new ApiError(httpStatus.NOT_FOUND, 'Este usuário não existe');
-    }
+    // if (!user) {
+    //     throw new ApiError(httpStatus.NOT_FOUND, 'Este usuário não existe');
+    // }
 
-    if (user.role != 'company_technician') {
-        throw new ApiError(httpStatus.BAD_REQUEST, 'Esté usuário não é um técnico');
-    }
+    // if (user.role != 'company_technician') {
+    //     throw new ApiError(httpStatus.BAD_REQUEST, 'Esté usuário não é um técnico');
+    // }
 
-    if (user.company_id != loggedInUser.companyId) {
-        throw new ApiError(httpStatus.FORBIDDEN, 'Este usuário não pertence a sua empresa');
-    }
+    // if (user.company_id != loggedInUser.companyId) {
+    //     throw new ApiError(httpStatus.FORBIDDEN, 'Este usuário não pertence a sua empresa');
+    // }
 
-    const created = await activityModel.create(body.name, body.frequency, body.time, body.maintenancePlanId, body.userId);
+    const created = await activityModel.create(body.name, body.frequency, body.time, body.maintenancePlanId);
 
     return { id: created.insertId };
 }

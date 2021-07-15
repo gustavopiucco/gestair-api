@@ -147,10 +147,8 @@ CREATE TABLE activities (
   frequency enum('daily', 'weekly', 'monthly', 'bimonthly', 'quarterly', 'biannual', 'annual') NOT NULL,
   time int NOT NULL,
   maintenance_plan_id int NOT NULL,
-  user_id int NOT NULL,
   CONSTRAINT pk_id PRIMARY KEY (id),
-  CONSTRAINT fk_a_id_m_p_id FOREIGN KEY (maintenance_plan_id) REFERENCES maintenance_plans (id),
-  CONSTRAINT fk_a_u_id_u_id FOREIGN KEY (user_id) REFERENCES users (id)
+  CONSTRAINT fk_a_id_m_p_id FOREIGN KEY (maintenance_plan_id) REFERENCES maintenance_plans (id)
 ) ENGINE=InnoDB;
 
 CREATE TABLE checklists (
@@ -214,11 +212,9 @@ CREATE TABLE schedules (
   id int NOT NULL AUTO_INCREMENT,
   start_date datetime NOT NULL,
   end_date datetime NOT NULL,
-  company_id int NOT NULL,
-  maintenance_plan_id int NOT NULL,
+  activity_id int NOT NULL,
   user_id int NOT NULL,
   CONSTRAINT pk_id PRIMARY KEY (id),
-  CONSTRAINT fk_s_c_id_c_id FOREIGN KEY (company_id) REFERENCES companies (id),
-  CONSTRAINT fk_s_mp_id_mp_id FOREIGN KEY (maintenance_plan_id) REFERENCES maintenance_plans (id),
+  CONSTRAINT fk_s_a_id_a_id FOREIGN KEY (activity_id) REFERENCES activities (id),
   CONSTRAINT fk_s_u_id_u_id FOREIGN KEY (user_id) REFERENCES users (id)
 ) ENGINE=InnoDB;
