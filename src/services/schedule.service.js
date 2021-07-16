@@ -36,7 +36,7 @@ async function loop(times, startDateString, activity) {
     let endDate = new Date(startDateString);
     endDate.setMinutes(endDate.getMinutes() + activity.time);
 
-    const connection = await mysql.getConnection();
+    const connection = await mysql.pool.getConnection();
 
     try {
         await connection.beginTransaction();
@@ -46,7 +46,7 @@ async function loop(times, startDateString, activity) {
             endDate.setMonth(endDate.getMonth() + times);
 
             if (await scheduleModel.dateRangeExists(connection, startDate, endDate)) {
-                throw new ApiError(httpStatus.BAD_REQUEST, 'Esta data já está ocupada');
+                throw new ApiError(httpStatus.BAD_REQUEST, 'Alguma data na criação da agenda já está ocupada');
             }
 
             await scheduleModel.create(connection, startDate, endDate, activity.id);
