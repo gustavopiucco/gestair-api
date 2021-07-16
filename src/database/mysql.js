@@ -17,17 +17,7 @@ async function testConnection() {
     }
 }
 
-async function getConnection() {
-    return pool.getConnection();
-}
-
-async function execute(sql, values) {
-    const [rows] = await pool.execute(sql, values);
-    return rows;
-}
-
 module.exports = {
     testConnection,
-    getConnection,
-    execute
+    pool
 }
