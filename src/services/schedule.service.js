@@ -2,6 +2,7 @@ const ApiError = require('../utils/ApiError');
 const httpStatus = require('http-status');
 const activityModel = require('../models/activity.model');
 const scheduleModel = require('../models/schedule.model');
+const mysql = require('../database/mysql');
 
 async function generate(maintenancePlanId, startDateString) {
     const activities = await activityModel.getAllByMaintenancePlanId(maintenancePlanId);
@@ -35,15 +36,30 @@ async function loop(times, startDateString, activity) {
     let endDate = new Date(startDateString);
     endDate.setMinutes(endDate.getMinutes() + activity.time);
 
-    for (let i = 1; i <= 12 / times; i++) {
-        startDate.setMonth(startDate.getMonth() + times);
-        endDate.setMonth(endDate.getMonth() + times);
+    const connection = await mysql.getConnection();
 
-        if (await scheduleModel.dateRangeExists(startDate, endDate)) {
-            throw new ApiError(httpStatus.BAD_REQUEST, 'Esta data já está ocupada');
+    try {
+        await connection.beginTransaction();
+
+        for (let i = 1; i <= 12 / times; i++) {
+            startDate.setMonth(startDate.getMonth() + times);
+            endDate.setMonth(endDate.getMonth() + times);
+
+            if (await scheduleModel.dateRangeExists(connection, startDate, endDate)) {
+                throw new ApiError(httpStatus.BAD_REQUEST, 'Esta data já está ocupada');
+            }
+
+            await scheduleModel.create(connection, startDate, endDate, activity.id);
         }
 
-        await scheduleModel.create(startDate, endDate, activity.id);
+        await connection.commit();
+    }
+    catch (error) {
+        await connection.rollback();
+        throw error;
+    }
+    finally {
+        await connection.release();
     }
 }
 
