@@ -15,13 +15,20 @@ async function getById(id) {
     return rows[0];
 }
 
-async function getByUserId(userId) {
-    const [rows, fields] = await mysql.pool.execute('SELECT id, start_date, end_date, activity_id FROM schedules WHERE user_id = ?', [userId]);
+async function getByUserId(userId, date) {
+    const [rows, fields] = await mysql.pool.execute('SELECT id, start_date, end_date, activity_id FROM schedules WHERE user_id = ? AND DATE(start_date) = ?', [userId, date]);
     return rows;
 }
 
-async function getByCompanyId(companyId) {
-    const [rows, fields] = await mysql.pool.execute(`SELECT schedules.id, schedules.start_date, schedules.end_date, schedules.activity_id FROM schedules JOIN users ON users.id = schedules.user_id WHERE users.company_id = ?`, [companyId]);
+async function getByCompanyId(companyId, date) {
+    const [rows, fields] = await mysql.pool.execute(`
+    SELECT schedules.id, schedules.start_date, schedules.end_date, schedules.activity_id 
+    FROM schedules 
+    JOIN users ON users.id = schedules.user_id 
+    WHERE users.company_id = ?
+    AND DATE(schedules.start_date) = ?`, [companyId, date]
+    );
+
     return rows;
 }
 

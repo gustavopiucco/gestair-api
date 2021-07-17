@@ -5,11 +5,17 @@ const getByUserId = {
     params: Joi.object().keys({
         userId: Joi.number().integer().required()
     }),
+    body: Joi.object().keys({
+        date: Joi.custom(date).required()
+    }),
 };
 
 const getByCompanyId = {
     params: Joi.object().keys({
         companyId: Joi.number().integer().required()
+    }),
+    body: Joi.object().keys({
+        date: Joi.custom(date).required()
     }),
 };
 

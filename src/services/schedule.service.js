@@ -5,14 +5,14 @@ const scheduleModel = require('../models/schedule.model');
 const equipmentModel = require('../models/equipment.model');
 const mysql = require('../database/mysql');
 
-async function getByUserId(userId) {
-    const schedules = await scheduleModel.getByUserId(userId);
+async function getByUserId(userId, date) {
+    const schedules = await scheduleModel.getByUserId(userId, date);
 
     return schedules;
 }
 
-async function getByCompanyId(companyId) {
-    const schedules = await scheduleModel.getByCompanyId(companyId);
+async function getByCompanyId(companyId, date) {
+    const schedules = await scheduleModel.getByCompanyId(companyId, date);
 
     return schedules;
 }
@@ -42,6 +42,14 @@ async function generate(equipmentId, maintenancePlanId, startDateString) {
                 break;
         }
     }
+}
+
+async function setUserId(userId) {
+    //verificar se o userId existe
+    //verificar se o userId é técnico
+    //verificar se o userId já foi setado
+
+    await scheduleModel.setUserId(userId);
 }
 
 async function generateSchedules(times, startDateString, activity, equipmentId, maintenancePlanId) {
@@ -81,5 +89,6 @@ async function generateSchedules(times, startDateString, activity, equipmentId, 
 module.exports = {
     getByUserId,
     getByCompanyId,
+    setUserId,
     generate,
 }
