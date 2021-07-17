@@ -5,6 +5,18 @@ const scheduleModel = require('../models/schedule.model');
 const equipmentModel = require('../models/equipment.model');
 const mysql = require('../database/mysql');
 
+async function getByUserId(userId) {
+    const schedules = await scheduleModel.getByUserId(userId);
+
+    return schedules;
+}
+
+async function getByCompanyId(companyId) {
+    const schedules = await scheduleModel.getByCompanyId(companyId);
+
+    return schedules;
+}
+
 async function generate(equipmentId, maintenancePlanId, startDateString) {
     const activities = await activityModel.getAllByMaintenancePlanId(maintenancePlanId);
 
@@ -67,5 +79,7 @@ async function generateSchedules(times, startDateString, activity, equipmentId, 
 }
 
 module.exports = {
-    generate
+    getByUserId,
+    getByCompanyId,
+    generate,
 }

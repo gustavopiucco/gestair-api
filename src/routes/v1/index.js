@@ -88,6 +88,7 @@ router.post('/equipments', auth('create_equipment'), validate(equipmentValidatio
 router.patch('/equipments/:id/maintenance-plan', auth('set_maintenance_plan'), validate(equipmentValidation.setMaintenancePlanId), equipmentController.setMaintenancePlan);
 
 //Schedules
-//router.post('/schedules', auth('create_schedule'), validate(scheduleValidation.create), scheduleController.create);
+router.get('/schedules/all/user/:userId', auth('get_schedules'), validate(scheduleValidation.getByUserId), scheduleController.getByUserId);
+router.get('/schedules/all/company/:companyId', auth('get_schedules'), validate(scheduleValidation.getByCompanyId), scheduleController.getByCompanyId);
 
 module.exports = router;
