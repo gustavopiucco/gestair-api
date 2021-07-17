@@ -26,23 +26,6 @@ async function create(startDate, endDate, activityId, connection) {
     }
 }
 
-// async function create(startDate, endDate, activityId) {
-//     const connection = await mysql.getConnection();
-
-//     try {
-//         await connection.beginTransaction();
-//         await connection.execute('INSERT INTO schedules (start_date, end_date, activity_id) VALUES (?, ?, ?)', [startDate, endDate, activityId]);
-//         await connection.commit();
-//     }
-//     catch (err) {
-//         await connection.rollback()
-//         throw err;
-//     }
-//     finally {
-//         await connection.release();
-//     }
-// }
-
 module.exports = {
     exists,
     dateRangeExists,
