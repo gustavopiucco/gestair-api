@@ -2,36 +2,37 @@ const ApiError = require('../utils/ApiError');
 const httpStatus = require('http-status');
 const activityModel = require('../models/activity.model');
 const scheduleModel = require('../models/schedule.model');
+const equipmentModel = require('../models/equipment.model');
 const mysql = require('../database/mysql');
 
-async function generate(maintenancePlanId, startDateString) {
+async function generate(equipmentId, maintenancePlanId, startDateString) {
     const activities = await activityModel.getAllByMaintenancePlanId(maintenancePlanId);
 
     for (let activity of activities) {
         switch (activity.frequency) {
             case 'month':
-                await loop(1, startDateString, activity);
+                await generateSchedules(1, startDateString, activity, equipmentId, maintenancePlanId);
                 break;
             case '2month':
-                await loop(2, startDateString, activity);
+                await generateSchedules(2, startDateString, activity, equipmentId, maintenancePlanId);
                 break;
             case '3month':
-                await loop(3, startDateString, activity);
+                await generateSchedules(3, startDateString, activity, equipmentId, maintenancePlanId);
                 break;
             case '4month':
-                await loop(4, startDateString, activity);
+                await generateSchedules(4, startDateString, activity, equipmentId, maintenancePlanId);
                 break;
             case '6month':
-                await loop(6, startDateString, activity);
+                await generateSchedules(6, startDateString, activity, equipmentId, maintenancePlanId);
                 break;
             case 'year':
-                await loop(12, startDateString, activity);
+                await generateSchedules(12, startDateString, activity, equipmentId, maintenancePlanId);
                 break;
         }
     }
 }
 
-async function loop(times, startDateString, activity) {
+async function generateSchedules(times, startDateString, activity, equipmentId, maintenancePlanId) {
     let startDate = new Date(startDateString);
     let endDate = new Date(startDateString);
     endDate.setMinutes(endDate.getMinutes() + activity.time);
@@ -49,8 +50,10 @@ async function loop(times, startDateString, activity) {
                 throw new ApiError(httpStatus.BAD_REQUEST, 'Alguma data na criação da agenda já está ocupada');
             }
 
-            await scheduleModel.create(connection, startDate, endDate, activity.id);
+            await scheduleModel.create(startDate, endDate, activity.id, connection);
         }
+
+        await equipmentModel.setMaintenancePlan(equipmentId, maintenancePlanId);
 
         await connection.commit();
     }

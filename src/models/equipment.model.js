@@ -59,8 +59,15 @@ async function create(name, serialNumber, tag, systemTypeId, equipmentTypeId, ca
     await mysql.pool.execute('INSERT INTO equipments (name, serial_number, tag, system_type_id, equipment_type_id, capacity_type_id, capacity_value, brand_model_id, enviroment_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [name, serialNumber, tag, systemTypeId, equipmentTypeId, capacityTypeId, capacityValue, brandModelId, enviromentId]);
 }
 
-async function setMaintenancePlan(id, maintenancePlanId) {
-    await mysql.pool.execute('UPDATE equipments SET maintenance_plan_id = ? WHERE id = ?', [maintenancePlanId, id]);
+async function setMaintenancePlan(equipmentId, maintenancePlanId, connection) {
+    const sql = 'UPDATE equipments SET maintenance_plan_id = ? WHERE id = ?';
+    const values = [maintenancePlanId, equipmentId];
+
+    if (connection)
+        await connection.execute(sql, vales);
+    else {
+        await mysql.pool.execute(sql, values);
+    }
 }
 
 async function getEquipmentCompanyIdByEquipmentId(id) {

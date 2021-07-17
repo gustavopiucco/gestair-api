@@ -59,8 +59,8 @@ async function create(body) {
     await equipmentModel.create(body.name, body.serialNumber, body.tag, body.systemTypeId, body.equipmentTypeId, body.capacityTypeId, body.capacityValue, body.brandModelId, body.enviromentId);
 }
 
-async function setMaintenancePlanId(loggedInUser, id, body) {
-    if (!await equipmentModel.exists(id)) {
+async function setMaintenancePlanId(loggedInUser, equipmentId, body) {
+    if (!await equipmentModel.exists(equipmentId)) {
         throw new ApiError(httpStatus.NOT_FOUND, 'Este equipamento não existe');
     }
 
@@ -68,7 +68,7 @@ async function setMaintenancePlanId(loggedInUser, id, body) {
         throw new ApiError(httpStatus.NOT_FOUND, 'Este plano de manutenção não existe');
     }
 
-    const equipmentCompanyId = (await equipmentModel.getEquipmentCompanyIdByEquipmentId(id));
+    const equipmentCompanyId = (await equipmentModel.getEquipmentCompanyIdByEquipmentId(equipmentId));
 
     if (loggedInUser.companyId !== equipmentCompanyId) {
         throw new ApiError(httpStatus.FORBIDDEN, 'Este equipamento não pertence a sua empresa');
@@ -81,14 +81,10 @@ async function setMaintenancePlanId(loggedInUser, id, body) {
     }
 
     if (await equipmentModel.maintenancePlanExists(body.maintenancePlanId)) {
-        //throw new ApiError(httpStatus.BAD_REQUEST, 'Este plano de manutenção já está vinculado a um equipamento');
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Este plano de manutenção já está vinculado a um equipamento');
     }
 
-    await equipmentModel.setMaintenancePlan(id, body.maintenancePlanId);
-
-    //Gerar agenda
-
-    await scheduleService.generate(body.maintenancePlanId, body.startDate);
+    await scheduleService.generate(equipmentId, body.maintenancePlanId, body.startDate);
 
 }
 

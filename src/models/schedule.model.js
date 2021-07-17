@@ -15,8 +15,15 @@ async function getById(id) {
     return rows[0];
 }
 
-async function create(connection, startDate, endDate, activityId) {
-    await mysql.pool.execute('INSERT INTO schedules (start_date, end_date, activity_id) VALUES (?, ?, ?)', [startDate, endDate, activityId]);
+async function create(startDate, endDate, activityId, connection) {
+    const sql = 'INSERT INTO schedules (start_date, end_date, activity_id) VALUES (?, ?, ?)';
+    const values = [startDate, endDate, activityId]
+
+    if (connection)
+        await connection.execute(sql, values);
+    else {
+        await mysql.pool.execute(sql, values);
+    }
 }
 
 // async function create(startDate, endDate, activityId) {
