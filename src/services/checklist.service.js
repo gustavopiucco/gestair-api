@@ -5,7 +5,7 @@ const activityModel = require('../models/activity.model');
 const checklistModel = require('../models/checklist.model');
 
 async function getAllByActivityId(loggedInUser, activityId) {
-    const activity = await activityModel.getActivityById(activityId);
+    const activity = await activityModel.getById(activityId);
 
     if (!activity) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Esta atividade não existe');

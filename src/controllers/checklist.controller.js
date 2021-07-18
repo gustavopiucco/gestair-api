@@ -3,7 +3,7 @@ const catchAsync = require('../utils/catchAsync');
 const checklistService = require('../services/checklist.service');
 
 const getAllByActivityId = catchAsync(async (req, res) => {
-    const checklists = await checklistService.getAllByActivityId(req.user, req.params.maintenancePlanActivityId);
+    const checklists = await checklistService.getAllByActivityId(req.user, req.params.activityId);
     res.status(httpStatus.OK).send(checklists);
 });
 
