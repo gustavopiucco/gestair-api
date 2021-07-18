@@ -32,17 +32,11 @@ const create = catchAsync(async (req, res) => {
     res.status(httpStatus.CREATED).send();
 });
 
-const setMaintenancePlan = catchAsync(async (req, res) => {
-    await equipmentService.setMaintenancePlanId(req.user, req.params.id, req.body);
-    res.status(httpStatus.OK).send();
-});
-
 module.exports = {
     getAllEquipments,
     getAllSystemTypes,
     getAllEquipmentTypes,
     getAllCapacityTypes,
     getAllBrandModels,
-    create,
-    setMaintenancePlan
+    create
 }

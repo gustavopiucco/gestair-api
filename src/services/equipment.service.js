@@ -59,34 +59,34 @@ async function create(body) {
     await equipmentModel.create(body.name, body.serialNumber, body.tag, body.systemTypeId, body.equipmentTypeId, body.capacityTypeId, body.capacityValue, body.brandModelId, body.enviromentId);
 }
 
-async function setMaintenancePlanId(loggedInUser, equipmentId, body) {
-    if (!await equipmentModel.exists(equipmentId)) {
-        throw new ApiError(httpStatus.NOT_FOUND, 'Este equipamento não existe');
-    }
+// async function setMaintenancePlanId(loggedInUser, equipmentId, body) {
+//     if (!await equipmentModel.exists(equipmentId)) {
+//         throw new ApiError(httpStatus.NOT_FOUND, 'Este equipamento não existe');
+//     }
 
-    if (!await maintenancePlanModel.exists(body.maintenancePlanId)) {
-        throw new ApiError(httpStatus.NOT_FOUND, 'Este plano de manutenção não existe');
-    }
+//     if (!await maintenancePlanModel.exists(body.maintenancePlanId)) {
+//         throw new ApiError(httpStatus.NOT_FOUND, 'Este plano de manutenção não existe');
+//     }
 
-    const equipmentCompanyId = (await equipmentModel.getEquipmentCompanyIdByEquipmentId(equipmentId));
+//     const equipmentCompanyId = (await equipmentModel.getEquipmentCompanyIdByEquipmentId(equipmentId));
 
-    if (loggedInUser.companyId !== equipmentCompanyId) {
-        throw new ApiError(httpStatus.FORBIDDEN, 'Este equipamento não pertence a sua empresa');
-    }
+//     if (loggedInUser.companyId !== equipmentCompanyId) {
+//         throw new ApiError(httpStatus.FORBIDDEN, 'Este equipamento não pertence a sua empresa');
+//     }
 
-    const maintenancePlan = await maintenancePlanModel.getById(body.maintenancePlanId);
+//     const maintenancePlan = await maintenancePlanModel.getById(body.maintenancePlanId);
 
-    if (loggedInUser.companyId !== maintenancePlan.company_id) {
-        throw new ApiError(httpStatus.FORBIDDEN, 'Este plano de manutenção não pertence a sua empresa');
-    }
+//     if (loggedInUser.companyId !== maintenancePlan.company_id) {
+//         throw new ApiError(httpStatus.FORBIDDEN, 'Este plano de manutenção não pertence a sua empresa');
+//     }
 
-    if (await equipmentModel.maintenancePlanExists(body.maintenancePlanId)) {
-        throw new ApiError(httpStatus.BAD_REQUEST, 'Este plano de manutenção já está vinculado a um equipamento');
-    }
+//     if (await equipmentModel.maintenancePlanExists(body.maintenancePlanId)) {
+//         throw new ApiError(httpStatus.BAD_REQUEST, 'Este plano de manutenção já está vinculado a um equipamento');
+//     }
 
-    await scheduleService.generate(equipmentId, body.maintenancePlanId, body.startDate);
+//     await scheduleService.generate(equipmentId, body.maintenancePlanId, body.startDate);
 
-}
+// }
 
 module.exports = {
     getAllEquipmentsByEnviromentId,
@@ -94,6 +94,5 @@ module.exports = {
     getAllEquipmentTypes,
     getAllCapacityTypes,
     getAllBrandModels,
-    setMaintenancePlanId,
     create
 }

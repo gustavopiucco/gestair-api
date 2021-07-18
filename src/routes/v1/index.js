@@ -85,7 +85,6 @@ router.get('/equipments/capacity-types/all', auth('get_all_equipments'), equipme
 router.get('/equipments/brand-models/all', auth('get_all_equipments'), equipmentController.getAllBrandModels);
 router.get('/equipments/enviroment/:enviromentId', auth('get_all_equipments'), validate(equipmentValidation.getAllEquipmentsByEnviromentId), equipmentController.getAllEquipments);
 router.post('/equipments', auth('create_equipment'), validate(equipmentValidation.create), equipmentController.create);
-router.patch('/equipments/:id/maintenance-plan', auth('set_maintenance_plan'), validate(equipmentValidation.setMaintenancePlanId), equipmentController.setMaintenancePlan);
 
 //Schedules
 router.get('/schedules/all/user/:userId', auth('get_schedules'), validate(scheduleValidation.getByUserId), scheduleController.getByUserId);
