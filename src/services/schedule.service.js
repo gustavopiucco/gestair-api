@@ -40,8 +40,8 @@ async function setUserId(scheduleId, userId) {
     await scheduleModel.setUserId(scheduleId, userId);
 }
 
-async function generate(equipmentId, maintenancePlanId, startDateString) {
-    const activities = await activityModel.getAllByMaintenancePlanId(maintenancePlanId);
+async function create(body) {
+    const activities = await activityModel.getAllByMaintenancePlanId(body.maintenancePlanId);
 
     const connection = await mysql.pool.getConnection();
 
@@ -51,22 +51,22 @@ async function generate(equipmentId, maintenancePlanId, startDateString) {
         for (let activity of activities) {
             switch (activity.frequency) {
                 case 'month':
-                    await generateSchedules(1, startDateString, activity, connection);
+                    await generate(1, body.startDate, activity, connection);
                     break;
                 case '2month':
-                    await generateSchedules(2, startDateString, activity, connection);
+                    await generate(2, body.startDate, activity, connection);
                     break;
                 case '3month':
-                    await generateSchedules(3, startDateString, activity, connection);
+                    await generate(3, body.startDate, activity, connection);
                     break;
                 case '4month':
-                    await generateSchedules(4, startDateString, activity, connection);
+                    await generate(4, body.startDate, activity, connection);
                     break;
                 case '6month':
-                    await generateSchedules(6, startDateString, activity, connection);
+                    await generate(6, body.startDate, activity, connection);
                     break;
                 case 'year':
-                    await generateSchedules(12, startDateString, activity, connection);
+                    await generate(12, body.startDate, activity, connection);
                     break;
             }
         }
@@ -85,7 +85,7 @@ async function generate(equipmentId, maintenancePlanId, startDateString) {
     }
 }
 
-async function generateSchedules(times, startDateString, activity, connection) {
+async function generate(times, startDateString, activity, connection) {
     let startDate = new Date(startDateString);
     let endDate = new Date(startDateString);
     endDate.setMinutes(endDate.getMinutes() + activity.time);
@@ -106,5 +106,6 @@ module.exports = {
     getByUserId,
     getByCompanyId,
     setUserId,
+    create,
     generate,
 }
