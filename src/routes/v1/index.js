@@ -90,5 +90,6 @@ router.post('/equipments', auth('create_equipment'), validate(equipmentValidatio
 router.get('/schedules/all/user/:userId', auth('get_schedules'), validate(scheduleValidation.getByUserId), scheduleController.getByUserId);
 router.get('/schedules/all/company/:companyId', auth('get_schedules'), validate(scheduleValidation.getByCompanyId), scheduleController.getByCompanyId);
 router.post('/schedules', auth('create_schedule'), auth('create_schedule'), validate(scheduleValidation.create), scheduleController.create);
+router.patch('/schedules/:scheduleId/user', auth('create_schedule'), validate(scheduleValidation.setUserId), scheduleController.setUserId);
 
 module.exports = router;

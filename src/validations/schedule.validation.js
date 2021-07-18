@@ -26,8 +26,15 @@ const create = {
     }),
 };
 
+const setUserId = {
+    body: Joi.object().keys({
+        userId: Joi.number().integer().required()
+    }),
+}
+
 module.exports = {
     getByUserId,
     getByCompanyId,
-    create
+    create,
+    setUserId
 };

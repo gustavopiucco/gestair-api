@@ -13,7 +13,7 @@ const getByCompanyId = catchAsync(async (req, res) => {
 });
 
 const setUserId = catchAsync(async (req, res) => {
-    await scheduleService.setUserId(req.body.userId);
+    await scheduleService.setUserId(req.params.scheduleId, req.body.userId);
     res.status(httpStatus.OK).send();
 });
 
