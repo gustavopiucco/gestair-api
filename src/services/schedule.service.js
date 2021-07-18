@@ -32,7 +32,7 @@ async function setUserId(scheduleId, userId) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Este usuário não é técnico');
     }
 
-    if (scheduleModel.userIdExists(scheduleId, userId)) {
+    if (await scheduleModel.userIdExists(scheduleId, userId)) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Já existe um técnico vinculado a este agendamento');
     }
 
@@ -91,9 +91,9 @@ async function generate(times, startDateString, activity, connection) {
         startDate.setMonth(startDate.getMonth() + times);
         endDate.setMonth(endDate.getMonth() + times);
 
-        if (await scheduleModel.dateRangeExists(startDate, endDate, connection)) {
-            //throw new ApiError(httpStatus.BAD_REQUEST, 'Alguma data na criação da agenda já está ocupada');
-        }
+        //if (await scheduleModel.dateRangeExists(startDate, endDate, connection)) {
+        //throw new ApiError(httpStatus.BAD_REQUEST, 'Alguma data na criação da agenda já está ocupada');
+        //}
 
         await scheduleModel.create(startDate, endDate, activity.id, connection);
     }
