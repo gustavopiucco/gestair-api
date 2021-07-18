@@ -15,8 +15,8 @@ async function getAllByCompanyId(companyId) {
     return rows;
 }
 
-async function create(name, companyId, userId) {
-    await mysql.pool.execute('INSERT INTO maintenance_plans (name, company_id, user_id) VALUES (?, ?, ?)', [name, companyId, userId]);
+async function create(name, companyId, equipmentId, userId) {
+    await mysql.pool.execute('INSERT INTO maintenance_plans (name, company_id, equipment_id, user_id) VALUES (?, ?, ?, ?)', [name, companyId, equipmentId, userId]);
 }
 
 module.exports = {
