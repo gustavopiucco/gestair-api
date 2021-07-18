@@ -165,6 +165,16 @@ CREATE TABLE checklists (
   CONSTRAINT fk_c_mpa_id_a_id FOREIGN KEY (activity_id) REFERENCES activities (id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
+CREATE TABLE responses (
+  id int NOT NULL AUTO_INCREMENT,
+  value_type varchar(20),
+  value double,
+  checklist_id int NOT NULL,
+  created_at timestamp DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT pk_id PRIMARY KEY (id),
+  CONSTRAINT fk_r_c_id_c_id FOREIGN KEY (checklist_id) REFERENCES checklists (id)
+) ENGINE=InnoDB;
+
 CREATE TABLE equipments (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(100),

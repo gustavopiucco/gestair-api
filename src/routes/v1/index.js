@@ -15,6 +15,7 @@ const equipmentValidation = require('../../validations/equipment.validation');
 const activityValidation = require('../../validations/activity.validation');
 const checklistValidation = require('../../validations/checklist.validation');
 const scheduleValidation = require('../../validations/schedule.validation');
+const responseValidation = require('../../validations/response.validation');
 
 const userController = require('../../controllers/user.controller');
 const workTimeController = require('../../controllers/worktime.controller');
@@ -28,6 +29,7 @@ const equipmentController = require('../../controllers/equipment.controller');
 const activityController = require('../../controllers/activity.controller');
 const checklistController = require('../../controllers/checklist.controller');
 const scheduleController = require('../../controllers/schedule.controller');
+const responseController = require('../../controllers/response.controller');
 
 //Auth
 router.post('/auth/login', validate(authValidation.login), authController.login);
@@ -61,6 +63,9 @@ router.delete('/activities/:id', auth('delete_activity'), validate(activityValid
 router.get('/checklists/activity/:activityId', auth('get_checklists'), validate(checklistValidation.getAllByActivityId), checklistController.getAllByActivityId);
 router.post('/checklists', auth('create_checklist'), validate(checklistValidation.create), checklistController.create);
 router.delete('/checklists/:id', auth('delete_checklist'), validate(checklistValidation.remove), checklistController.remove);
+
+//Responses
+router.post('/responses', auth('create_response'), validate(responseValidation.create), responseController.create);
 
 //Company
 router.post('/companies', auth('admin_create_company'), validate(companyValidation.createCompany), companyController.createCompany);

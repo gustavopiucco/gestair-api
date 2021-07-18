@@ -2,7 +2,6 @@ const ApiError = require('../utils/ApiError');
 const httpStatus = require('http-status');
 const activityModel = require('../models/activity.model');
 const scheduleModel = require('../models/schedule.model');
-const equipmentModel = require('../models/equipment.model');
 const userModel = require('../models/user.model');
 const mysql = require('../database/mysql');
 
@@ -71,8 +70,6 @@ async function create(body) {
             }
         }
 
-        await equipmentModel.setMaintenancePlan(equipmentId, maintenancePlanId, connection);
-
         await connection.commit();
 
     }
@@ -95,7 +92,7 @@ async function generate(times, startDateString, activity, connection) {
         endDate.setMonth(endDate.getMonth() + times);
 
         if (await scheduleModel.dateRangeExists(startDate, endDate, connection)) {
-            throw new ApiError(httpStatus.BAD_REQUEST, 'Alguma data na criação da agenda já está ocupada');
+            //throw new ApiError(httpStatus.BAD_REQUEST, 'Alguma data na criação da agenda já está ocupada');
         }
 
         await scheduleModel.create(startDate, endDate, activity.id, connection);
