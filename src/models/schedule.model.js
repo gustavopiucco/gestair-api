@@ -5,6 +5,11 @@ async function exists(id) {
     return rows.length > 0;
 }
 
+async function userIdExists(scheduleId, userId) {
+    const [rows, fields] = await mysql.pool.execute('SELECT 1 FROM schedules WHERE id = ? AND user_id = ?', [scheduleId, userId]);
+    return rows.length > 0;
+}
+
 async function dateRangeExists(startDate, endDate, connection) {
     const sql = 'SELECT * FROM schedules WHERE (? >= start_date AND ? <= end_date) OR (? >= start_date AND ? <= end_date)';
     const values = [startDate, startDate, endDate, endDate];
@@ -58,6 +63,7 @@ async function create(startDate, endDate, activityId, connection) {
 
 module.exports = {
     exists,
+    userIdExists,
     dateRangeExists,
     getById,
     getByUserId,

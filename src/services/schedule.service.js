@@ -3,6 +3,7 @@ const httpStatus = require('http-status');
 const activityModel = require('../models/activity.model');
 const scheduleModel = require('../models/schedule.model');
 const equipmentModel = require('../models/equipment.model');
+const userModel = require('../models/user.model');
 const mysql = require('../database/mysql');
 
 async function getByUserId(userId, date) {
@@ -17,12 +18,26 @@ async function getByCompanyId(companyId, date) {
     return schedules;
 }
 
-async function setUserId(userId) {
-    //verificar se o userId existe
-    //verificar se o userId é técnico
-    //verificar se o userId já foi setado
+async function setUserId(scheduleId, userId) {
+    if (!await scheduleModel.exists(scheduleId)) {
+        throw new ApiError(httpStatus.NOT_FOUND, 'Está agenda não existe');
+    }
 
-    await scheduleModel.setUserId(userId);
+    const user = await userModel.getUserById(userId);
+
+    if (!user) {
+        throw new ApiError(httpStatus.NOT_FOUND, 'Está usuário não existe');
+    }
+
+    if (user.role != 'company_technician') {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Este usuário não é técnico');
+    }
+
+    if (scheduleModel.userIdExists(scheduleId, userId)) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Já existe um técnico vinculado a este agendamento');
+    }
+
+    await scheduleModel.setUserId(scheduleId, userId);
 }
 
 async function generate(equipmentId, maintenancePlanId, startDateString) {
