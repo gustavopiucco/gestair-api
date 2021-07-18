@@ -17,33 +17,6 @@ async function getByCompanyId(companyId, date) {
     return schedules;
 }
 
-async function generate(equipmentId, maintenancePlanId, startDateString) {
-    const activities = await activityModel.getAllByMaintenancePlanId(maintenancePlanId);
-
-    for (let activity of activities) {
-        switch (activity.frequency) {
-            case 'month':
-                await generateSchedules(1, startDateString, activity, equipmentId, maintenancePlanId);
-                break;
-            case '2month':
-                await generateSchedules(2, startDateString, activity, equipmentId, maintenancePlanId);
-                break;
-            case '3month':
-                await generateSchedules(3, startDateString, activity, equipmentId, maintenancePlanId);
-                break;
-            case '4month':
-                await generateSchedules(4, startDateString, activity, equipmentId, maintenancePlanId);
-                break;
-            case '6month':
-                await generateSchedules(6, startDateString, activity, equipmentId, maintenancePlanId);
-                break;
-            case 'year':
-                await generateSchedules(12, startDateString, activity, equipmentId, maintenancePlanId);
-                break;
-        }
-    }
-}
-
 async function setUserId(userId) {
     //verificar se o userId existe
     //verificar se o userId é técnico
@@ -52,30 +25,41 @@ async function setUserId(userId) {
     await scheduleModel.setUserId(userId);
 }
 
-async function generateSchedules(times, startDateString, activity, equipmentId, maintenancePlanId) {
-    let startDate = new Date(startDateString);
-    let endDate = new Date(startDateString);
-    endDate.setMinutes(endDate.getMinutes() + activity.time);
+async function generate(equipmentId, maintenancePlanId, startDateString) {
+    const activities = await activityModel.getAllByMaintenancePlanId(maintenancePlanId);
 
     const connection = await mysql.pool.getConnection();
 
     try {
         await connection.beginTransaction();
 
-        for (let i = 1; i <= 12 / times; i++) {
-            startDate.setMonth(startDate.getMonth() + times);
-            endDate.setMonth(endDate.getMonth() + times);
-
-            if (await scheduleModel.dateRangeExists(connection, startDate, endDate)) {
-                throw new ApiError(httpStatus.BAD_REQUEST, 'Alguma data na criação da agenda já está ocupada');
+        for (let activity of activities) {
+            switch (activity.frequency) {
+                case 'month':
+                    await generateSchedules(1, startDateString, activity, connection);
+                    break;
+                case '2month':
+                    await generateSchedules(2, startDateString, activity, connection);
+                    break;
+                case '3month':
+                    await generateSchedules(3, startDateString, activity, connection);
+                    break;
+                case '4month':
+                    await generateSchedules(4, startDateString, activity, connection);
+                    break;
+                case '6month':
+                    await generateSchedules(6, startDateString, activity, connection);
+                    break;
+                case 'year':
+                    await generateSchedules(12, startDateString, activity, connection);
+                    break;
             }
-
-            await scheduleModel.create(startDate, endDate, activity.id, connection);
         }
 
-        await equipmentModel.setMaintenancePlan(equipmentId, maintenancePlanId);
+        await equipmentModel.setMaintenancePlan(equipmentId, maintenancePlanId, connection);
 
         await connection.commit();
+
     }
     catch (error) {
         await connection.rollback();
@@ -83,6 +67,23 @@ async function generateSchedules(times, startDateString, activity, equipmentId, 
     }
     finally {
         await connection.release();
+    }
+}
+
+async function generateSchedules(times, startDateString, activity, connection) {
+    let startDate = new Date(startDateString);
+    let endDate = new Date(startDateString);
+    endDate.setMinutes(endDate.getMinutes() + activity.time);
+
+    for (let i = 1; i <= 12 / times; i++) {
+        startDate.setMonth(startDate.getMonth() + times);
+        endDate.setMonth(endDate.getMonth() + times);
+
+        if (await scheduleModel.dateRangeExists(startDate, endDate, connection)) {
+            throw new ApiError(httpStatus.BAD_REQUEST, 'Alguma data na criação da agenda já está ocupada');
+        }
+
+        await scheduleModel.create(startDate, endDate, activity.id, connection);
     }
 }
 

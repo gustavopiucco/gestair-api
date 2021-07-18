@@ -5,9 +5,18 @@ async function exists(id) {
     return rows.length > 0;
 }
 
-async function dateRangeExists(connection, startDate, endDate) {
-    const [rows, fields] = await connection.execute('SELECT * FROM schedules WHERE (? >= start_date AND ? <= end_date) OR (? >= start_date AND ? <= end_date)', [startDate, startDate, endDate, endDate]);
-    return rows.length > 0;
+async function dateRangeExists(startDate, endDate, connection) {
+    const sql = 'SELECT * FROM schedules WHERE (? >= start_date AND ? <= end_date) OR (? >= start_date AND ? <= end_date)';
+    const values = [startDate, startDate, endDate, endDate];
+
+    if (connection) {
+        const [rows, fields] = await connection.execute(sql, values);
+        return rows.length > 0;
+    }
+    else {
+        const [rows, fields] = await mysql.pool.execute(sql, values);
+        return rows.length > 0;
+    }
 }
 
 async function getById(id) {

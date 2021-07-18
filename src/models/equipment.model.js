@@ -64,7 +64,7 @@ async function setMaintenancePlan(equipmentId, maintenancePlanId, connection) {
     const values = [maintenancePlanId, equipmentId];
 
     if (connection)
-        await connection.execute(sql, vales);
+        await connection.execute(sql, values);
     else {
         await mysql.pool.execute(sql, values);
     }
