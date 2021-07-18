@@ -47,27 +47,33 @@ async function create(body) {
     try {
         await connection.beginTransaction();
 
+        let startDate = new Date(body.startDate);
+        let endDate = new Date(body.startDate);
+
+        const monthsToAdd = {
+            'month': 1,
+            '2month': 2,
+            '3month': 3,
+            '4month': 4,
+            '6month': 6,
+            'year': 12
+        };
+
         for (let activity of activities) {
-            switch (activity.frequency) {
-                case 'month':
-                    await generate(1, body.startDate, activity, connection);
-                    break;
-                case '2month':
-                    await generate(2, body.startDate, activity, connection);
-                    break;
-                case '3month':
-                    await generate(3, body.startDate, activity, connection);
-                    break;
-                case '4month':
-                    await generate(4, body.startDate, activity, connection);
-                    break;
-                case '6month':
-                    await generate(6, body.startDate, activity, connection);
-                    break;
-                case 'year':
-                    await generate(12, body.startDate, activity, connection);
-                    break;
+            endDate.setMinutes(endDate.getMinutes() + activity.time);
+
+            for (let i = 1; i <= 12 / monthsToAdd[activity.frequency]; i++) {
+                startDate.setMonth(startDate.getMonth() + monthsToAdd[activity.frequency]);
+                endDate.setMonth(endDate.getMonth() + monthsToAdd[activity.frequency]);
+
+                if (await scheduleModel.dateRangeExists(startDate, endDate, connection)) {
+                    throw new ApiError(httpStatus.BAD_REQUEST, 'Alguma data na criação da agenda já está ocupada');
+                }
+
+                await scheduleModel.create(startDate, endDate, activity.id, connection);
             }
+
+            startDate.setMinutes(startDate.getMinutes() + activity.time);
         }
 
         await connection.commit();
@@ -82,27 +88,9 @@ async function create(body) {
     }
 }
 
-async function generate(times, startDateString, activity, connection) {
-    let startDate = new Date(startDateString);
-    let endDate = new Date(startDateString);
-    endDate.setMinutes(endDate.getMinutes() + activity.time);
-
-    for (let i = 1; i <= 12 / times; i++) {
-        startDate.setMonth(startDate.getMonth() + times);
-        endDate.setMonth(endDate.getMonth() + times);
-
-        //if (await scheduleModel.dateRangeExists(startDate, endDate, connection)) {
-        //throw new ApiError(httpStatus.BAD_REQUEST, 'Alguma data na criação da agenda já está ocupada');
-        //}
-
-        await scheduleModel.create(startDate, endDate, activity.id, connection);
-    }
-}
-
 module.exports = {
     getByUserId,
     getByCompanyId,
     setUserId,
-    create,
-    generate,
+    create
 }
