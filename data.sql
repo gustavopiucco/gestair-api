@@ -138,6 +138,7 @@ CREATE TABLE maintenance_plans (
   equipment_id int NOT NULL,
   user_id int NOT NULL,
   CONSTRAINT pk_id PRIMARY KEY (id),
+  CONSTRAINT uc_equipment_id UNIQUE (equipment_id),
   CONSTRAINT fk_company_id FOREIGN KEY (company_id) REFERENCES companies (id),
   CONSTRAINT fk_mp_e_id_e_id FOREIGN KEY (equipment_id) REFERENCES equipments (id),
   CONSTRAINT fk_ump_u_id_u_id FOREIGN KEY (user_id) REFERENCES users (id)
