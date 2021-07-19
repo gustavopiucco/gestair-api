@@ -55,6 +55,18 @@ async function getAllEquipmentsByEnviromentId(enviromentId) {
     return rows;
 }
 
+async function getCompanyId(equipmentId) {
+    const [rows, fields] = await mysql.pool.execute(`
+    SELECT companies.id AS company_id
+    FROM equipments
+    JOIN enviroments ON enviroments.id = equipments.enviroment_id
+    JOIN units ON units.id = enviroments.unit_id
+    JOIN customers ON customers.id = units.customer_id
+    JOIN companies ON companies.id = customers.company_id
+    WHERE equipments.id = ?`, [equipmentId]);
+    return rows[0].company_id;
+}
+
 async function create(name, serialNumber, tag, systemTypeId, equipmentTypeId, capacityTypeId, capacityValue, brandModelId, enviromentId) {
     await mysql.pool.execute('INSERT INTO equipments (name, serial_number, tag, system_type_id, equipment_type_id, capacity_type_id, capacity_value, brand_model_id, enviroment_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [name, serialNumber, tag, systemTypeId, equipmentTypeId, capacityTypeId, capacityValue, brandModelId, enviromentId]);
 }
@@ -93,6 +105,7 @@ module.exports = {
     getAllCapacityTypes,
     getAllBrandModels,
     getAllEquipmentsByEnviromentId,
+    getCompanyId,
     create,
     getEquipmentCompanyIdByEquipmentId
 }

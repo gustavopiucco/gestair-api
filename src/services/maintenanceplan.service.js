@@ -15,7 +15,9 @@ async function create(loggedInUser, body) {
         throw new ApiError(httpStatus.NOT_FOUND, 'Este equipamento não existe');
     }
 
-    //TODO: verificar se este equipamento pertence a loggedInUser.companyId
+    if (loggedInUser.companyId != await equipmentModel.getCompanyId(body.equipmentId)) {
+        throw new ApiError(httpStatus.NOT_FOUND, 'Este equipamento não pertence a sua empresa');
+    }
 
     const user = await userModel.getUserById(body.userId);
 
