@@ -27,6 +27,10 @@ async function create(loggedInUser, body) {
         throw new ApiError(httpStatus.FORBIDDEN, 'Não é possível setar um Company Admin como responsável');
     }
 
+    if (await maintenancePlanModel.equipmentIdExists(body.equipmentId)) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Já existe um plano de manutenção para este equipamento');
+    }
+
     const maintenancePlan = await maintenancePlanModel.create(body.name, loggedInUser.companyId, body.equipmentId, body.userId);
 
     return maintenancePlan;
