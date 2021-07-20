@@ -88,9 +88,31 @@ async function create(body) {
     }
 }
 
+async function createSingle(body) {
+    const activity = await activityModel.getById(body.activityId);
+
+    if (!activity) {
+        throw new ApiError(httpStatus.NOT_FOUND, 'Esta atividade não existe');
+    }
+
+    if (activity.frequency != 'single') {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Esta atividade não é avulsa');
+    }
+
+    let startDate = new Date(body.startDate);
+    let endDate = new Date(body.startDate);
+
+    endDate.setMinutes(endDate.getMinutes() + activity.time);
+
+    //pra qual data marcar essa agenda avulsa?
+
+    //cria a agenda
+}
+
 module.exports = {
     getByUserId,
     getByCompanyId,
     setUserId,
-    create
+    create,
+    createSingle
 }

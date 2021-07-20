@@ -22,9 +22,15 @@ const create = catchAsync(async (req, res) => {
     res.status(httpStatus.CREATED).send();
 });
 
+const createSingle = catchAsync(async (req, res) => {
+    await scheduleService.createSingle(req.body);
+    res.status(httpStatus.CREATED).send();
+});
+
 module.exports = {
     getByUserId,
     getByCompanyId,
     setUserId,
-    create
+    create,
+    createSingle
 }
