@@ -99,7 +99,9 @@ rolePermissions.set(roles[2],
         'create_unit_technician_link',
         'create_schedule',
         'get_schedules',
-        'create_response'
+        'create_response',
+        'get_maintenance_plans_requests',
+        'approve_maintenance_plan_request'
     ]);
 
 rolePermissions.set(roles[3],
@@ -109,7 +111,8 @@ rolePermissions.set(roles[3],
 
 rolePermissions.set(roles[4],
     [
-
+        'get_maintenance_plans_requests',
+        'approve_maintenance_plan_request'
     ]);
 
 module.exports = {

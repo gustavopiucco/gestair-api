@@ -16,6 +16,7 @@ const activityValidation = require('../../validations/activity.validation');
 const checklistValidation = require('../../validations/checklist.validation');
 const scheduleValidation = require('../../validations/schedule.validation');
 const responseValidation = require('../../validations/response.validation');
+const maintenancePlanRequestValidation = require('../../validations/maintenanceplansrequests.validation')
 
 const userController = require('../../controllers/user.controller');
 const workTimeController = require('../../controllers/worktime.controller');
@@ -30,6 +31,7 @@ const activityController = require('../../controllers/activity.controller');
 const checklistController = require('../../controllers/checklist.controller');
 const scheduleController = require('../../controllers/schedule.controller');
 const responseController = require('../../controllers/response.controller');
+const maintenancePlanRequestController = require('../../controllers/maintenanceplansrequests.controller')
 
 //Auth
 router.post('/auth/login', validate(authValidation.login), authController.login);
@@ -97,5 +99,13 @@ router.get('/schedules/all/company/:companyId', auth('get_schedules'), validate(
 router.post('/schedules', auth('create_schedule'), auth('create_schedule'), validate(scheduleValidation.create), scheduleController.create);
 router.post('/schedules/single', auth('create_schedule'), auth('create_schedule'), validate(scheduleValidation.createSingle), scheduleController.createSingle);
 router.patch('/schedules/:scheduleId/user', auth('create_schedule'), validate(scheduleValidation.setUserId), scheduleController.setUserId);
+
+
+// Maintenance plans requests
+router.get('/maintenance-plans-requests/all/company',auth('get_maintenance_plans_requests'),maintenancePlanRequestController.getMaintenancePlansRequestsByCompanyId)
+router.get('/maintenance-plans-requests/all/customer',auth('get_maintenance_plans_requests'),maintenancePlanRequestController.getMaintenancePlansRequestsByCustomerId)
+router.patch('/maintenance-plans-requests/company/approve',auth('approve_maintenance_plan_request'),validate(maintenancePlanRequestValidation.managerApproveMaintenancePlanRequest),maintenancePlanRequestController.managerApproveMaintenancePlanRequest)
+router.patch('/maintenance-plans-requests/customer/approve',auth('approve_maintenance_plan_request'),validate(maintenancePlanRequestValidation.customerApproveMaintenancePlanRequest),maintenancePlanRequestController.customerApproveMaintenancePlanRequest)
+
 
 module.exports = router;

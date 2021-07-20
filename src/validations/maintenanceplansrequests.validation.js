@@ -1,17 +1,6 @@
 const Joi = require('joi');
 
-const getMaintenancePlansRequestsByCompanyId = {
-    params:Joi.object().keys({
-            companyId: Joi.number().integer().required(),
-        }),
-    
-}
-const getMaintenancePlansRequestsByCustomerId = {
-    params:Joi.object().keys({
-            customerId: Joi.number().integer().required(),
-        }),
-    
-}
+
 
 const createMaintenancePlanRequest = {
     body: Joi.object().keys({
@@ -23,8 +12,19 @@ const createMaintenancePlanRequest = {
     }),
 };
 
+const managerApproveMaintenancePlanRequest = {
+    body:Joi.object().keys({
+        maintenance_plan_request_id:Joi.number().integer().required()
+    })
+}
+const customerApproveMaintenancePlanRequest = {
+    body:Joi.object().keys({
+        maintenance_plan_request_id:Joi.number().integer().required()
+    })
+}
+
 module.exports = {
    createMaintenancePlanRequest,
-   getMaintenancePlansRequestsByCompanyId,
-   getMaintenancePlansRequestsByCustomerId
+   managerApproveMaintenancePlanRequest,
+   customerApproveMaintenancePlanRequest
 };

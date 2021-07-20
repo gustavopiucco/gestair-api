@@ -5,6 +5,11 @@ async function exists(id) {
     return rows.length > 0;
 }
 
+async function getById(id){
+    const [rows, fields] = await mysql.pool.execute('SELECT * FROM equipments WHERE id = ?', [id]);
+    return rows[0]
+}
+
 async function systemTypeExists(id) {
     const [rows, fields] = await mysql.pool.execute('SELECT 1 FROM system_types WHERE id = ?', [id]);
     return rows.length > 0;
@@ -67,6 +72,17 @@ async function getCompanyId(equipmentId) {
     return rows[0].company_id;
 }
 
+async function getCustomerId(equipmentId) {
+    const [rows, fields] = await mysql.pool.execute(`
+    SELECT companies.id AS company_id
+    FROM equipments
+    JOIN enviroments ON enviroments.id = equipments.enviroment_id
+    JOIN units ON units.id = enviroments.unit_id
+    JOIN customers ON customers.id = units.customer_id
+    WHERE equipments.id = ?`, [equipmentId]);
+    return rows[0].customer_id;
+}
+
 async function create(name, serialNumber, tag, systemTypeId, equipmentTypeId, capacityTypeId, capacityValue, brandModelId, enviromentId) {
     await mysql.pool.execute('INSERT INTO equipments (name, serial_number, tag, system_type_id, equipment_type_id, capacity_type_id, capacity_value, brand_model_id, enviroment_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [name, serialNumber, tag, systemTypeId, equipmentTypeId, capacityTypeId, capacityValue, brandModelId, enviromentId]);
 }
@@ -95,6 +111,7 @@ async function getEquipmentCompanyIdByEquipmentId(id) {
 
 module.exports = {
     exists,
+    getById,
     systemTypeExists,
     equipmentTypeExists,
     capacityTypeExists,
@@ -106,6 +123,7 @@ module.exports = {
     getAllBrandModels,
     getAllEquipmentsByEnviromentId,
     getCompanyId,
+    getCustomerId,
     create,
     getEquipmentCompanyIdByEquipmentId
 }
