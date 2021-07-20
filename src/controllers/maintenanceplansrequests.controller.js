@@ -23,13 +23,13 @@ const getMaintenancePlansRequestsByCustomerId = catchAsync(async (req, res) => {
 
 
 const managerApproveMaintenancePlanRequest = catchAsync(async (req, res) => {
-    let {maintenance_plan_request_id} = req.params
+    let {maintenance_plan_request_id} = req.body
     await maintenanceRequestService.managerApproveMaintenancePlanRequest(maintenance_plan_request_id,req.user)
     res.status(httpStatus.OK).send();
 });
 
 const customerApproveMaintenancePlanRequest = catchAsync(async (req, res) => {
-    let {maintenance_plan_request_id} = req.params
+    let {maintenance_plan_request_id} = req.body
     await maintenanceRequestService.customerApproveMaintenancePlanRequest(maintenance_plan_request_id,req.user)
     res.status(httpStatus.OK).send();
 });

@@ -102,10 +102,11 @@ router.patch('/schedules/:scheduleId/user', auth('create_schedule'), validate(sc
 
 
 // Maintenance plans requests
-router.get('/maintenance-plans-requests/all/company',auth('get_maintenance_plans_requests'),maintenancePlanRequestController.getMaintenancePlansRequestsByCompanyId)
-router.get('/maintenance-plans-requests/all/customer',auth('get_maintenance_plans_requests'),maintenancePlanRequestController.getMaintenancePlansRequestsByCustomerId)
-router.patch('/maintenance-plans-requests/company/approve',auth('approve_maintenance_plan_request'),validate(maintenancePlanRequestValidation.managerApproveMaintenancePlanRequest),maintenancePlanRequestController.managerApproveMaintenancePlanRequest)
-router.patch('/maintenance-plans-requests/customer/approve',auth('approve_maintenance_plan_request'),validate(maintenancePlanRequestValidation.customerApproveMaintenancePlanRequest),maintenancePlanRequestController.customerApproveMaintenancePlanRequest)
+router.post('/maintenance-plans-requests/',validate(maintenancePlanRequestValidation.createMaintenancePlanRequest),maintenancePlanRequestController.createMaintenancePlanRequest)
+router.get('/maintenance-plans-requests/all/company',auth('get_company_maintenance_plans_requests'),maintenancePlanRequestController.getMaintenancePlansRequestsByCompanyId)
+router.get('/maintenance-plans-requests/all/customer',auth('get_customer__maintenance_plans_requests'),maintenancePlanRequestController.getMaintenancePlansRequestsByCustomerId)
+router.patch('/maintenance-plans-requests/company/approve',auth('manager_approve_maintenance_plan_request'),validate(maintenancePlanRequestValidation.managerApproveMaintenancePlanRequest),maintenancePlanRequestController.managerApproveMaintenancePlanRequest)
+router.patch('/maintenance-plans-requests/customer/approve',auth('customer_approve_maintenance_plan_request'),validate(maintenancePlanRequestValidation.customerApproveMaintenancePlanRequest),maintenancePlanRequestController.customerApproveMaintenancePlanRequest)
 
 
 module.exports = router;

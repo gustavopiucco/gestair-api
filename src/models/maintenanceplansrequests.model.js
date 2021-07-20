@@ -2,7 +2,7 @@ const mysql = require('../database/mysql');
 
 
 async function createMaintenancePlanRequest(requester_cpf,requester_firstname ,requester_lastname, description, equipment_id) {
-    await mysql.execute('INSERT INTO maintenance_plans_requests (requester_cpf, requester_lastname, description, equipment_id) VALUES (?, ?, ?, ?)', [requester_cpf, requester_firstname,requester_lastname, description, equipment_id]);
+    await mysql.pool.execute('INSERT INTO maintenance_plans_requests (requester_cpf,requester_firstname ,requester_lastname, description, equipment_id) VALUES (?,?,?, ?, ?)', [requester_cpf, requester_firstname,requester_lastname, description, equipment_id]);
 }
 
 async function getById(id){
@@ -24,8 +24,8 @@ async function getMaintenancePlansRequestsByCompanyId(company_id){
     INNER JOIN equipments ON equipments.id = maintenance_plans_requests.equipment_id
     INNER JOIN enviroments ON enviroments.id = equipments.enviroment_id
     INNER JOIN units ON units.id = enviroments.unit_id
-    INNER JOIN companies ON company.id = units.company_id
-    WHERE company.id = ? AND maintenance_plans_requests.approved_by_manager IS FALSE`,[company_id]);
+    INNER JOIN customers ON customers.id = units.customer_id
+    WHERE customers.company_id = ? AND maintenance_plans_requests.approved_by_manager IS FALSE AND maintenance_plans_requests.approved_by_customer IS TRUE`,[company_id]);
     return rows;
 }
 
@@ -33,7 +33,7 @@ async function getMaintenancePlansRequestsByCompanyId(company_id){
 async function customerApproveMaintenancePlanRequest(maintenance_plan_request_id, timestamp){
    await mysql.pool.execute(`UPDATE maintenance_plans_requests 
    SET approved_by_customer = TRUE,
-   SET approved_by_client_at = ?
+   approved_by_customer_at = ?
    WHERE maintenance_plans_requests.id = ?
    `,[timestamp,maintenance_plan_request_id])
 }
@@ -42,7 +42,7 @@ async function customerApproveMaintenancePlanRequest(maintenance_plan_request_id
 async function managerApproveMaintenancePlanRequest(maintenance_plan_request_id, timestamp){
     await mysql.pool.execute(`UPDATE maintenance_plans_requests 
     SET approved_by_manager = TRUE,
-    SET approved_by_manager_at = ?
+    approved_by_manager_at = ?
     WHERE maintenance_plans_requests.id = ?
     `,[timestamp,maintenance_plan_request_id])
  }

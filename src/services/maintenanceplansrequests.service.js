@@ -36,11 +36,6 @@ async function customerApproveMaintenancePlanRequest(maintenance_plan_request_id
         throw new ApiError(httpStatus.BAD_REQUEST, '');
     }
 
-    if(loggedInUser.role !== 'customer_manager'){
-        throw new ApiError(httpStatus.FORBIDDEN, 'Você não tem permissão para realizar a ação');
-    }
-
-
     
     // Checar se a solicitação pertence ou não ao customer 
     const maintenancePlanRequest = await maintenanceRequestModel.getById(maintenance_plan_request_id)
@@ -48,7 +43,7 @@ async function customerApproveMaintenancePlanRequest(maintenance_plan_request_id
         throw new ApiError(httpStatus.BAD_REQUEST, 'Este ID de solicitação não existe');
     }
 
-    if(loggedInUser.customerId !== equipmentModel.getCustomerId(maintenancePlanRequest.equipment_id)){
+    if(loggedInUser.customerId !== await equipmentModel.getCustomerId(maintenancePlanRequest.equipment_id)){
         throw new ApiError(httpStatus.NOT_FOUND, 'Este equipamento não pertence a sua empresa');
     }
 
@@ -64,21 +59,18 @@ async function managerApproveMaintenancePlanRequest(maintenance_plan_request_id,
         throw new ApiError(httpStatus.BAD_REQUEST, '');
     }
 
-    if(loggedInUser.role !== 'company_manager'){
-        throw new ApiError(httpStatus.FORBIDDEN, 'Você não tem permissão para realizar a ação');
-    }
 
     const maintenancePlanRequest = await maintenanceRequestModel.getById(maintenance_plan_request_id)
     if(!maintenancePlanRequest){
         throw new ApiError(httpStatus.BAD_REQUEST, 'Este ID de solicitação não existe');
     }
 
-    if(loggedInUser.companyId !== equipmentModel.getCompanyId(maintenancePlanRequest.equipment_id)){
+    if(loggedInUser.companyId !== await equipmentModel.getCompanyId(maintenancePlanRequest.equipment_id)){
         throw new ApiError(httpStatus.NOT_FOUND, 'Este equipamento não pertence a sua empresa');
     }
 
     const currentTimestamp = new Date()
-    await maintenanceRequestModel.customerApproveMaintenancePlanRequest(maintenance_plan_request_id,currentTimestamp)
+    await maintenanceRequestModel.managerApproveMaintenancePlanRequest(maintenance_plan_request_id,currentTimestamp)
     return;
 
 

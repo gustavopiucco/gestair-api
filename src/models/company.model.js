@@ -1,5 +1,10 @@
 const mysql = require('../database/mysql');
 
+async function exists(id) {
+    const [rows, fields] = await mysql.pool.execute('SELECT 1 FROM companies WHERE id = ?', [id]);
+    return rows.length > 0;
+}
+
 async function cnpjExists(cnpj) {
     const [rows, fields] = await mysql.pool.execute('SELECT 1 FROM companies WHERE cnpj = ?', [cnpj]);
     return rows.length > 0;
@@ -33,5 +38,6 @@ module.exports = {
     getCompanyByCnpj,
     createCompany,
     updateCompanyById,
-    deleteCompanyById
+    deleteCompanyById,
+    exists
 }

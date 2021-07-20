@@ -74,7 +74,7 @@ async function getCompanyId(equipmentId) {
 
 async function getCustomerId(equipmentId) {
     const [rows, fields] = await mysql.pool.execute(`
-    SELECT companies.id AS company_id
+    SELECT customers.id AS customer_id
     FROM equipments
     JOIN enviroments ON enviroments.id = equipments.enviroment_id
     JOIN units ON units.id = enviroments.unit_id
