@@ -26,6 +26,13 @@ const create = {
     }),
 };
 
+const createSingle = {
+    body: Joi.object().keys({
+        activityId: Joi.number().integer().required(),
+        startDate: Joi.string().required().custom(date),
+    }),
+};
+
 const setUserId = {
     body: Joi.object().keys({
         userId: Joi.number().integer().required()
@@ -36,5 +43,6 @@ module.exports = {
     getByUserId,
     getByCompanyId,
     create,
+    createSingle,
     setUserId
 };

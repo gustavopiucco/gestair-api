@@ -147,7 +147,7 @@ CREATE TABLE maintenance_plans (
 CREATE TABLE activities (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(100) NOT NULL,
-  frequency enum('day', 'week', 'month', '2month', '3month', '4month', '6month', 'year') NOT NULL,
+  frequency enum('single', 'day', 'week', 'month', '2month', '3month', '4month', '6month', 'year') NOT NULL,
   time int NOT NULL,
   maintenance_plan_id int NOT NULL,
   CONSTRAINT pk_id PRIMARY KEY (id),
