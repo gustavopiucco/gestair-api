@@ -17,8 +17,8 @@ async function getByCompanyId(companyId, date) {
     return schedules;
 }
 
-async function getAllByMaintenancePlanId(maintenancePlanId, date){
-    const schedules = await scheduleModel.getAllByMaintenancePlanId(maintenancePlanId, date);
+async function getAllByMaintenancePlanId(maintenancePlanId){
+    const schedules = await scheduleModel.getAllByMaintenancePlanId(maintenancePlanId);
 
     return schedules;
 }

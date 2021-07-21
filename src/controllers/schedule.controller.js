@@ -8,7 +8,7 @@ const getByUserId = catchAsync(async (req, res) => {
 });
 
 const getAllByMaintenancePlanId = catchAsync(async (req, res) => {
-    const schedules = await scheduleService.getAllByMaintenancePlanId(req.params.maintenancePlanId, req.body.date);
+    const schedules = await scheduleService.getAllByMaintenancePlanId(req.params.maintenancePlanId);
     res.status(httpStatus.OK).send(schedules);
 });
 

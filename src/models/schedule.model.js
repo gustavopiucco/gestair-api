@@ -57,14 +57,14 @@ async function getByCompanyId(companyId, date) {
     return rows;
 }
 
-async function getAllByMaintenancePlanId(maintenance_plan_id,date){
+async function getAllByMaintenancePlanId(maintenance_plan_id){
 
     const [rows, fields] = await mysql.pool.execute(`SELECT schedules.id, schedules.start_date, schedules.end_date, schedules.activity_id , activities.name AS activity_name, equipments.name AS equipment_name
     FROM schedules 
     JOIN activities ON activities.id = schedules.activity_id
     JOIN maintenance_plans ON maintenance_plans.id = activities.maintenance_plan_id
     JOIN equipments ON equipments.id = maintenance_plans.equipment_id 
-    WHERE maintenance_plans.id = ? AND DATE(start_date) = ?`, [maintenance_plan_id, date]
+    WHERE maintenance_plans.id = ? `, [maintenance_plan_id]
     );
     return rows;
 
