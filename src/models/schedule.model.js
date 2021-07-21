@@ -30,20 +30,43 @@ async function getById(id) {
 }
 
 async function getByUserId(userId, date) {
-    const [rows, fields] = await mysql.pool.execute('SELECT id, start_date, end_date, activity_id FROM schedules WHERE user_id = ? AND DATE(start_date) = ?', [userId, date]);
+    const [rows, fields] = await mysql.pool.execute(`
+    SELECT schedules.id, schedules.start_date, schedules.end_date, schedules.activity_id , activity.name AS activity_name, equipment.name AS equipment_name
+    FROM schedules 
+    JOIN activities ON activities.id = schedules.activity_id
+    JOIN maintenance_plans ON maintenance_plans.id = activities.maintenance_plan_id
+    JOIN equipments ON equipments.id = maintenance_plans.equipment_id
+    WHERE user_id = ? AND DATE(start_date) = ? `, [userId, date]);
     return rows;
 }
 
 async function getByCompanyId(companyId, date) {
-    const [rows, fields] = await mysql.pool.execute(`
-    SELECT schedules.id, schedules.start_date, schedules.end_date, schedules.activity_id 
+    const [rows, fields] = await mysql.pool.execute(`SELECT schedules.id, schedules.start_date, schedules.end_date, schedules.activity_id, activities.name AS activity_name, equipments.name AS equipment_name
     FROM schedules 
-    JOIN users ON users.id = schedules.user_id 
-    WHERE users.company_id = ?
+    JOIN activities ON activities.id = schedules.activity_id
+    JOIN maintenance_plans ON maintenance_plans.id = activities.maintenance_plan_id
+    JOIN equipments ON equipments.id = maintenance_plans.equipment_id
+    JOIN enviroments ON enviroments.id = equipments.enviroment_id
+    JOIN units ON units.id = enviroments.unit_id
+    JOIN customers ON customers.id = units.customer_id
+    JOIN companies ON companies.id = customers.company_id
+    WHERE customers.company_id = ?
     AND DATE(schedules.start_date) = ?`, [companyId, date]
     );
 
     return rows;
+}
+
+async function getAllByMaintenancePlanId(maintenance_plan_id,date){
+
+    const [rows, fields] = await mysql.pool.execute(`SELECT schedules.id, schedules.start_date, schedules.end_date, schedules.activity_id , activities.name AS activity_name, equipments.name AS equipment_name
+    FROM schedules 
+    JOIN activities ON activities.id = schedules.activity_id
+    JOIN maintenance_plans ON maintenance_plans.id = activities.maintenance_plan_id
+    JOIN equipments ON equipments.id = maintenance_plans.equipment_id 
+    WHERE maintenance_plans.id = ? AND DATE(start_date) = ?`, [maintenance_plan_id, date]
+    );
+
 }
 
 async function setUserId(scheduleId, userId) {
