@@ -131,6 +131,9 @@ CREATE TABLE work_time (
   CONSTRAINT fk_users_working_time_user_id_users_id FOREIGN KEY (user_id) REFERENCES users (id)
 ) ENGINE=InnoDB;
 
+
+
+
 CREATE TABLE maintenance_plans (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(100) NOT NULL,
@@ -187,6 +190,7 @@ CREATE TABLE equipments (
   capacity_value int NOT NULL,
   brand_model_id int NOT NULL,
   enviroment_id int NOT NULL,
+  maintenance_plan_id int,
   CONSTRAINT pk_id PRIMARY KEY (id),
   CONSTRAINT uc_maintenance_plan_id UNIQUE (maintenance_plan_id),
   CONSTRAINT fk_e_st_st_id FOREIGN KEY (system_type_id) REFERENCES system_types (id),
