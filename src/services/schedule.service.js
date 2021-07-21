@@ -17,6 +17,12 @@ async function getByCompanyId(companyId, date) {
     return schedules;
 }
 
+async function getAllByMaintenancePlanId(maintenancePlanId, date){
+    const schedules = await scheduleModel.getAllByMaintenancePlanId(maintenancePlanId, date);
+
+    return schedules;
+}
+
 async function setUserId(scheduleId, userId) {
     if (!await scheduleModel.exists(scheduleId)) {
         throw new ApiError(httpStatus.NOT_FOUND, 'Está agenda não existe');
@@ -113,6 +119,7 @@ module.exports = {
     getByUserId,
     getByCompanyId,
     setUserId,
+    getAllByMaintenancePlanId,
     create,
     createSingle
 }

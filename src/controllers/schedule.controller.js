@@ -7,6 +7,11 @@ const getByUserId = catchAsync(async (req, res) => {
     res.status(httpStatus.OK).send(schedules);
 });
 
+const getAllByMaintenancePlanId = catchAsync(async (req, res) => {
+    const schedules = await scheduleService.getAllByMaintenancePlanId(req.params.maintenancePlanId, req.body.date);
+    res.status(httpStatus.OK).send(schedules);
+});
+
 const getByCompanyId = catchAsync(async (req, res) => {
     const schedules = await scheduleService.getByCompanyId(req.params.companyId, req.body.date);
     res.status(httpStatus.OK).send(schedules);
@@ -30,6 +35,7 @@ const createSingle = catchAsync(async (req, res) => {
 module.exports = {
     getByUserId,
     getByCompanyId,
+    getAllByMaintenancePlanId,
     setUserId,
     create,
     createSingle

@@ -66,6 +66,7 @@ async function getAllByMaintenancePlanId(maintenance_plan_id,date){
     JOIN equipments ON equipments.id = maintenance_plans.equipment_id 
     WHERE maintenance_plans.id = ? AND DATE(start_date) = ?`, [maintenance_plan_id, date]
     );
+    return rows;
 
 }
 
@@ -90,6 +91,7 @@ module.exports = {
     dateRangeExists,
     getById,
     getByUserId,
+    getAllByMaintenancePlanId,
     getByCompanyId,
     setUserId,
     create

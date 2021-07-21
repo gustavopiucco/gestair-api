@@ -95,6 +95,7 @@ router.post('/equipments', auth('create_equipment'), validate(equipmentValidatio
 
 //Schedules
 router.get('/schedules/all/user/:userId', auth('get_schedules'), validate(scheduleValidation.getByUserId), scheduleController.getByUserId);
+router.get('/schedules/all/maintenance-plan/:maintenancePlanId', auth('get_schedules'), validate(scheduleValidation.getAllByMaintenancePlanId), scheduleController.getAllByMaintenancePlanId);
 router.get('/schedules/all/company/:companyId', auth('get_schedules'), validate(scheduleValidation.getByCompanyId), scheduleController.getByCompanyId);
 router.post('/schedules', auth('create_schedule'), auth('create_schedule'), validate(scheduleValidation.create), scheduleController.create);
 router.post('/schedules/single', auth('create_schedule'), auth('create_schedule'), validate(scheduleValidation.createSingle), scheduleController.createSingle);
