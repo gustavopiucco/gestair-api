@@ -31,12 +31,12 @@ async function getById(id) {
 
 async function getByUserId(userId, date) {
     const [rows, fields] = await mysql.pool.execute(`
-    SELECT schedules.id, schedules.start_date, schedules.end_date, schedules.activity_id , activity.name AS activity_name, equipment.name AS equipment_name
+    SELECT schedules.id, schedules.start_date, schedules.end_date, schedules.activity_id , activities.name AS activity_name, equipments.name AS equipment_name
     FROM schedules 
     JOIN activities ON activities.id = schedules.activity_id
     JOIN maintenance_plans ON maintenance_plans.id = activities.maintenance_plan_id
     JOIN equipments ON equipments.id = maintenance_plans.equipment_id
-    WHERE user_id = ? AND DATE(start_date) = ? `, [userId, date]);
+    WHERE schedules.user_id = ? AND DATE(start_date) = ? `, [userId, date]);
     return rows;
 }
 
