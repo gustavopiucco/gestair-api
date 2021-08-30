@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS gestair DEFAULT CHARACTER SET utf8mb4;
+CREATE DATABASE IF NOT EXISTS ebdb DEFAULT CHARACTER SET utf8mb4;
 
-USE gestair;
+USE ebdb;
 
 CREATE TABLE companies (
   id int NOT NULL AUTO_INCREMENT,
@@ -131,6 +131,28 @@ CREATE TABLE work_time (
   CONSTRAINT fk_users_working_time_user_id_users_id FOREIGN KEY (user_id) REFERENCES users (id)
 ) ENGINE=InnoDB;
 
+CREATE TABLE equipments (
+  id int NOT NULL AUTO_INCREMENT,
+  name varchar(100),
+  serial_number varchar(100) NOT NULL,
+  tag varchar(100) NOT NULL,
+  system_type_id int NOT NULL,
+  equipment_type_id int NOT NULL,
+  capacity_type_id int NOT NULL,
+  capacity_value int NOT NULL,
+  brand_model_id int NOT NULL,
+  enviroment_id int NOT NULL,
+  maintenance_plan_id int,
+  CONSTRAINT pk_id PRIMARY KEY (id),
+  CONSTRAINT uc_maintenance_plan_id UNIQUE (maintenance_plan_id),
+  CONSTRAINT fk_e_st_st_id FOREIGN KEY (system_type_id) REFERENCES system_types (id),
+  CONSTRAINT fk_e_et_id_et_id FOREIGN KEY (equipment_type_id) REFERENCES equipment_types (id),
+  CONSTRAINT fk_e_ct_id_ct_id FOREIGN KEY (capacity_type_id) REFERENCES capacity_types (id),
+  CONSTRAINT fk_e_bm_id_bm_id FOREIGN KEY (brand_model_id) REFERENCES brand_models (id),
+  CONSTRAINT fk_e_env_id_env_id FOREIGN KEY (enviroment_id) REFERENCES enviroments (id)
+) ENGINE=InnoDB;
+
+
 CREATE TABLE maintenance_plans (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(100) NOT NULL,
@@ -176,25 +198,7 @@ CREATE TABLE responses (
   CONSTRAINT fk_r_c_id_c_id FOREIGN KEY (checklist_id) REFERENCES checklists (id)
 ) ENGINE=InnoDB;
 
-CREATE TABLE equipments (
-  id int NOT NULL AUTO_INCREMENT,
-  name varchar(100),
-  serial_number varchar(100) NOT NULL,
-  tag varchar(100) NOT NULL,
-  system_type_id int NOT NULL,
-  equipment_type_id int NOT NULL,
-  capacity_type_id int NOT NULL,
-  capacity_value int NOT NULL,
-  brand_model_id int NOT NULL,
-  enviroment_id int NOT NULL,
-  CONSTRAINT pk_id PRIMARY KEY (id),
-  CONSTRAINT uc_maintenance_plan_id UNIQUE (maintenance_plan_id),
-  CONSTRAINT fk_e_st_st_id FOREIGN KEY (system_type_id) REFERENCES system_types (id),
-  CONSTRAINT fk_e_et_id_et_id FOREIGN KEY (equipment_type_id) REFERENCES equipment_types (id),
-  CONSTRAINT fk_e_ct_id_ct_id FOREIGN KEY (capacity_type_id) REFERENCES capacity_types (id),
-  CONSTRAINT fk_e_bm_id_bm_id FOREIGN KEY (brand_model_id) REFERENCES brand_models (id),
-  CONSTRAINT fk_e_env_id_env_id FOREIGN KEY (enviroment_id) REFERENCES enviroments (id)
-) ENGINE=InnoDB;
+
 
 CREATE TABLE maintenance_plans_requests (
   id int NOT NULL AUTO_INCREMENT,

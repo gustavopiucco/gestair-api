@@ -100,8 +100,8 @@ rolePermissions.set(roles[2],
         'create_schedule',
         'get_schedules',
         'create_response',
-        'get_maintenance_plans_requests',
-        'approve_maintenance_plan_request'
+        'get_company_maintenance_plans_requests',
+        'manager_approve_maintenance_plan_request'
     ]);
 
 rolePermissions.set(roles[3],
@@ -111,8 +111,8 @@ rolePermissions.set(roles[3],
 
 rolePermissions.set(roles[4],
     [
-        'get_maintenance_plans_requests',
-        'approve_maintenance_plan_request'
+        'get_customer__maintenance_plans_requests',
+        'customer_approve_maintenance_plan_request'
     ]);
 
 module.exports = {

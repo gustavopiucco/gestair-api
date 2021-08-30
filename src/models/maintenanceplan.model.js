@@ -16,7 +16,7 @@ async function getById(id) {
 }
 
 async function getAllByCompanyId(companyId) {
-    const [rows, fields] = await mysql.pool.execute('SELECT id, name FROM maintenance_plans WHERE company_id = ?', [companyId]);
+    const [rows, fields] = await mysql.pool.execute('SELECT id, name, equipment_id FROM maintenance_plans WHERE company_id = ?', [companyId]);
     return rows;
 }
 

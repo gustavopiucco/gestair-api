@@ -95,6 +95,7 @@ router.post('/equipments', auth('create_equipment'), validate(equipmentValidatio
 
 //Schedules
 router.get('/schedules/all/user/:userId', auth('get_schedules'), validate(scheduleValidation.getByUserId), scheduleController.getByUserId);
+router.get('/schedules/all/maintenance-plan/:maintenancePlanId', auth('get_schedules'), validate(scheduleValidation.getAllByMaintenancePlanId), scheduleController.getAllByMaintenancePlanId);
 router.get('/schedules/all/company/:companyId', auth('get_schedules'), validate(scheduleValidation.getByCompanyId), scheduleController.getByCompanyId);
 router.post('/schedules', auth('create_schedule'), auth('create_schedule'), validate(scheduleValidation.create), scheduleController.create);
 router.post('/schedules/single', auth('create_schedule'), auth('create_schedule'), validate(scheduleValidation.createSingle), scheduleController.createSingle);
@@ -102,10 +103,11 @@ router.patch('/schedules/:scheduleId/user', auth('create_schedule'), validate(sc
 
 
 // Maintenance plans requests
-router.get('/maintenance-plans-requests/all/company',auth('get_maintenance_plans_requests'),maintenancePlanRequestController.getMaintenancePlansRequestsByCompanyId)
-router.get('/maintenance-plans-requests/all/customer',auth('get_maintenance_plans_requests'),maintenancePlanRequestController.getMaintenancePlansRequestsByCustomerId)
-router.patch('/maintenance-plans-requests/company/approve',auth('approve_maintenance_plan_request'),validate(maintenancePlanRequestValidation.managerApproveMaintenancePlanRequest),maintenancePlanRequestController.managerApproveMaintenancePlanRequest)
-router.patch('/maintenance-plans-requests/customer/approve',auth('approve_maintenance_plan_request'),validate(maintenancePlanRequestValidation.customerApproveMaintenancePlanRequest),maintenancePlanRequestController.customerApproveMaintenancePlanRequest)
+router.post('/maintenance-plans-requests/',validate(maintenancePlanRequestValidation.createMaintenancePlanRequest),maintenancePlanRequestController.createMaintenancePlanRequest)
+router.get('/maintenance-plans-requests/all/company',auth('get_company_maintenance_plans_requests'),maintenancePlanRequestController.getMaintenancePlansRequestsByCompanyId)
+router.get('/maintenance-plans-requests/all/customer',auth('get_customer__maintenance_plans_requests'),maintenancePlanRequestController.getMaintenancePlansRequestsByCustomerId)
+router.patch('/maintenance-plans-requests/company/approve',auth('manager_approve_maintenance_plan_request'),validate(maintenancePlanRequestValidation.managerApproveMaintenancePlanRequest),maintenancePlanRequestController.managerApproveMaintenancePlanRequest)
+router.patch('/maintenance-plans-requests/customer/approve',auth('customer_approve_maintenance_plan_request'),validate(maintenancePlanRequestValidation.customerApproveMaintenancePlanRequest),maintenancePlanRequestController.customerApproveMaintenancePlanRequest)
 
 
 module.exports = router;

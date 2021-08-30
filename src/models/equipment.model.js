@@ -56,7 +56,7 @@ async function getAllBrandModels() {
 }
 
 async function getAllEquipmentsByEnviromentId(enviromentId) {
-    const [rows, fields] = await mysql.pool.execute('SELECT name, serial_number AS serialNumber, tag, system_type_id AS systemTypeId, equipment_type_id AS equipmentTypeId, capacity_type_id AS capatityTypeId, capacity_value AS capacityValue, brand_model_id AS brandModelId, enviroment_id AS enviromentId, maintenance_plan_id AS maintenancePlanId FROM equipments WHERE enviroment_id = ?', [enviromentId]);
+    const [rows, fields] = await mysql.pool.execute('SELECT id, name,serial_number AS serialNumber, tag, system_type_id AS systemTypeId, equipment_type_id AS equipmentTypeId, capacity_type_id AS capacityTypeId, capacity_value AS capacityValue, brand_model_id AS brandModelId, enviroment_id AS enviromentId, maintenance_plan_id AS maintenancePlanId FROM equipments WHERE enviroment_id = ?', [enviromentId]);
     return rows;
 }
 
@@ -74,7 +74,7 @@ async function getCompanyId(equipmentId) {
 
 async function getCustomerId(equipmentId) {
     const [rows, fields] = await mysql.pool.execute(`
-    SELECT companies.id AS company_id
+    SELECT customers.id AS customer_id
     FROM equipments
     JOIN enviroments ON enviroments.id = equipments.enviroment_id
     JOIN units ON units.id = enviroments.unit_id

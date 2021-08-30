@@ -9,10 +9,12 @@ const pool = mysql.createPool({
 });
 
 async function testConnection() {
+
     try {
         await pool.query('SELECT 1 AS test');
     }
     catch (err) {
+        console.log(`tried with host:${process.env.MYSQL_HOST}`)
         throw new Error('MySQL connection failed\n' + err);
     }
 }

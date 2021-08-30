@@ -3,12 +3,17 @@ const catchAsync = require('../utils/catchAsync');
 const scheduleService = require('../services/schedule.service');
 
 const getByUserId = catchAsync(async (req, res) => {
-    const schedules = await scheduleService.getByUserId(req.params.userId, req.body.date);
+    const schedules = await scheduleService.getByUserId(req.params.userId, req.query.date);
+    res.status(httpStatus.OK).send(schedules);
+});
+
+const getAllByMaintenancePlanId = catchAsync(async (req, res) => {
+    const schedules = await scheduleService.getAllByMaintenancePlanId(req.params.maintenancePlanId);
     res.status(httpStatus.OK).send(schedules);
 });
 
 const getByCompanyId = catchAsync(async (req, res) => {
-    const schedules = await scheduleService.getByCompanyId(req.params.companyId, req.body.date);
+    const schedules = await scheduleService.getByCompanyId(req.params.companyId, req.query.date);
     res.status(httpStatus.OK).send(schedules);
 });
 
@@ -30,6 +35,7 @@ const createSingle = catchAsync(async (req, res) => {
 module.exports = {
     getByUserId,
     getByCompanyId,
+    getAllByMaintenancePlanId,
     setUserId,
     create,
     createSingle

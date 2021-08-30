@@ -5,7 +5,7 @@ const getByUserId = {
     params: Joi.object().keys({
         userId: Joi.number().integer().required()
     }),
-    body: Joi.object().keys({
+    query: Joi.object().keys({
         date: Joi.custom(date).required()
     }),
 };
@@ -14,10 +14,17 @@ const getByCompanyId = {
     params: Joi.object().keys({
         companyId: Joi.number().integer().required()
     }),
-    body: Joi.object().keys({
+    query: Joi.object().keys({
         date: Joi.custom(date).required()
     }),
 };
+
+const getAllByMaintenancePlanId = {
+    params: Joi.object().keys({
+        maintenancePlanId: Joi.number().integer().required()
+    })
+};
+
 
 const create = {
     body: Joi.object().keys({
@@ -42,6 +49,7 @@ const setUserId = {
 module.exports = {
     getByUserId,
     getByCompanyId,
+    getAllByMaintenancePlanId,
     create,
     createSingle,
     setUserId
