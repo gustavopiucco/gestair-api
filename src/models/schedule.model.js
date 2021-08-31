@@ -26,6 +26,7 @@ async function dateRangeExists(startDate, endDate, connection) {
 
 async function getById(id) {
     const [rows, fields] = await mysql.pool.execute('SELECT * FROM schedules WHERE id = ?', [id]);
+
     return rows[0];
 }
 
@@ -36,7 +37,10 @@ async function getByUserId(userId, date) {
     JOIN activities ON activities.id = schedules.activity_id
     JOIN maintenance_plans ON maintenance_plans.id = activities.maintenance_plan_id
     JOIN equipments ON equipments.id = maintenance_plans.equipment_id
+    JOIN enviroments ON enviroments.id = equipments.enviroment_id
+    JOIN units ON units.id = enviroments.unit_id
     WHERE schedules.user_id = ? AND DATE(start_date) = ? `, [userId, date]);
+
     return rows;
 }
 
@@ -80,8 +84,8 @@ async function getAllByMaintenancePlanId(maintenance_plan_id) {
     JOIN equipments ON equipments.id = maintenance_plans.equipment_id 
     WHERE maintenance_plans.id = ? `, [maintenance_plan_id]
     );
-    return rows;
 
+    return rows;
 }
 
 async function setUserId(scheduleId, userId) {
