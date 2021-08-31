@@ -7,13 +7,18 @@ const getByUserId = catchAsync(async (req, res) => {
     res.status(httpStatus.OK).send(schedules);
 });
 
-const getAllByMaintenancePlanId = catchAsync(async (req, res) => {
-    const schedules = await scheduleService.getAllByMaintenancePlanId(req.params.maintenancePlanId);
+const getAllByCustomerId = catchAsync(async (req, res) => {
+    const schedules = await scheduleService.getAllByCustomerId(req.params.customerId, req.query.date);
     res.status(httpStatus.OK).send(schedules);
 });
 
-const getByCompanyId = catchAsync(async (req, res) => {
-    const schedules = await scheduleService.getByCompanyId(req.params.companyId, req.query.date);
+const getAllByCompanyId = catchAsync(async (req, res) => {
+    const schedules = await scheduleService.getAllByCompanyId(req.params.companyId, req.query.date);
+    res.status(httpStatus.OK).send(schedules);
+});
+
+const getAllByMaintenancePlanId = catchAsync(async (req, res) => {
+    const schedules = await scheduleService.getAllByMaintenancePlanId(req.params.maintenancePlanId);
     res.status(httpStatus.OK).send(schedules);
 });
 
@@ -34,7 +39,8 @@ const createSingle = catchAsync(async (req, res) => {
 
 module.exports = {
     getByUserId,
-    getByCompanyId,
+    getAllByCustomerId,
+    getAllByCompanyId,
     getAllByMaintenancePlanId,
     setUserId,
     create,

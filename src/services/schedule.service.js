@@ -11,13 +11,19 @@ async function getByUserId(userId, date) {
     return schedules;
 }
 
-async function getByCompanyId(companyId, date) {
-    const schedules = await scheduleModel.getByCompanyId(companyId, date);
+async function getAllByCustomerId(customerId, date) {
+    const schedules = await scheduleModel.getAllByCustomerId(customerId, date);
 
     return schedules;
 }
 
-async function getAllByMaintenancePlanId(maintenancePlanId){
+async function getAllByCompanyId(companyId, date) {
+    const schedules = await scheduleModel.getAllByCompanyId(companyId, date);
+
+    return schedules;
+}
+
+async function getAllByMaintenancePlanId(maintenancePlanId) {
     const schedules = await scheduleModel.getAllByMaintenancePlanId(maintenancePlanId);
 
     return schedules;
@@ -117,7 +123,8 @@ async function createSingle(body) {
 
 module.exports = {
     getByUserId,
-    getByCompanyId,
+    getAllByCustomerId,
+    getAllByCompanyId,
     setUserId,
     getAllByMaintenancePlanId,
     create,
