@@ -31,7 +31,7 @@ async function getById(id) {
 
 async function getByUserId(userId, date) {
     const [rows, fields] = await mysql.pool.execute(`
-    SELECT schedules.id, schedules.start_date, schedules.end_date, schedules.activity_id , activities.name AS activity_name, equipments.name AS equipment_name
+    SELECT schedules.id, schedules.start_date, schedules.end_date, schedules.activity_id , equipments.id AS equipment_id, enviroments.id AS enviroment_id, units.id AS unit_id
     FROM schedules 
     JOIN activities ON activities.id = schedules.activity_id
     JOIN maintenance_plans ON maintenance_plans.id = activities.maintenance_plan_id
@@ -41,7 +41,7 @@ async function getByUserId(userId, date) {
 }
 
 async function getAllByCustomerId(customerId, date) {
-    const [rows, fields] = await mysql.pool.execute(`SELECT schedules.id, schedules.start_date, schedules.end_date, schedules.activity_id, activities.name AS activity_name, equipments.name AS equipment_name
+    const [rows, fields] = await mysql.pool.execute(`SELECT schedules.id, schedules.start_date, schedules.end_date, schedules.activity_id, equipments.id AS equipment_id, enviroments.id AS enviroment_id, units.id AS unit_id
     FROM schedules 
     JOIN activities ON activities.id = schedules.activity_id
     JOIN maintenance_plans ON maintenance_plans.id = activities.maintenance_plan_id
@@ -56,7 +56,7 @@ async function getAllByCustomerId(customerId, date) {
 }
 
 async function getAllByCompanyId(companyId, date) {
-    const [rows, fields] = await mysql.pool.execute(`SELECT schedules.id, schedules.start_date, schedules.end_date, schedules.activity_id, activities.name AS activity_name, equipments.name AS equipment_name
+    const [rows, fields] = await mysql.pool.execute(`SELECT schedules.id, schedules.start_date, schedules.end_date, schedules.activity_id, equipments.id AS equipment_id, enviroments.id AS enviroment_id, units.id AS unit_id
     FROM schedules 
     JOIN activities ON activities.id = schedules.activity_id
     JOIN maintenance_plans ON maintenance_plans.id = activities.maintenance_plan_id
